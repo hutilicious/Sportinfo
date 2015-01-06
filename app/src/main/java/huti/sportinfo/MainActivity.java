@@ -48,6 +48,11 @@ public class MainActivity extends ActionBarActivity {
             new RequestTask().execute("http://www.ttc-klingenmuenster.de","debug");
             return true;
         }
+        else if (id == R.id.action_close)
+        {
+            this.finish();
+            System.exit(0);
+        }
 
         return super.onOptionsItemSelected(item);
     }
