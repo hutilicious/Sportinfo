@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -46,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_update) {
             TextView out = (TextView) findViewById(R.id.txtWelcome);
             out.setText("Lade Inhalt...");
-            new RequestTask().execute("http://www.ttc-klingenmuenster.de");
+            new RequestTask().execute("http://www.ttc-klingenmuenster.de","debug");
             return true;
         }
 
@@ -55,9 +54,11 @@ public class MainActivity extends ActionBarActivity {
 
 
     class RequestTask extends AsyncTask<String, String, String> {
+        private String command = "";
 
         @Override
         protected String doInBackground(String... uri) {
+            this.command = uri[1];
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
             String responseString = null;
@@ -74,8 +75,6 @@ public class MainActivity extends ActionBarActivity {
                     response.getEntity().getContent().close();
                     throw new IOException(statusLine.getReasonPhrase());
                 }
-            } catch (ClientProtocolException e) {
-                //TODO Handle problems..
             } catch (IOException e) {
                 //TODO Handle problems..
             }
@@ -85,8 +84,10 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            TextView out = (TextView) findViewById(R.id.txtWelcome);
-            out.setText(result);
+            if (this.command.equals("debug")) {
+                TextView out = (TextView) findViewById(R.id.txtWelcome);
+                out.setText(result);
+            }
         }
     }
 }
