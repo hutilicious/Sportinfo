@@ -58,7 +58,9 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... uri) {
-            this.command = uri[1];
+            if (uri.length > 1) {
+                this.command = uri[1];
+            }
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
             String responseString = null;
