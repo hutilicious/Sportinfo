@@ -1,11 +1,15 @@
 package huti.sportinfo;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -45,13 +49,12 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_update) {
             TextView out = (TextView) findViewById(R.id.txtWelcome);
             out.setText("Lade Inhalt...");
-            new RequestTask().execute("http://www.ttc-klingenmuenster.de","debug");
+            // Infos zum updaten in DB speichern?
+            Toast.makeText(getApplicationContext(),"Aktualisiere Datenbank...",Toast.LENGTH_LONG).show();
+            new RequestTask().execute("http://www.ttc-klingenmuenster.de", "debug");
+            new RequestTask().execute("http://www.tc-klm.de", "debug","last");
+
             return true;
-        }
-        else if (id == R.id.action_close)
-        {
-            this.finish();
-            System.exit(0);
         }
 
         return super.onOptionsItemSelected(item);
@@ -60,11 +63,16 @@ public class MainActivity extends ActionBarActivity {
 
     class RequestTask extends AsyncTask<String, String, String> {
         private String command = "";
+        private boolean bolLetzterEintrag = false;
 
         @Override
         protected String doInBackground(String... uri) {
+            this.bolLetzterEintrag = false;
             if (uri.length > 1) {
                 this.command = uri[1];
+            }
+            else if (uri.length > 2) {
+                this.bolLetzterEintrag = true;
             }
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
@@ -72,12 +80,12 @@ public class MainActivity extends ActionBarActivity {
             try {
                 response = httpclient.execute(new HttpGet(uri[0]));
                 StatusLine statusLine = response.getStatusLine();
-                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     response.getEntity().writeTo(out);
                     out.close();
                     responseString = out.toString();
-                } else{
+                } else {
                     //Closes the connection.
                     response.getEntity().getContent().close();
                     throw new IOException(statusLine.getReasonPhrase());
@@ -94,6 +102,32 @@ public class MainActivity extends ActionBarActivity {
             if (this.command.equals("debug")) {
                 TextView out = (TextView) findViewById(R.id.txtWelcome);
                 out.setText(result);
+
+                /* Datenbank befüllen
+
+
+                SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
+                SQLiteDatabase connection = database.getWritableDatabase();
+
+                connection.execSQL("DELETE FROM sportarten;");
+                connection.execSQL("VACUUM;");
+
+                connection.execSQL("INSERT INTO sportarten(bezeichnung) VALUES ('hallo');");
+
+                Cursor sqlresult = connection.rawQuery("SELECT bezeichnung FROM sportarten", null);
+                String sqlstring = "";
+                while (sqlresult.moveToNext()) {
+                    sqlstring += sqlresult.getString(0) + "\n";
+                }
+                out.append(sqlstring);
+
+                database.close();
+                connection.close();
+                */
+                if (this.bolLetzterEintrag)
+                {
+                    Toast.makeText(getApplicationContext(),"Aktualisierung abgeschlossen!",Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

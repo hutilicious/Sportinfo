@@ -4,5 +4,39 @@
     <string name="app_name">Sportinfo</string>
     <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch.</string>
     <string name="action_update">Aktualisieren</string>
-    <string name="action_close">Beenden</string>
+
+
+    <string name="dbname">sportinfodb</string>
+    <string name="dbversion">1</string>
+    <string-array name="dbcreate">
+    <item>
+      CREATE TABLE sportarten(
+        idsportart INTEGER PRIMARY KEY AUTOINCREMENT,
+        bezeichnung VARCHAR(128) NOT NULL
+      )
+    </item>
+    <item>
+      CREATE TABLE mannschaften(
+        idmannschaft INTEGER PRIMARY KEY AUTOINCREMENT,
+        bezeichnung VARCHAR(128) NOT NULL
+      )
+    </item>
+    <item>
+      CREATE TABLE spiele(
+        idspiel INTEGER PRIMARY KEY AUTOINCREMENT,
+        idsportart INTEGER NOT NULL,
+        idmannschaft INTEGER NOT NULL,
+        idmannschaft_gegner INTEGER NOT NULL,
+        intheimspiel INTEGER NOT NULL,
+        punkteheim INTEGER NOT NULL,
+        punktegast INTEGER NOT NULL
+      )
+    </item>
+    <item>
+      INSERT INTO sportarten(bezeichnung) VALUES (\'Tischtennis\');
+    </item>
+    <item>
+      INSERT INTO sportarten(bezeichnung) VALUES (\'Fußball\');
+    </item>
+    </string-array>
 </resources>

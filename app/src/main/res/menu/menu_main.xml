@@ -5,6 +5,4 @@
         android:icon="@drawable/ic_action_update"
         android:title="@string/action_update"
         app:showAsAction="always" />
-    <item android:id="@+id/action_close" android:title="@string/action_close"
-        android:orderInCategory="100" app:showAsAction="never" />
 </menu>
