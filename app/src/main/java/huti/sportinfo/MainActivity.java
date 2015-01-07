@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -50,9 +51,8 @@ public class MainActivity extends ActionBarActivity {
             TextView out = (TextView) findViewById(R.id.txtWelcome);
             out.setText("Lade Inhalt...");
             // Infos zum updaten in DB speichern?
-            Toast.makeText(getApplicationContext(),"Aktualisiere Datenbank...",Toast.LENGTH_LONG).show();
-            new RequestTask().execute("http://www.ttc-klingenmuenster.de", "debug");
-            new RequestTask().execute("http://www.tc-klm.de", "debug","last");
+            Toast.makeText(getApplicationContext(), "Aktualisiere Datenbank...", Toast.LENGTH_LONG).show();
+            new RequestTask().execute("http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7", "debug", "last");
 
             return true;
         }
@@ -70,8 +70,7 @@ public class MainActivity extends ActionBarActivity {
             this.bolLetzterEintrag = false;
             if (uri.length > 1) {
                 this.command = uri[1];
-            }
-            else if (uri.length > 2) {
+            } else if (uri.length > 2) {
                 this.bolLetzterEintrag = true;
             }
             HttpClient httpclient = new DefaultHttpClient();
@@ -101,7 +100,21 @@ public class MainActivity extends ActionBarActivity {
             super.onPostExecute(result);
             if (this.command.equals("debug")) {
                 TextView out = (TextView) findViewById(R.id.txtWelcome);
-                out.setText(result);
+                out.append("\n\n");
+                String[] split = result.split("\n");
+                for (int i = 0; i < split.length; i++) {
+                    /* ablauf für fussball:
+                    td class="column-date"
+                    div class="club-name"
+                    div class="club-name"
+                    class="column-score" | class="score-left",class="score-right"
+                     */
+                    if (split[i].indexOf("td class=\"column-date\"") >= 0 || split[i].indexOf("div class=\"club-name\"") >= 0 || split[i].indexOf("class=\"score-left\"") >= 0) {
+                        String cleanString = Html.fromHtml(split[i]).toString().trim();
+                        out.append(i + ": " + split[i].trim() + "\n");
+                        out.append(i + ": " + cleanString + "\n");
+                    }
+                }
 
                 /* Datenbank befüllen
 
@@ -124,9 +137,8 @@ public class MainActivity extends ActionBarActivity {
                 database.close();
                 connection.close();
                 */
-                if (this.bolLetzterEintrag)
-                {
-                    Toast.makeText(getApplicationContext(),"Aktualisierung abgeschlossen!",Toast.LENGTH_LONG).show();
+                if (this.bolLetzterEintrag) {
+                    Toast.makeText(getApplicationContext(), "Aktualisierung abgeschlossen!", Toast.LENGTH_LONG).show();
                 }
             }
         }
