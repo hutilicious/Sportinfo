@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
         //user presses update button
         if (id == R.id.action_update && !this.isUpdating) {
-            Toast.makeText(getApplicationContext(), "Aktualisiere Datenbank...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.txtActionUpdateStart, Toast.LENGTH_SHORT).show();
 
             SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
             SQLiteDatabase connection = database.getReadableDatabase();
@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
         TextView out = (TextView) findViewById(R.id.txtUpcomingGames);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
-        out.setText(currentDateandTime + "\n");
+        out.setText(currentDateandTime + "\n\n");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
         String sqlget = "SELECT s.datum,s.idfavorit,s.idgegner,s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung FROM spiele AS s";
@@ -111,10 +111,16 @@ public class MainActivity extends ActionBarActivity {
         if (sqlresult.getCount() > 0) {
             while (sqlresult.moveToNext()) {
                 out.append(sqlresult.getString(0) + "\n");
-                out.append(sqlresult.getString(7) + " - " + sqlresult.getString(6) + "\n");
+                if (sqlresult.getInt(3) == 1) {
+                    out.append(sqlresult.getString(7) + " - " + sqlresult.getString(6) + "\n");
+                }
+                else
+                {
+                    out.append(sqlresult.getString(6) + " - " + sqlresult.getString(7) + "\n");
+                }
             }
         } else {
-            out.setText("Keine anstehenden Spiele vorhanden.");
+            out.setText(R.string.txtNoUpcomingMatches);
         }
         database.close();
         connection.close();
@@ -175,7 +181,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if (result.equals("::error")) {
-                Toast.makeText(getApplicationContext(), "Update konnte nicht durchgeführt werden.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
             } else {
                 if (this.intsportart == 0 && this.inturlart == 0) {
                     //----------------------------------------------------
@@ -254,7 +260,7 @@ public class MainActivity extends ActionBarActivity {
                     database.close();
                     connection.close();
                     if (this.intlast == 1) {
-                        Toast.makeText(getApplicationContext(), "Aktualisierung abgeschlossen!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.txtActionUpdateOk, Toast.LENGTH_SHORT).show();
 
                         // Refresh auf Fenster fahren
                         this.activity.isUpdating = false;
