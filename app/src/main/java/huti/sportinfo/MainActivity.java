@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -99,16 +102,20 @@ public class MainActivity extends ActionBarActivity {
      */
     public void showUpcomingGames() {
         TextView out = (TextView) findViewById(R.id.txtUpcomingGames);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        out.setText(currentDateandTime + "\n\n");
+        out.setText("");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
-        String sqlget = "SELECT s.datum,s.idfavorit,s.idgegner,s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung FROM spiele AS s";
+        String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', s.datum),s.idfavorit,s.idgegner,s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
+        sqlget += " ORDER BY datetime(s.datum)";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
+
+            // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layoutContent);
+            linearLayout.removeViewAt(0);
+
             String datum = "";
             String heim = "";
             String gast = "";
@@ -117,6 +124,7 @@ public class MainActivity extends ActionBarActivity {
             String appendString = "";
             while (sqlresult.moveToNext()) {
                 datum = sqlresult.getString(0);
+
                 if (sqlresult.getInt(3) == 1) {
                     heim = sqlresult.getString(7);
                     gast = sqlresult.getString(6);
@@ -128,12 +136,9 @@ public class MainActivity extends ActionBarActivity {
                 punktegast = sqlresult.getInt(5);
 
                 appendString = datum + "\n" + heim + " - " + gast;
-                if (punkteheim >= 0)
-                {
-                    appendString += " "+punkteheim+":"+punktegast;
-                }
-                else
-                {
+                if (punkteheim >= 0) {
+                    appendString += " " + punkteheim + ":" + punktegast;
+                } else {
                     appendString += " -:-";
                 }
                 appendString += "\n\n";
@@ -229,6 +234,7 @@ public class MainActivity extends ActionBarActivity {
                         if (split[i].indexOf("td class=\"column-date\"") >= 0) {
                             // Datum abrufen
                             datum = Html.fromHtml(split[i]).toString().trim();
+                            datum = "20" + datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20) + ":00";
                         } else if (split[i].indexOf("div class=\"club-name\"") >= 0) {
                             // Verein speichern
                             String cleanString = Html.fromHtml(split[i]).toString().trim();
@@ -254,20 +260,14 @@ public class MainActivity extends ActionBarActivity {
                             split[i] = split[i].replace("&#xE540;", "-");
                             String cleanString = Html.fromHtml(split[i]).toString().trim();
                             String[] ergsplit = result.split(":");
-                            try
-                            {
-                                punkteheim = Integer.parseInt(ergsplit[0]);
-                            }
-                            catch(NumberFormatException nfe)
-                            {
+                            try {
+                                punkteheim = Integer.parseInt(ergsplit[0].trim());
+                            } catch (NumberFormatException nfe) {
                                 punkteheim = -1;
                             }
-                            try
-                            {
-                                punktegast = Integer.parseInt(ergsplit[1]);
-                            }
-                            catch(NumberFormatException nfe)
-                            {
+                            try {
+                                punktegast = Integer.parseInt(ergsplit[1].trim());
+                            } catch (NumberFormatException nfe) {
                                 punktegast = -1;
                             }
 
