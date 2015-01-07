@@ -31,6 +31,8 @@ import java.util.Date;
 
 public class MainActivity extends ActionBarActivity {
 
+    private boolean isUpdating = false; // indicates whether the app data is being updated
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //user presses update button
-        if (id == R.id.action_update) {
+        if (id == R.id.action_update && !this.isUpdating) {
             Toast.makeText(getApplicationContext(), "Aktualisiere Datenbank...", Toast.LENGTH_SHORT).show();
 
             SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
@@ -67,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
             int intlast = 0;
             int inturlart = 0;
             while (sqlresult.moveToNext()) {
-
+                this.isUpdating = true;
                 urlspiele = sqlresult.getString(0);
                 urltabelle = sqlresult.getString(1);
                 idfavorit = sqlresult.getInt(2);
@@ -96,17 +98,20 @@ public class MainActivity extends ActionBarActivity {
         TextView out = (TextView) findViewById(R.id.txtUpcomingGames);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
-        out.setText(currentDateandTime+"\n");
+        out.setText(currentDateandTime + "\n");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
         Cursor sqlresult = connection.rawQuery("SELECT datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast FROM spiele", null);
         if (sqlresult.getCount() > 0) {
             while (sqlresult.moveToNext()) {
                 out.append(sqlresult.getString(0) + "\n");
+                out.append(sqlresult.getInt(1) + "\n");
+                out.append(sqlresult.getInt(2) + "\n");
+                out.append(sqlresult.getInt(3) + "\n");
+                out.append(sqlresult.getInt(4) + "\n");
+                out.append(sqlresult.getInt(5) + "\n");
             }
-        }
-        else
-        {
+        } else {
             out.setText("Keine anstehenden Spiele vorhanden.");
         }
         database.close();
@@ -226,6 +231,7 @@ public class MainActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "Aktualisierung abgeschlossen!", Toast.LENGTH_SHORT).show();
 
                         // Refresh auf Fenster fahren
+                        this.activity.isUpdating = false;
                         this.activity.showUpcomingGames();
                     }
                 }
