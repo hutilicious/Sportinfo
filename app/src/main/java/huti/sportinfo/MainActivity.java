@@ -1,5 +1,6 @@
 package huti.sportinfo;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -61,25 +62,27 @@ public class MainActivity extends ActionBarActivity {
 
             SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
             SQLiteDatabase connection = database.getReadableDatabase();
-            Cursor sqlresult = connection.rawQuery("SELECT urlspiele,urltabelle,idfavorit,intsportart FROM favoriten", null);
+            Cursor sqlresult = connection.rawQuery("SELECT urlspiele,urltabelle,kennung,idfavorit,intsportart FROM favoriten", null);
             int idfavorit = 0;
             int intsportart = 0;
             String urlspiele = "";
             String urltabelle = "";
+            String kennung = "";
             int intlast = 0;
             int inturlart = 0;
             while (sqlresult.moveToNext()) {
                 this.isUpdating = true;
                 urlspiele = sqlresult.getString(0);
                 urltabelle = sqlresult.getString(1);
-                idfavorit = sqlresult.getInt(2);
-                intsportart = sqlresult.getInt(3);
+                kennung = sqlresult.getString(2);
+                idfavorit = sqlresult.getInt(3);
+                intsportart = sqlresult.getInt(4);
                 if (sqlresult.isLast()) {
                     intlast = 1;
                 }
 
                 inturlart = 0; // Spiele werden abgerufen
-                new UpdateHelper(this, urlspiele, inturlart, idfavorit, intsportart, intlast).execute();
+                new UpdateHelper(this, urlspiele, kennung,inturlart, idfavorit, intsportart, intlast).execute();
 
                 //inturlart = 1; // Tabelle wird abgerufen
                 //..neuer Request
@@ -101,7 +104,10 @@ public class MainActivity extends ActionBarActivity {
         out.setText(currentDateandTime + "\n");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
-        Cursor sqlresult = connection.rawQuery("SELECT datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast FROM spiele", null);
+        String sqlget = "SELECT s.datum,s.idfavorit,s.idgegner,s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung FROM spiele AS s";
+        sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
+        sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
+        Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
             while (sqlresult.moveToNext()) {
                 out.append(sqlresult.getString(0) + "\n");
@@ -110,6 +116,8 @@ public class MainActivity extends ActionBarActivity {
                 out.append(sqlresult.getInt(3) + "\n");
                 out.append(sqlresult.getInt(4) + "\n");
                 out.append(sqlresult.getInt(5) + "\n");
+                out.append(sqlresult.getString(6) + "\n");
+                out.append(sqlresult.getString(7) + "\n");
             }
         } else {
             out.setText("Keine anstehenden Spiele vorhanden.");
@@ -121,14 +129,16 @@ public class MainActivity extends ActionBarActivity {
     class UpdateHelper extends AsyncTask<String, String, String> {
         private MainActivity activity = null;
         private String url = "";
+        private String kennung = "";
         private int inturlart = 0;
         private int idfavorit = 0;
         private int intsportart = 0;
         private int intlast = 0;
 
-        public UpdateHelper(MainActivity activity, String url, int urlart, int idfavorit, int intsportart, int intlast) {
+        public UpdateHelper(MainActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
             this.activity = activity;
             this.url = url;
+            this.kennung = kennung;
             this.inturlart = urlart;
             this.idfavorit = idfavorit;
             this.intsportart = intsportart;
@@ -182,6 +192,8 @@ public class MainActivity extends ActionBarActivity {
 
                     connection.execSQL("DELETE FROM spiele;");
                     connection.execSQL("VACUUM;");
+                    connection.execSQL("DELETE FROM gegner;");
+                    connection.execSQL("VACUUM;");
 
                     String datum = "";
                     int punkteheim = -1;
@@ -207,14 +219,35 @@ public class MainActivity extends ActionBarActivity {
                             }
                         } else if (split[i].indexOf("class=\"score-left\"") >= 0) {
                             // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
+                            int intheimspiel = 0;
+                            String strGegner = heim;
+                            if (heim.indexOf(kennung) >= 0)
+                            {
+                                intheimspiel = 1;
+                                strGegner = gast;
+                            }
+                            ContentValues values = new ContentValues();
+                            values.put("idfavorit", idfavorit);
+                            values.put("bezeichnung", strGegner);
+                            long idgegner = connection.insert("gegner", null, values);
+
                             split[i] = split[i].replace("&#xE52E;", "-"); // Bei den Scores sind Sonderzeichen angegeben
                             split[i] = split[i].replace("&#xE540;", "-");
                             String cleanString = Html.fromHtml(split[i]).toString().trim();
 
                             // Speichern des ganzen Spiels
-                            String sqlinsert = "INSERT INTO spiele(datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast)";
+                            /*String sqlinsert = "INSERT INTO spiele(datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast)";
                             sqlinsert += " VALUES('" + datum + "'," + idfavorit + ",0,0,1,0);";
-                            connection.execSQL(sqlinsert);
+                            connection.execSQL(sqlinsert);*/
+
+                            values = new ContentValues();
+                            values.put("datum", datum);
+                            values.put("idfavorit", idfavorit);
+                            values.put("idgegner", idgegner);
+                            values.put("intheimspiel", intheimspiel);
+                            values.put("punkteheim", 1);
+                            values.put("punktegast", 0);
+                            long idspiel = connection.insert("spiele", null, values);
 
                             // Reset
                             datum = "";

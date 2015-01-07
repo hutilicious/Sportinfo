@@ -15,6 +15,7 @@
             intsportart INTEGER NOT NULL,
             bezeichnung TEXT NOT NULL,
             kurzbezeichnung TEXT NOT NULL,
+            kennung TEXT NOT NULL,
             urlspiele TEXT NOT NULL,
             urltabelle TEXT NOT NULL
           )
@@ -38,7 +39,7 @@
           )
         </item>
         <item>
-          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Herren 1\',\'SCB H1\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'hallo\');
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Herren 1\',\'SCB H1\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'hallo\');
         </item>
     </string-array>
 </resources>
