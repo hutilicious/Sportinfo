@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 inturlart = 0; // Spiele werden abgerufen
-                new RequestTask(this, urlspiele, inturlart, idfavorit, intsportart, intlast).execute();
+                new UpdateHelper(this, urlspiele, inturlart, idfavorit, intsportart, intlast).execute();
 
                 //inturlart = 1; // Tabelle wird abgerufen
                 //..neuer Request
@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
         connection.close();
     }
 
-    class RequestTask extends AsyncTask<String, String, String> {
+    class UpdateHelper extends AsyncTask<String, String, String> {
         private MainActivity activity = null;
         private String url = "";
         private int inturlart = 0;
@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
         private int intsportart = 0;
         private int intlast = 0;
 
-        public RequestTask(MainActivity activity, String url, int urlart, int idfavorit, int intsportart, int intlast) {
+        public UpdateHelper(MainActivity activity, String url, int urlart, int idfavorit, int intsportart, int intlast) {
             this.activity = activity;
             this.url = url;
             this.inturlart = urlart;
@@ -211,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
                             split[i] = split[i].replace("&#xE540;", "-");
                             String cleanString = Html.fromHtml(split[i]).toString().trim();
 
-                            // Speichern des ganzes Spiels
+                            // Speichern des ganzen Spiels
                             String sqlinsert = "INSERT INTO spiele(datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast)";
                             sqlinsert += " VALUES('" + datum + "'," + idfavorit + ",0,0,1,0);";
                             connection.execSQL(sqlinsert);
