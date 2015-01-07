@@ -13,22 +13,23 @@
           CREATE TABLE favoriten(
             idfavorit INTEGER PRIMARY KEY AUTOINCREMENT,
             intsportart INTEGER NOT NULL,
-            bezeichnung VARCHAR(128) NOT NULL,
-            kurzbezeichnung VARCHAR(64) NOT NULL,
-            urlspiele VARCHAR(255) NOT NULL,
-            urltabelle VARCHAR(255) NOT NULL
+            bezeichnung TEXT NOT NULL,
+            kurzbezeichnung TEXT NOT NULL,
+            urlspiele TEXT NOT NULL,
+            urltabelle TEXT NOT NULL
           )
         </item>
         <item>
           CREATE TABLE gegner(
             idgegner INTEGER PRIMARY KEY AUTOINCREMENT,
             idfavorit INTEGER NOT NULL,
-            bezeichnung VARCHAR(128) NOT NULL
+            bezeichnung TEXT NOT NULL
           )
         </item>
         <item>
           CREATE TABLE spiele(
             idspiel INTEGER PRIMARY KEY AUTOINCREMENT,
+            datum TEXT NOT NULL,
             idfavorit INTEGER NOT NULL,
             idgegner INTEGER NOT NULL,
             intheimspiel INTEGER NOT NULL,
