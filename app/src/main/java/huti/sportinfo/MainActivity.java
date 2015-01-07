@@ -109,15 +109,35 @@ public class MainActivity extends ActionBarActivity {
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
+            String datum = "";
+            String heim = "";
+            String gast = "";
+            int punkteheim = -1;
+            int punktegast = -1;
+            String appendString = "";
             while (sqlresult.moveToNext()) {
-                out.append(sqlresult.getString(0) + "\n");
+                datum = sqlresult.getString(0);
                 if (sqlresult.getInt(3) == 1) {
-                    out.append(sqlresult.getString(7) + " - " + sqlresult.getString(6) + "\n");
+                    heim = sqlresult.getString(7);
+                    gast = sqlresult.getString(6);
+                } else {
+                    heim = sqlresult.getString(6);
+                    gast = sqlresult.getString(7);
+                }
+                punkteheim = sqlresult.getInt(4);
+                punktegast = sqlresult.getInt(5);
+
+                appendString = datum + "\n" + heim + " - " + gast;
+                if (punkteheim >= 0)
+                {
+                    appendString += " "+punkteheim+":"+punktegast;
                 }
                 else
                 {
-                    out.append(sqlresult.getString(6) + " - " + sqlresult.getString(7) + "\n");
+                    appendString += " -:-";
                 }
+                appendString += "\n\n";
+                out.append(appendString);
             }
         } else {
             out.setText(R.string.txtNoUpcomingMatches);
@@ -233,19 +253,31 @@ public class MainActivity extends ActionBarActivity {
                             split[i] = split[i].replace("&#xE52E;", "-"); // Bei den Scores sind Sonderzeichen angegeben
                             split[i] = split[i].replace("&#xE540;", "-");
                             String cleanString = Html.fromHtml(split[i]).toString().trim();
-
-                            // Speichern des ganzen Spiels
-                            /*String sqlinsert = "INSERT INTO spiele(datum,idfavorit,idgegner,intheimspiel,punkteheim,punktegast)";
-                            sqlinsert += " VALUES('" + datum + "'," + idfavorit + ",0,0,1,0);";
-                            connection.execSQL(sqlinsert);*/
+                            String[] ergsplit = result.split(":");
+                            try
+                            {
+                                punkteheim = Integer.parseInt(ergsplit[0]);
+                            }
+                            catch(NumberFormatException nfe)
+                            {
+                                punkteheim = -1;
+                            }
+                            try
+                            {
+                                punktegast = Integer.parseInt(ergsplit[1]);
+                            }
+                            catch(NumberFormatException nfe)
+                            {
+                                punktegast = -1;
+                            }
 
                             values = new ContentValues();
                             values.put("datum", datum);
                             values.put("idfavorit", idfavorit);
                             values.put("idgegner", idgegner);
                             values.put("intheimspiel", intheimspiel);
-                            values.put("punkteheim", 1);
-                            values.put("punktegast", 0);
+                            values.put("punkteheim", punkteheim);
+                            values.put("punktegast", punktegast);
                             long idspiel = connection.insert("spiele", null, values);
 
                             // Reset
