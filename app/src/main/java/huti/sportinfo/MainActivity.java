@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 inturlart = 0; // Spiele werden abgerufen
-                new UpdateHelper(this, urlspiele, kennung,inturlart, idfavorit, intsportart, intlast).execute();
+                new UpdateHelper(this, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
 
                 //inturlart = 1; // Tabelle wird abgerufen
                 //..neuer Request
@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
      */
     public void showUpcomingGames() {
         TextView out = (TextView) findViewById(R.id.txtUpcomingGames);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         out.setText(currentDateandTime + "\n");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
@@ -111,13 +111,7 @@ public class MainActivity extends ActionBarActivity {
         if (sqlresult.getCount() > 0) {
             while (sqlresult.moveToNext()) {
                 out.append(sqlresult.getString(0) + "\n");
-                out.append(sqlresult.getInt(1) + "\n");
-                out.append(sqlresult.getInt(2) + "\n");
-                out.append(sqlresult.getInt(3) + "\n");
-                out.append(sqlresult.getInt(4) + "\n");
-                out.append(sqlresult.getInt(5) + "\n");
-                out.append(sqlresult.getString(6) + "\n");
-                out.append(sqlresult.getString(7) + "\n");
+                out.append(sqlresult.getString(7) + " - " + sqlresult.getString(6) + "\n");
             }
         } else {
             out.setText("Keine anstehenden Spiele vorhanden.");
@@ -221,8 +215,7 @@ public class MainActivity extends ActionBarActivity {
                             // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
                             int intheimspiel = 0;
                             String strGegner = heim;
-                            if (heim.indexOf(kennung) >= 0)
-                            {
+                            if (heim.indexOf(kennung) >= 0) {
                                 intheimspiel = 1;
                                 strGegner = gast;
                             }
