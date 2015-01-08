@@ -212,6 +212,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                     // Refresh auf Fenster fahren
                     this.activity.isUpdating = false;
                     this.activity.showUpcomingGames();
+                    this.activity.updateActionBar();
                 }
                 database.close();
                 connection.close();

@@ -37,6 +37,9 @@ public class MainActivity extends ActionBarActivity {
         //actionBar.setIcon(R.drawable.ic_launcher);
         actionBar.setTitle(R.string.app_name);
         actionBar.setSubtitle(R.string.txtHomeSubtitle);
+
+        this.updateActionBar();
+
         this.showUpcomingGames();
     }
 
@@ -84,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
                 new UpdateHelper(this, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
 
                 //inturlart = 1; // Tabelle wird abgerufen
+                //new UpdateHelper(this, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                 //..neuer Request
             }
 
@@ -91,6 +95,25 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateActionBar()
+    {
+        SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
+        SQLiteDatabase connection = database.getReadableDatabase();
+
+        String sqlget = "SELECT strftime('%d.%m.%Y', u.datum) AS datum";
+        sqlget += " FROM updates AS u";
+        sqlget += " ORDER BY datetime(u.datum) DESC LIMIT 0,1";
+        Cursor sqlresult = connection.rawQuery(sqlget, null);
+        if (sqlresult.getCount() > 0) {
+            sqlresult.moveToFirst();
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setSubtitle(this.getString(R.string.txtHomeSubtitle) + " | Stand: " + sqlresult.getString(0));
+        }
+
+        database.close();
+        connection.close();
     }
 
     /**
@@ -138,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
                 datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
                 uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
 
-                if (sqlresult.getInt(3) == 1) {
+                if (sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel")) == 1) {
                     heim = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
                     gast = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
                 } else {
@@ -172,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
                     String dayname = outFormat.format(date);
 
                     TextView txtDatum = new TextView(this);
-                    txtDatum.setText(dayname+" " + datum);
+                    txtDatum.setText(dayname + " " + datum);
                     txtDatum.setTextSize(15);
                     txtDatum.setPadding(30, 5, 30, 5);
                     txtDatum.setTextColor(Color.WHITE);
@@ -185,7 +208,7 @@ public class MainActivity extends ActionBarActivity {
                     txtUhrzeit.setPadding(30, 5, 30, 5);
                     txtUhrzeit.setTextColor(Color.WHITE);
                     tr.addView(txtUhrzeit);
-                    tr.setBackgroundColor(Color.rgb(76,118,159));
+                    tr.setBackgroundColor(Color.rgb(76, 118, 159));
                     tblUpcomingMatches.addView(tr);
 
                     rowcounter = 0;

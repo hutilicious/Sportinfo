@@ -3,7 +3,8 @@
 
     <string name="app_name">Sportinfo</string>
     <string name="txtHomeSubtitle">Übersicht</string>
-    <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch. Tippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
+    <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch.\n\nTippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
+    <string name="txtLastUpdateFrom">Letztes Update am: </string>
     <string name="txtActionUpdate">Aktualisieren</string>
     <string name="txtActionUpdateStart">Aktualisiere Datenbank...</string>
     <string name="txtActionUpdateOk">Aktualisierung abgeschlossen!</string>

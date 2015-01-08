@@ -8,8 +8,8 @@ android {
         applicationId "huti.sportinfo"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 12
-        versionName "1.2"
+        versionCode 121
+        versionName "1.2.1"
     }
     buildTypes {
         release {
