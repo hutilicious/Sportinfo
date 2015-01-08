@@ -4,11 +4,16 @@ package huti.sportinfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,8 +86,7 @@ public class MainActivity extends ActionBarActivity {
      * shows any upcoming games
      */
     public void showUpcomingGames() {
-        TextView out = (TextView) findViewById(R.id.txtUpcomingGames);
-        out.setText("");
+
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
         String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', s.datum),s.idfavorit,s.idgegner";
@@ -101,11 +105,18 @@ public class MainActivity extends ActionBarActivity {
             }
 
             String datum = "";
+            String datum_alt = "";
             String heim = "";
             String gast = "";
             int punkteheim = -1;
             int punktegast = -1;
-            String appendString = "";
+            int intheimspiel = 0;
+
+            TableLayout tblUpcomingMatches = (TableLayout) findViewById(R.id.tblUpcomingMatches);
+            tblUpcomingMatches.removeAllViewsInLayout();
+
+            int rowcounter = 0;
+            int trBackground = Color.WHITE;
             while (sqlresult.moveToNext()) {
                 datum = sqlresult.getString(0);
 
@@ -116,20 +127,86 @@ public class MainActivity extends ActionBarActivity {
                     heim = sqlresult.getString(6);
                     gast = sqlresult.getString(7);
                 }
+                intheimspiel = sqlresult.getInt(3);
                 punkteheim = sqlresult.getInt(4);
                 punktegast = sqlresult.getInt(5);
 
-                appendString = sqlresult.getInt(8) + "---" + datum + "\n" + heim + " - " + gast;
-                if (punkteheim >= 0) {
-                    appendString += " " + punkteheim + ":" + punktegast;
-                } else {
-                    appendString += " -:-";
+
+                // Grid test
+                TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT);
+                TableRow tr = new TableRow(this);
+                tr.setLayoutParams(tlparams);
+                if (!sqlresult.isFirst()) {
+                    tr.setPadding(0, 40, 0, 0);
                 }
-                appendString += "\n\n";
-                out.append(appendString);
+
+                if (datum_alt != datum) {
+                    TextView txtDatum = new TextView(this);
+                    txtDatum.setText(datum);
+                    tr.addView(txtDatum);
+
+                    TextView txtSpace = new TextView(this);
+                    txtSpace.setText("");
+                    tr.addView(txtSpace);
+                    tblUpcomingMatches.addView(tr);
+
+                    rowcounter = 0;
+                }
+
+                if (rowcounter % 2 == 0) {
+                    trBackground = Color.WHITE;
+                } else {
+                    trBackground = Color.LTGRAY;
+                }
+
+                tr = new TableRow(this);
+                tr.setLayoutParams(tlparams);
+
+                TextView txtHeim = new TextView(this);
+                txtHeim.setText(heim);
+                if (intheimspiel == 1) {
+                    txtHeim.setTypeface(null, Typeface.BOLD);
+                }
+                tr.addView(txtHeim);
+
+                TextView txtHeimPunkte = new TextView(this);
+                if (punkteheim >= 0) {
+                    txtHeimPunkte.setText(" " + punkteheim + " ");
+                } else {
+                    txtHeimPunkte.setText(" - ");
+                }
+                txtHeimPunkte.setGravity(Gravity.RIGHT);
+                tr.addView(txtHeimPunkte);
+                tr.setBackgroundColor(trBackground);
+                tblUpcomingMatches.addView(tr);
+
+                tr = new TableRow(this);
+                tr.setLayoutParams(tlparams);
+
+                TextView txtGast = new TextView(this);
+                txtGast.setText(gast);
+                if (intheimspiel == 0) {
+                    txtGast.setTypeface(null, Typeface.BOLD);
+                }
+                tr.addView(txtGast);
+
+                TextView txtGastPunkte = new TextView(this);
+                if (punkteheim >= 0) {
+                    txtGastPunkte.setText(" " + punktegast + " ");
+                } else {
+                    txtGastPunkte.setText(" - ");
+                }
+                tr.addView(txtGastPunkte);
+                tr.setBackgroundColor(trBackground);
+                tblUpcomingMatches.addView(tr);
+
+                datum_alt = datum;
+                rowcounter++;
             }
         } else {
-            out.setText(R.string.txtNoUpcomingMatches);
+            // No matches handle
         }
         database.close();
         connection.close();

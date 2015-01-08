@@ -43,7 +43,9 @@
           )
         </item>
         <item>
-          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Herren 1\',\'SCB H1\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'hallo\');
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Damen 1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'\');
+        </item><item>
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Herren 1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\');
         </item>
     </string-array>
 </resources>
