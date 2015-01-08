@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,6 +18,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -26,6 +32,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayShowHomeEnabled(true);
+        //actionBar.setIcon(R.drawable.ic_launcher);
+        actionBar.setTitle(R.string.app_name);
+        actionBar.setSubtitle(R.string.txtHomeSubtitle);
         this.showUpcomingGames();
     }
 
@@ -87,17 +98,22 @@ public class MainActivity extends ActionBarActivity {
      */
     public void showUpcomingGames() {
 
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //String currentDate = sdf.format(new Date());
+
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
-        String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', s.datum),s.idfavorit,s.idgegner";
-        sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung,s.idspiel";
+        String sqlget = "SELECT strftime('%d.%m.%Y', s.datum) AS datum,s.idfavorit,s.idgegner";
+        sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.kurzbezeichnung,";
+        sqlget += "s.idspiel,strftime('%H:%M', s.datum) AS uhrzeit,";
+        sqlget += "date(s.datum) as datum_original";
         sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
-        sqlget += " ORDER BY datetime(s.datum)";
+        //sqlget += " WHERE date(s.datum) >= '" + currentDate + "'";
+        sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
-
             // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layoutContent);
             if (linearLayout.findViewById(R.id.txtWelcome) != null) {
@@ -105,7 +121,8 @@ public class MainActivity extends ActionBarActivity {
             }
 
             String datum = "";
-            String datum_alt = "";
+            String uhrzeit = "";
+            String datumuhrzeit_alt = "";
             String heim = "";
             String gast = "";
             int punkteheim = -1;
@@ -118,38 +135,57 @@ public class MainActivity extends ActionBarActivity {
             int rowcounter = 0;
             int trBackground = Color.WHITE;
             while (sqlresult.moveToNext()) {
-                datum = sqlresult.getString(0);
+                datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
+                uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
 
                 if (sqlresult.getInt(3) == 1) {
-                    heim = sqlresult.getString(7);
-                    gast = sqlresult.getString(6);
+                    heim = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
+                    gast = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
                 } else {
-                    heim = sqlresult.getString(6);
-                    gast = sqlresult.getString(7);
+                    heim = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
+                    gast = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
                 }
-                intheimspiel = sqlresult.getInt(3);
-                punkteheim = sqlresult.getInt(4);
-                punktegast = sqlresult.getInt(5);
+                intheimspiel = sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel"));
+                punkteheim = sqlresult.getInt(sqlresult.getColumnIndex("punkteheim"));
+                punktegast = sqlresult.getInt(sqlresult.getColumnIndex("punktegast"));
 
 
-                // Grid test
                 TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT);
                 TableRow tr = new TableRow(this);
                 tr.setLayoutParams(tlparams);
-                if (!sqlresult.isFirst()) {
-                    tr.setPadding(0, 40, 0, 0);
-                }
 
-                if (datum_alt != datum) {
+                //--------------------------------------------
+                // Zeile mit Datum und Uhrzeit
+                //--------------------------------------------
+                if (!datumuhrzeit_alt.equals(datum + " " + uhrzeit)) {
+                    Date date = new Date();
+                    SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat outFormat = new SimpleDateFormat("EE", Locale.GERMANY);
+                    String goal = outFormat.format(date);
+                    try {
+                        date = inFormat.parse(sqlresult.getString(sqlresult.getColumnIndex("datum_original")));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String dayname = outFormat.format(date);
+
                     TextView txtDatum = new TextView(this);
-                    txtDatum.setText(datum);
+                    txtDatum.setText(dayname+" " + datum);
+                    txtDatum.setTextSize(15);
+                    txtDatum.setPadding(30, 5, 30, 5);
+                    txtDatum.setTextColor(Color.WHITE);
                     tr.addView(txtDatum);
 
-                    TextView txtSpace = new TextView(this);
-                    txtSpace.setText("");
-                    tr.addView(txtSpace);
+                    TextView txtUhrzeit = new TextView(this);
+                    txtUhrzeit.setText(uhrzeit);
+                    txtUhrzeit.setGravity(Gravity.RIGHT);
+                    txtUhrzeit.setTextSize(15);
+                    txtUhrzeit.setPadding(30, 5, 30, 5);
+                    txtUhrzeit.setTextColor(Color.WHITE);
+                    tr.addView(txtUhrzeit);
+                    tr.setBackgroundColor(Color.rgb(76,118,159));
                     tblUpcomingMatches.addView(tr);
 
                     rowcounter = 0;
@@ -158,51 +194,69 @@ public class MainActivity extends ActionBarActivity {
                 if (rowcounter % 2 == 0) {
                     trBackground = Color.WHITE;
                 } else {
-                    trBackground = Color.LTGRAY;
+                    trBackground = Color.rgb(232, 243, 254);
                 }
 
+                //--------------------------------------------
+                // Zeile mit Heim und Heimpunkte
+                //--------------------------------------------
                 tr = new TableRow(this);
                 tr.setLayoutParams(tlparams);
 
                 TextView txtHeim = new TextView(this);
                 txtHeim.setText(heim);
+                txtHeim.setPadding(30, 5, 30, 5);
                 if (intheimspiel == 1) {
                     txtHeim.setTypeface(null, Typeface.BOLD);
                 }
+                txtHeim.setTextSize(17);
                 tr.addView(txtHeim);
 
                 TextView txtHeimPunkte = new TextView(this);
                 if (punkteheim >= 0) {
-                    txtHeimPunkte.setText(" " + punkteheim + " ");
+                    txtHeimPunkte.setText(punkteheim);
                 } else {
-                    txtHeimPunkte.setText(" - ");
+                    txtHeimPunkte.setText("-");
                 }
                 txtHeimPunkte.setGravity(Gravity.RIGHT);
+                txtHeimPunkte.setPadding(30, 5, 30, 5);
+                txtHeimPunkte.setTextSize(17);
                 tr.addView(txtHeimPunkte);
                 tr.setBackgroundColor(trBackground);
                 tblUpcomingMatches.addView(tr);
 
+                //--------------------------------------------
+                // Zeile mit Gast und Gastpunkte
+                //--------------------------------------------
                 tr = new TableRow(this);
                 tr.setLayoutParams(tlparams);
 
                 TextView txtGast = new TextView(this);
                 txtGast.setText(gast);
+                txtGast.setPadding(30, 5, 30, 5);
                 if (intheimspiel == 0) {
                     txtGast.setTypeface(null, Typeface.BOLD);
                 }
+                txtGast.setTextSize(17);
                 tr.addView(txtGast);
 
                 TextView txtGastPunkte = new TextView(this);
                 if (punkteheim >= 0) {
-                    txtGastPunkte.setText(" " + punktegast + " ");
+                    txtGastPunkte.setText(punktegast);
                 } else {
-                    txtGastPunkte.setText(" - ");
+                    txtGastPunkte.setText("-");
                 }
+                txtGastPunkte.setGravity(Gravity.RIGHT);
+                txtGastPunkte.setPadding(30, 5, 30, 5);
+                txtGastPunkte.setTextSize(17);
                 tr.addView(txtGastPunkte);
                 tr.setBackgroundColor(trBackground);
                 tblUpcomingMatches.addView(tr);
 
-                datum_alt = datum;
+                //--------------------------------------------
+                // Abschlussarbeiten pro Zeile
+                //--------------------------------------------
+                datumuhrzeit_alt = datum + " " + uhrzeit;
                 rowcounter++;
             }
         } else {
@@ -211,8 +265,6 @@ public class MainActivity extends ActionBarActivity {
         database.close();
         connection.close();
     }
-
-
 }
 
 

@@ -138,12 +138,12 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                         if (sqlresult.getCount() > 0) {
                             sqlresult.moveToFirst();
                             idgegner = sqlresult.getInt(0);
-                            Log.d("SPORTINFO", "Habe Gegner '" + strGegner + "' gefunden: " + idgegner);
+                            //Log.d("SPORTINFO", "Habe Gegner '" + strGegner + "' gefunden: " + idgegner);
                         } else {
                             values.put("idfavorit", idfavorit);
                             values.put("bezeichnung", strGegner);
                             idgegner = connection.insert("gegner", null, values);
-                            Log.d("SPORTINFO", "Lege Gegner '" + strGegner + "' an: " + idgegner);
+                            //Log.d("SPORTINFO", "Lege Gegner '" + strGegner + "' an: " + idgegner);
                         }
 
                         split[i] = split[i].replace("&#xE52E;", "-"); // Bei den Scores sind Sonderzeichen angegeben
@@ -169,7 +169,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                         if (sqlresultgame.getCount() > 0) {
                             sqlresultgame.moveToFirst();
                             idspiel = sqlresultgame.getInt(0);
-                            Log.d("SPORTINFO", "Update Spiel "+idspiel);
+                            //Log.d("SPORTINFO", "Update Spiel "+idspiel);
                             // update game score
                             values = new ContentValues();
                             values.put("punkteheim", punkteheim);
@@ -184,7 +184,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                             values.put("punkteheim", punkteheim);
                             values.put("punktegast", punktegast);
                             idspiel = connection.insert("spiele", null, values);
-                            Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
+                            //Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
                         }
 
 

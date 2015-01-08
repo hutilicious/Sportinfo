@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Sportinfo</string>
+    <string name="txtHomeSubtitle">Übersicht</string>
     <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch. Tippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
     <string name="txtActionUpdate">Aktualisieren</string>
     <string name="txtActionUpdateStart">Aktualisiere Datenbank...</string>
@@ -43,8 +44,12 @@
           )
         </item>
         <item>
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SV Klingenmünster Herren 1\',\'SVK Herren\',\'Klingenmünster\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'\');
+        </item>
+        <item>
           INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Damen 1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'\');
-        </item><item>
+        </item>
+        <item>
           INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle) VALUES (0,\'SC Busenberg Herren 1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\');
         </item>
     </string-array>
