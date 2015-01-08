@@ -1,41 +1,21 @@
 package huti.sportinfo;
 
-import android.content.ContentValues;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 
 public class MainActivity extends ActionBarActivity {
 
-    private boolean isUpdating = false; // indicates whether the app data is being updated
+    public boolean isUpdating = false; // indicates whether the app data is being updated
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +85,9 @@ public class MainActivity extends ActionBarActivity {
         out.setText("");
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
-        String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', s.datum),s.idfavorit,s.idgegner,s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung FROM spiele AS s";
+        String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', s.datum),s.idfavorit,s.idgegner";
+        sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung,f.kurzbezeichnung,s.idspiel";
+        sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
         sqlget += " ORDER BY datetime(s.datum)";
@@ -114,7 +96,9 @@ public class MainActivity extends ActionBarActivity {
 
             // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layoutContent);
-            linearLayout.removeViewAt(0);
+            if (linearLayout.findViewById(R.id.txtWelcome) != null) {
+                linearLayout.removeViewAt(0);
+            }
 
             String datum = "";
             String heim = "";
@@ -135,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
                 punkteheim = sqlresult.getInt(4);
                 punktegast = sqlresult.getInt(5);
 
-                appendString = datum + "\n" + heim + " - " + gast;
+                appendString = sqlresult.getInt(8) + "---" + datum + "\n" + heim + " - " + gast;
                 if (punkteheim >= 0) {
                     appendString += " " + punkteheim + ":" + punktegast;
                 } else {
@@ -151,157 +135,7 @@ public class MainActivity extends ActionBarActivity {
         connection.close();
     }
 
-    class UpdateHelper extends AsyncTask<String, String, String> {
-        private MainActivity activity = null;
-        private String url = "";
-        private String kennung = "";
-        private int inturlart = 0;
-        private int idfavorit = 0;
-        private int intsportart = 0;
-        private int intlast = 0;
 
-        public UpdateHelper(MainActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
-            this.activity = activity;
-            this.url = url;
-            this.kennung = kennung;
-            this.inturlart = urlart;
-            this.idfavorit = idfavorit;
-            this.intsportart = intsportart;
-            this.intlast = intlast;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            // only execute if internet is available
-            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpResponse response;
-                String responseString = null;
-                try {
-                    response = httpclient.execute(new HttpGet(this.url));
-                    StatusLine statusLine = response.getStatusLine();
-                    if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                        ByteArrayOutputStream out = new ByteArrayOutputStream();
-                        response.getEntity().writeTo(out);
-                        out.close();
-                        responseString = out.toString();
-                    } else {
-                        //Closes the connection.
-                        response.getEntity().getContent().close();
-                        throw new IOException(statusLine.getReasonPhrase());
-                    }
-                } catch (UnsupportedEncodingException e) {
-                } catch (ClientProtocolException e) {
-                } catch (IOException e) {
-                }
-                return responseString;
-            } else {
-                return "::error";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result.equals("::error")) {
-                Toast.makeText(getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
-            } else {
-                if (this.intsportart == 0 && this.inturlart == 0) {
-                    //----------------------------------------------------
-                    // update fussball.de games for e specific team
-                    //----------------------------------------------------
-                    SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
-                    SQLiteDatabase connection = database.getWritableDatabase();
-
-                    connection.execSQL("DELETE FROM spiele;");
-                    connection.execSQL("VACUUM;");
-                    connection.execSQL("DELETE FROM gegner;");
-                    connection.execSQL("VACUUM;");
-
-                    String datum = "";
-                    int punkteheim = -1;
-                    int punktegast = -1;
-                    String heim = "";
-                    String gast = "";
-
-                    String[] split = result.split("\n");
-                    for (int i = 0; i < split.length; i++) {
-                    /* ablauf für fussball:
-                    td class="column-date",div class="club-name",div class="club-name",class="column-score" | class="score-left",class="score-right"
-                     */
-                        if (split[i].indexOf("td class=\"column-date\"") >= 0) {
-                            // Datum abrufen
-                            datum = Html.fromHtml(split[i]).toString().trim();
-                            datum = "20" + datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20) + ":00";
-                        } else if (split[i].indexOf("div class=\"club-name\"") >= 0) {
-                            // Verein speichern
-                            String cleanString = Html.fromHtml(split[i]).toString().trim();
-                            if (heim.equals("")) {
-                                heim = cleanString;
-                            } else {
-                                gast = cleanString;
-                            }
-                        } else if (split[i].indexOf("class=\"score-left\"") >= 0) {
-                            // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
-                            int intheimspiel = 0;
-                            String strGegner = heim;
-                            if (heim.indexOf(kennung) >= 0) {
-                                intheimspiel = 1;
-                                strGegner = gast;
-                            }
-                            ContentValues values = new ContentValues();
-                            values.put("idfavorit", idfavorit);
-                            values.put("bezeichnung", strGegner);
-                            long idgegner = connection.insert("gegner", null, values);
-
-                            split[i] = split[i].replace("&#xE52E;", "-"); // Bei den Scores sind Sonderzeichen angegeben
-                            split[i] = split[i].replace("&#xE540;", "-");
-                            String cleanString = Html.fromHtml(split[i]).toString().trim();
-                            String[] ergsplit = result.split(":");
-                            try {
-                                punkteheim = Integer.parseInt(ergsplit[0].trim());
-                            } catch (NumberFormatException nfe) {
-                                punkteheim = -1;
-                            }
-                            try {
-                                punktegast = Integer.parseInt(ergsplit[1].trim());
-                            } catch (NumberFormatException nfe) {
-                                punktegast = -1;
-                            }
-
-                            values = new ContentValues();
-                            values.put("datum", datum);
-                            values.put("idfavorit", idfavorit);
-                            values.put("idgegner", idgegner);
-                            values.put("intheimspiel", intheimspiel);
-                            values.put("punkteheim", punkteheim);
-                            values.put("punktegast", punktegast);
-                            long idspiel = connection.insert("spiele", null, values);
-
-                            // Reset
-                            datum = "";
-                            punkteheim = -1;
-                            punktegast = -1;
-                            heim = "";
-                            gast = "";
-                        }
-                    }
-
-                    database.close();
-                    connection.close();
-                    if (this.intlast == 1) {
-                        Toast.makeText(getApplicationContext(), R.string.txtActionUpdateOk, Toast.LENGTH_SHORT).show();
-
-                        // Refresh auf Fenster fahren
-                        this.activity.isUpdating = false;
-                        this.activity.showUpcomingGames();
-                    }
-                }
-            }
-        }
-    }
 }
 
 
