@@ -22,6 +22,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by crothhass on 08.01.2015.
@@ -197,15 +199,23 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                     }
                 }
 
-                database.close();
-                connection.close();
                 if (this.intlast == 1) {
                     Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateOk, Toast.LENGTH_SHORT).show();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String currentDateTime = sdf.format(new Date());
+                    ContentValues valUpdate = new ContentValues();
+                    valUpdate.put("datum", currentDateTime);
+                    valUpdate.put("log", "");
+                    connection.insert("updates", null, valUpdate);
 
                     // Refresh auf Fenster fahren
                     this.activity.isUpdating = false;
                     this.activity.showUpcomingGames();
                 }
+                database.close();
+                connection.close();
+
             }
         }
     }
