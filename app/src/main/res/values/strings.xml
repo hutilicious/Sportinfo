@@ -15,6 +15,13 @@
     <string name="dbversion">1</string>
     <string-array name="dbcreate">
         <item>
+          CREATE TABLE updates(
+            idupdate INTEGER PRIMARY KEY AUTOINCREMENT,
+            datum TEXT NOT NULL,
+            log TEXT NOT NULL
+          )
+        </item>
+        <item>
           CREATE TABLE favoriten(
             idfavorit INTEGER PRIMARY KEY AUTOINCREMENT,
             intsportart INTEGER NOT NULL,
