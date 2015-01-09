@@ -11,7 +11,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     private Context context;
 
-    SqliteHelper(Context context){
+    public SqliteHelper(Context context){
         super(
                 context,
                 context.getResources().getString(R.string.dbname),
