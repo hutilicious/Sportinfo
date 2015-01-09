@@ -1,8 +1,20 @@
 <resources>
+    <!-- Colors -->
+    <color name="colorMain">#4C769f</color>
+    <color name="colorMainDark">#38628B</color>
+    <color name="colorMainAccent">#387AEC</color>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorMain</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/colorMainDark</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/colorMainAccent</item>
     </style>
 
 </resources>

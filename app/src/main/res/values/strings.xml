@@ -53,13 +53,13 @@
           )
         </item>
         <item>
-          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SV Klingenmünster Herren 1\',\'SVK Herren\',\'Klingenmünster\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'\',\'004ABA\');
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SV Klingenmünster H1\',\'SVK Herren\',\'Klingenmünster\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'\',\'004ABA\');
         </item>
         <item>
-          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SC Busenberg Damen 1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'\',\'C903C7\');
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SC Busenberg D1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'\',\'760094\');
         </item>
         <item>
-          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SC Busenberg Herren 1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'C903C7\');
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SC Busenberg H1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'\',\'760094\');
         </item>
     </string-array>
 </resources>

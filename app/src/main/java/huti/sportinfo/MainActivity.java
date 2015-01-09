@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,13 +35,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayShowHomeEnabled(true);
-        //actionBar.setIcon(R.drawable.ic_launcher);
         actionBar.setTitle(R.string.app_name);
         actionBar.setSubtitle(R.string.txtHomeSubtitle);
 
         this.updateActionBar();
+        this.showUpcomingGames();
     }
 
 
@@ -125,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
         String sqlget = "SELECT strftime('%d.%m.%Y', s.datum) AS datum,s.idfavorit,s.idgegner";
-        sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.kurzbezeichnung,";
+        sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.bezeichnung AS favoritenbezeichnung,";
         sqlget += "s.idspiel,strftime('%H:%M', s.datum) AS uhrzeit,";
         sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe";
         sqlget += " FROM spiele AS s";
@@ -160,11 +162,11 @@ public class MainActivity extends ActionBarActivity {
 
                 //The home team comes first
                 if (sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel")) == 1) {
-                    heim = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
+                    heim = sqlresult.getString(sqlresult.getColumnIndex("favoritenbezeichnung"));
                     gast = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
                 } else {
                     heim = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
-                    gast = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
+                    gast = sqlresult.getString(sqlresult.getColumnIndex("favoritenbezeichnung"));
                 }
                 intheimspiel = sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel"));
                 punkteheim = sqlresult.getInt(sqlresult.getColumnIndex("punkteheim"));
