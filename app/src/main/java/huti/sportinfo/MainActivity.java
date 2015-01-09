@@ -206,7 +206,7 @@ public class MainActivity extends ActionBarActivity {
                 if (rowcounter % 2 == 0) {
                     trBackground = Color.WHITE;
                 } else {
-                    trBackground = Color.rgb(232, 243, 254);
+                    trBackground = getResources().getColor(R.color.colorMainAccent);
                 }
 
                 //--------------------------------------------
@@ -243,7 +243,7 @@ public class MainActivity extends ActionBarActivity {
         txtDatum.setText(dayname + " " + datum);
         txtDatum.setTextSize(15);
         txtDatum.setPadding(30, 5, 30, 5);
-        txtDatum.setTextColor(Color.WHITE);
+        txtDatum.setTextColor(getResources().getColor(R.color.colorTextLight));
         tr.addView(txtDatum);
 
         TextView txtUhrzeit = new TextView(this);
@@ -251,9 +251,9 @@ public class MainActivity extends ActionBarActivity {
         txtUhrzeit.setGravity(Gravity.RIGHT);
         txtUhrzeit.setTextSize(15);
         txtUhrzeit.setPadding(30, 5, 30, 5);
-        txtUhrzeit.setTextColor(Color.WHITE);
+        txtUhrzeit.setTextColor(getResources().getColor(R.color.colorTextLight));
         tr.addView(txtUhrzeit);
-        tr.setBackgroundColor(Color.rgb(76, 118, 159));
+        tr.setBackgroundColor(getResources().getColor(R.color.colorMainDark));
         return tr;
     }
 
