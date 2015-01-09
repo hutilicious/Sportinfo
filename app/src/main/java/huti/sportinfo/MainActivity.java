@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
         String sqlget = "SELECT strftime('%d.%m.%Y', s.datum) AS datum,s.idfavorit,s.idgegner";
         sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.kurzbezeichnung,";
         sqlget += "s.idspiel,strftime('%H:%M', s.datum) AS uhrzeit,";
-        sqlget += "date(s.datum) as datum_original";
+        sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe";
         sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
@@ -146,6 +146,7 @@ public class MainActivity extends ActionBarActivity {
             String datumuhrzeit_alt = "";
             String heim = "";
             String gast = "";
+            String favoritenfarbe = "";
             int punkteheim = -1;
             int punktegast = -1;
             int intheimspiel = 0;
@@ -168,12 +169,12 @@ public class MainActivity extends ActionBarActivity {
                 intheimspiel = sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel"));
                 punkteheim = sqlresult.getInt(sqlresult.getColumnIndex("punkteheim"));
                 punktegast = sqlresult.getInt(sqlresult.getColumnIndex("punktegast"));
+                favoritenfarbe = sqlresult.getString(sqlresult.getColumnIndex("favoritenfarbe"));
 
                 //Make new TableRowLayout
                 tlparams = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT);
-
 
 
                 datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
@@ -194,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                     String dayname = outFormat.format(date);
                     //Add date Row if needed
-                    tblUpcomingMatches.addView(date(datum, uhrzeit, dayname));
+                    tblUpcomingMatches.addView(RowDate(datum, uhrzeit, dayname));
                     //reset Rowcounter
                     rowcounter = 0;
                 }
@@ -206,18 +207,17 @@ public class MainActivity extends ActionBarActivity {
                     trBackground = Color.rgb(232, 243, 254);
                 }
 
-
                 //--------------------------------------------
                 // Zeile mit Heim und Heimpunkte
                 //--------------------------------------------
 
-                tblUpcomingMatches.addView(home(heim, intheimspiel, punkteheim, trBackground));
+                tblUpcomingMatches.addView(RowGame(heim, intheimspiel > 0, punkteheim, trBackground, favoritenfarbe));
 
                 //--------------------------------------------
                 // Zeile mit Gast und Gastpunkte
                 //--------------------------------------------
 
-                tblUpcomingMatches.addView(guest(gast, intheimspiel, punktegast, trBackground));
+                tblUpcomingMatches.addView(RowGame(gast, intheimspiel == 0, punktegast, trBackground, favoritenfarbe));
 
                 //--------------------------------------------
                 // Abschlussarbeiten pro Zeile
@@ -233,10 +233,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private TableRow date(String datum, String uhrzeit, String dayname) {
+    private TableRow RowDate(String datum, String uhrzeit, String dayname) {
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(tlparams);
-
 
         TextView txtDatum = new TextView(this);
         txtDatum.setText(dayname + " " + datum);
@@ -256,56 +255,30 @@ public class MainActivity extends ActionBarActivity {
         return tr;
     }
 
-    private TableRow home(String heim, int intheimspiel, int punkteheim,int trBackground){
+    private TableRow RowGame(String name, boolean bolFavorit, int punkte, int trBackground, String favoritenfarbe) {
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(tlparams);
 
-        TextView txtHeim = new TextView(this);
-        txtHeim.setText(heim);
-        txtHeim.setPadding(30, 5, 30, 5);
-        if (intheimspiel == 1) {
-            txtHeim.setTypeface(null, Typeface.BOLD);
+        TextView txtName = new TextView(this);
+        txtName.setText(name);
+        txtName.setPadding(30, 5, 30, 5);
+        if (bolFavorit) {
+            txtName.setTypeface(null, Typeface.BOLD);
+            txtName.setTextColor(Color.parseColor("#" + favoritenfarbe));
         }
-        txtHeim.setTextSize(17);
-        tr.addView(txtHeim);
+        txtName.setTextSize(17);
+        tr.addView(txtName);
 
-        TextView txtHeimPunkte = new TextView(this);
-        if (punkteheim >= 0) {
-            txtHeimPunkte.setText(punkteheim);
+        TextView txtPunkte = new TextView(this);
+        if (punkte >= 0) {
+            txtPunkte.setText(punkte);
         } else {
-            txtHeimPunkte.setText("-");
+            txtPunkte.setText("-");
         }
-        txtHeimPunkte.setGravity(Gravity.RIGHT);
-        txtHeimPunkte.setPadding(30, 5, 30, 5);
-        txtHeimPunkte.setTextSize(17);
-        tr.addView(txtHeimPunkte);
-        tr.setBackgroundColor(trBackground);
-        return tr;
-    }
-
-    private TableRow guest(String gast, int intheimspiel, int punktegast,int trBackground){
-        TableRow tr = new TableRow(this);
-        tr.setLayoutParams(tlparams);
-
-        TextView txtGast = new TextView(this);
-        txtGast.setText(gast);
-        txtGast.setPadding(30, 5, 30, 5);
-        if (intheimspiel == 0) {
-            txtGast.setTypeface(null, Typeface.BOLD);
-        }
-        txtGast.setTextSize(17);
-        tr.addView(txtGast);
-
-        TextView txtGastPunkte = new TextView(this);
-        if (punktegast >= 0) {
-            txtGastPunkte.setText(punktegast);
-        } else {
-            txtGastPunkte.setText("-");
-        }
-        txtGastPunkte.setGravity(Gravity.RIGHT);
-        txtGastPunkte.setPadding(30, 5, 30, 5);
-        txtGastPunkte.setTextSize(17);
-        tr.addView(txtGastPunkte);
+        txtPunkte.setGravity(Gravity.RIGHT);
+        txtPunkte.setPadding(30, 5, 30, 5);
+        txtPunkte.setTextSize(17);
+        tr.addView(txtPunkte);
         tr.setBackgroundColor(trBackground);
         return tr;
     }
