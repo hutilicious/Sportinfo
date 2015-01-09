@@ -27,6 +27,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity {
 
     public boolean isUpdating = false; // indicates whether the app data is being updated
+    private TableRow.LayoutParams tlparams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,6 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setSubtitle(R.string.txtHomeSubtitle);
 
         this.updateActionBar();
-
-        this.showUpcomingGames();
     }
 
 
@@ -97,8 +96,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateActionBar()
-    {
+    public void updateActionBar() {
         SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
         SQLiteDatabase connection = database.getReadableDatabase();
 
@@ -158,9 +156,8 @@ public class MainActivity extends ActionBarActivity {
             int rowcounter = 0;
             int trBackground = Color.WHITE;
             while (sqlresult.moveToNext()) {
-                datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
-                uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
 
+                //The home team comes first
                 if (sqlresult.getInt(sqlresult.getColumnIndex("intheimspiel")) == 1) {
                     heim = sqlresult.getString(sqlresult.getColumnIndex("kurzbezeichnung"));
                     gast = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
@@ -172,17 +169,20 @@ public class MainActivity extends ActionBarActivity {
                 punkteheim = sqlresult.getInt(sqlresult.getColumnIndex("punkteheim"));
                 punktegast = sqlresult.getInt(sqlresult.getColumnIndex("punktegast"));
 
-
-                TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
+                //Make new TableRowLayout
+                tlparams = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT);
-                TableRow tr = new TableRow(this);
-                tr.setLayoutParams(tlparams);
 
+
+
+                datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
+                uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
                 //--------------------------------------------
                 // Zeile mit Datum und Uhrzeit
                 //--------------------------------------------
                 if (!datumuhrzeit_alt.equals(datum + " " + uhrzeit)) {
+                    //Get dayname of currentDate (Datum)
                     Date date = new Date();
                     SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat outFormat = new SimpleDateFormat("EE", Locale.GERMANY);
@@ -193,88 +193,31 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     String dayname = outFormat.format(date);
-
-                    TextView txtDatum = new TextView(this);
-                    txtDatum.setText(dayname + " " + datum);
-                    txtDatum.setTextSize(15);
-                    txtDatum.setPadding(30, 5, 30, 5);
-                    txtDatum.setTextColor(Color.WHITE);
-                    tr.addView(txtDatum);
-
-                    TextView txtUhrzeit = new TextView(this);
-                    txtUhrzeit.setText(uhrzeit);
-                    txtUhrzeit.setGravity(Gravity.RIGHT);
-                    txtUhrzeit.setTextSize(15);
-                    txtUhrzeit.setPadding(30, 5, 30, 5);
-                    txtUhrzeit.setTextColor(Color.WHITE);
-                    tr.addView(txtUhrzeit);
-                    tr.setBackgroundColor(Color.rgb(76, 118, 159));
-                    tblUpcomingMatches.addView(tr);
-
+                    //Add date Row if needed
+                    tblUpcomingMatches.addView(date(datum, uhrzeit, dayname));
+                    //reset Rowcounter
                     rowcounter = 0;
                 }
 
+                //if there are 2 or more games at same day give every second game another color
                 if (rowcounter % 2 == 0) {
                     trBackground = Color.WHITE;
                 } else {
                     trBackground = Color.rgb(232, 243, 254);
                 }
 
+
                 //--------------------------------------------
                 // Zeile mit Heim und Heimpunkte
                 //--------------------------------------------
-                tr = new TableRow(this);
-                tr.setLayoutParams(tlparams);
 
-                TextView txtHeim = new TextView(this);
-                txtHeim.setText(heim);
-                txtHeim.setPadding(30, 5, 30, 5);
-                if (intheimspiel == 1) {
-                    txtHeim.setTypeface(null, Typeface.BOLD);
-                }
-                txtHeim.setTextSize(17);
-                tr.addView(txtHeim);
-
-                TextView txtHeimPunkte = new TextView(this);
-                if (punkteheim >= 0) {
-                    txtHeimPunkte.setText(punkteheim);
-                } else {
-                    txtHeimPunkte.setText("-");
-                }
-                txtHeimPunkte.setGravity(Gravity.RIGHT);
-                txtHeimPunkte.setPadding(30, 5, 30, 5);
-                txtHeimPunkte.setTextSize(17);
-                tr.addView(txtHeimPunkte);
-                tr.setBackgroundColor(trBackground);
-                tblUpcomingMatches.addView(tr);
+                tblUpcomingMatches.addView(home(heim, intheimspiel, punkteheim, trBackground));
 
                 //--------------------------------------------
                 // Zeile mit Gast und Gastpunkte
                 //--------------------------------------------
-                tr = new TableRow(this);
-                tr.setLayoutParams(tlparams);
 
-                TextView txtGast = new TextView(this);
-                txtGast.setText(gast);
-                txtGast.setPadding(30, 5, 30, 5);
-                if (intheimspiel == 0) {
-                    txtGast.setTypeface(null, Typeface.BOLD);
-                }
-                txtGast.setTextSize(17);
-                tr.addView(txtGast);
-
-                TextView txtGastPunkte = new TextView(this);
-                if (punkteheim >= 0) {
-                    txtGastPunkte.setText(punktegast);
-                } else {
-                    txtGastPunkte.setText("-");
-                }
-                txtGastPunkte.setGravity(Gravity.RIGHT);
-                txtGastPunkte.setPadding(30, 5, 30, 5);
-                txtGastPunkte.setTextSize(17);
-                tr.addView(txtGastPunkte);
-                tr.setBackgroundColor(trBackground);
-                tblUpcomingMatches.addView(tr);
+                tblUpcomingMatches.addView(guest(gast, intheimspiel, punktegast, trBackground));
 
                 //--------------------------------------------
                 // Abschlussarbeiten pro Zeile
@@ -288,6 +231,94 @@ public class MainActivity extends ActionBarActivity {
         database.close();
         connection.close();
     }
+
+
+    private TableRow date(String datum, String uhrzeit, String dayname) {
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(tlparams);
+
+
+        TextView txtDatum = new TextView(this);
+        txtDatum.setText(dayname + " " + datum);
+        txtDatum.setTextSize(15);
+        txtDatum.setPadding(30, 5, 30, 5);
+        txtDatum.setTextColor(Color.WHITE);
+        tr.addView(txtDatum);
+
+        TextView txtUhrzeit = new TextView(this);
+        txtUhrzeit.setText(uhrzeit);
+        txtUhrzeit.setGravity(Gravity.RIGHT);
+        txtUhrzeit.setTextSize(15);
+        txtUhrzeit.setPadding(30, 5, 30, 5);
+        txtUhrzeit.setTextColor(Color.WHITE);
+        tr.addView(txtUhrzeit);
+        tr.setBackgroundColor(Color.rgb(76, 118, 159));
+        return tr;
+    }
+
+    private TableRow home(String heim, int intheimspiel, int punkteheim,int trBackground){
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(tlparams);
+
+        TextView txtHeim = new TextView(this);
+        txtHeim.setText(heim);
+        txtHeim.setPadding(30, 5, 30, 5);
+        if (intheimspiel == 1) {
+            txtHeim.setTypeface(null, Typeface.BOLD);
+        }
+        txtHeim.setTextSize(17);
+        tr.addView(txtHeim);
+
+        TextView txtHeimPunkte = new TextView(this);
+        if (punkteheim >= 0) {
+            txtHeimPunkte.setText(punkteheim);
+        } else {
+            txtHeimPunkte.setText("-");
+        }
+        txtHeimPunkte.setGravity(Gravity.RIGHT);
+        txtHeimPunkte.setPadding(30, 5, 30, 5);
+        txtHeimPunkte.setTextSize(17);
+        tr.addView(txtHeimPunkte);
+        tr.setBackgroundColor(trBackground);
+        return tr;
+    }
+
+    private TableRow guest(String gast, int intheimspiel, int punktegast,int trBackground){
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(tlparams);
+
+        TextView txtGast = new TextView(this);
+        txtGast.setText(gast);
+        txtGast.setPadding(30, 5, 30, 5);
+        if (intheimspiel == 0) {
+            txtGast.setTypeface(null, Typeface.BOLD);
+        }
+        txtGast.setTextSize(17);
+        tr.addView(txtGast);
+
+        TextView txtGastPunkte = new TextView(this);
+        if (punktegast >= 0) {
+            txtGastPunkte.setText(punktegast);
+        } else {
+            txtGastPunkte.setText("-");
+        }
+        txtGastPunkte.setGravity(Gravity.RIGHT);
+        txtGastPunkte.setPadding(30, 5, 30, 5);
+        txtGastPunkte.setTextSize(17);
+        tr.addView(txtGastPunkte);
+        tr.setBackgroundColor(trBackground);
+        return tr;
+    }
 }
 
 
+/*
+Clicklistner beispiel
+
+TableRow row = (TableRow)findViewById( R.id.row1 );
+row.setOnClickListener( new OnClickListener() {
+    @Override
+    public void onClick( View v ) {
+        //Do Stuff
+    }
+} );*/
