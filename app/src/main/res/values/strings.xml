@@ -75,5 +75,8 @@
         <item>
           INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (0,\'SC Busenberg H1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'760094\');
         </item>
+        <item>
+          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');
+        </item>
     </string-array>
 </resources>
