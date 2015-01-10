@@ -1,7 +1,7 @@
 package huti.sportinfo;
 
 
-import android.content.ContentValues;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -352,7 +351,7 @@ public class MainActivity extends ActionBarActivity {
 
         TextView txtPunkte = new TextView(this);
         if (punkte >= 0) {
-            txtPunkte.setText(punkte);
+            txtPunkte.setText(Integer.toString(punkte));
         } else {
             txtPunkte.setText("-");
         }

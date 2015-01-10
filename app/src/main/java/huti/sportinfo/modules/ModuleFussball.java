@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Html;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import huti.sportinfo.MainActivity;
 import huti.sportinfo.SqliteHelper;
 
@@ -47,13 +51,20 @@ public class ModuleFussball {
 
         String[] split = htmlsource.split("\n");
         for (int i = 0; i < split.length; i++) {
-                    /* ablauf für fussball:
-                    td class="column-date",div class="club-name",div class="club-name",class="column-score" | class="score-left",class="score-right"
-                     */
             if (split[i].indexOf("td class=\"column-date\"") >= 0) {
                 // Datum abrufen
                 datum = Html.fromHtml(split[i]).toString().trim();
-                datum = "20" + datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20) + ":00";
+                datum = datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20);
+                SimpleDateFormat inFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
+                SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date = null;
+                try {
+                    date = inFormat.parse(datum);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                datum = outFormat.format(date);
+
             } else if (split[i].indexOf("div class=\"club-name\"") >= 0) {
                 // Verein speichern
                 String cleanString = Html.fromHtml(split[i]).toString().trim();
@@ -62,7 +73,7 @@ public class ModuleFussball {
                 } else {
                     gast = cleanString;
                 }
-            } else if (split[i].indexOf("class=\"score-left\"") >= 0) {
+            } else if (split[i].indexOf("class=\"score-left\"") >= 0 && !heim.trim().equals("")) {
                 // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
                 int intheimspiel = 0;
                 String strGegner = heim;

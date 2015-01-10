@@ -15,14 +15,16 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import huti.sportinfo.modules.ModuleFussball;
+import huti.sportinfo.modules.ModuleTischtennis;
 
 /**
  * Created by crothhass on 08.01.2015.
@@ -52,6 +54,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         ConnectivityManager connMgr = (ConnectivityManager) this.activity.getSystemService(this.activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
+
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response;
             String responseString = null;
@@ -59,10 +62,17 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 response = httpclient.execute(new HttpGet(this.url));
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    response.getEntity().writeTo(out);
-                    out.close();
-                    responseString = out.toString();
+                    //ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    if (this.intsportart == 1) {
+                        responseString = EntityUtils.toString(response.getEntity(), HTTP.ISO_8859_1);
+                    }
+                    else
+                    {
+                        responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+                    }
+                    //response.getEntity().writeTo(out);
+                    //out.close();
+                    //responseString = out.toString();
                 } else {
                     //Closes the connection.
                     response.getEntity().getContent().close();
@@ -86,6 +96,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         } else {
             if (this.intsportart == 0)
             {
+                // Fussball.de
                 ModuleFussball objFussball = new ModuleFussball(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
                 if (this.inturlart == 0) {
                     objFussball.getTable(result);
@@ -93,6 +104,18 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 else if (this.inturlart == 1)
                 {
                     objFussball.getGames(result);
+                }
+            }
+            else if (this.intsportart == 1)
+            {
+                // TT-info
+                ModuleTischtennis objTischtennis = new ModuleTischtennis(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
+                if (this.inturlart == 0) {
+                    objTischtennis.getTable(result);
+                }
+                else if (this.inturlart == 1)
+                {
+                    objTischtennis.getGames(result);
                 }
             }
 
