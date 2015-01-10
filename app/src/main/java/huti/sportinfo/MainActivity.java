@@ -134,11 +134,24 @@ public class MainActivity extends ActionBarActivity {
         sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
+
             // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layoutContent);
             if (linearLayout.findViewById(R.id.txtWelcome) != null) {
-                linearLayout.removeViewAt(0);
+                linearLayout.removeView(linearLayout.findViewById(R.id.txtWelcome));
             }
+            if (linearLayout.findViewById(R.id.tblUpcomingMatches) != null) {
+                linearLayout.removeView(linearLayout.findViewById(R.id.tblUpcomingMatches));
+            }
+
+            // Add a fresh TableLayout
+            TableLayout tblUpcomingMatches = new TableLayout(this);
+            tblUpcomingMatches.setId(R.id.tblUpcomingMatches);
+            tblUpcomingMatches.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT));
+            tblUpcomingMatches.setColumnStretchable(1, true);
+
 
             String datum = "";
             String uhrzeit = "";
@@ -150,8 +163,8 @@ public class MainActivity extends ActionBarActivity {
             int punktegast = -1;
             int intheimspiel = 0;
 
-            TableLayout tblUpcomingMatches = (TableLayout) findViewById(R.id.tblUpcomingMatches);
-            tblUpcomingMatches.removeAllViewsInLayout();
+            //TableLayout tblUpcomingMatches = (TableLayout) findViewById(R.id.tblUpcomingMatches);
+            //tblUpcomingMatches.removeAllViewsInLayout();
 
             int rowcounter = 0;
             int trBackground = Color.WHITE;
@@ -224,6 +237,8 @@ public class MainActivity extends ActionBarActivity {
                 datumuhrzeit_alt = datum + " " + uhrzeit;
                 rowcounter++;
             }
+
+            linearLayout.addView(tblUpcomingMatches);
         } else {
             // No matches handle
         }

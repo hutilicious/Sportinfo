@@ -22,12 +22,6 @@
                 android:padding="15dp"
                 android:textSize="17dp" />
 
-            <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tblUpcomingMatches"
-                android:stretchColumns="0"></TableLayout>
-
         </LinearLayout>
     </ScrollView>
 

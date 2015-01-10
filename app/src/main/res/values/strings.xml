@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item type="id" name="tblUpcomingMatches" />
+
+
     <string name="app_name">Sportinfo</string>
     <string name="txtHomeSubtitle">Übersicht</string>
     <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch.\n\nTippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
@@ -37,6 +40,13 @@
         <item>
           CREATE TABLE gegner(
             idgegner INTEGER PRIMARY KEY AUTOINCREMENT,
+            idfavorit INTEGER NOT NULL,
+            bezeichnung TEXT NOT NULL
+          )
+        </item>
+        <item>
+          CREATE TABLE tabellen(
+            idtabelle INTEGER PRIMARY KEY AUTOINCREMENT,
             idfavorit INTEGER NOT NULL,
             bezeichnung TEXT NOT NULL
           )
