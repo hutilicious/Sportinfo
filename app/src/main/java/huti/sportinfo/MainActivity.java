@@ -5,15 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -253,7 +250,7 @@ public class MainActivity extends ActionBarActivity {
         txtUhrzeit.setPadding(30, 5, 30, 5);
         txtUhrzeit.setTextColor(getResources().getColor(R.color.colorTextLight));
         tr.addView(txtUhrzeit);
-        tr.setBackgroundColor(getResources().getColor(R.color.colorMainDark));
+        tr.setBackgroundColor(getResources().getColor(R.color.colorMainRow));
         return tr;
     }
 
@@ -265,7 +262,7 @@ public class MainActivity extends ActionBarActivity {
         txtName.setText(name);
         txtName.setPadding(30, 5, 30, 5);
         if (bolFavorit) {
-            txtName.setTypeface(null, Typeface.BOLD);
+            //txtName.setTypeface(null, Typeface.BOLD);
             txtName.setTextColor(Color.parseColor("#" + favoritenfarbe));
         }
         txtName.setTextSize(17);
