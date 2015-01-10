@@ -1,6 +1,7 @@
 package huti.sportinfo;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +28,9 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity {
 
     public boolean isUpdating = false; // indicates whether the app data is being updated
-    private TableRow.LayoutParams tlparams;
+    private TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
+            TableRow.LayoutParams.MATCH_PARENT,
+            TableRow.LayoutParams.WRAP_CONTENT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
 
         this.updateActionBar();
         this.showUpcomingGames();
+        this.showTables();
     }
 
 
@@ -80,13 +85,15 @@ public class MainActivity extends ActionBarActivity {
                 if (sqlresult.isLast()) {
                     intlast = 1;
                 }
+                if (!urltabelle.trim().equals("")) {
+                    inturlart = 0; // Tabelle wird abgerufen
+                    new UpdateHelper(this, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                }
+                if (!urlspiele.trim().equals("")) {
+                    inturlart = 1; // Spiele werden abgerufen
+                    new UpdateHelper(this, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                }
 
-                inturlart = 0; // Spiele werden abgerufen
-                new UpdateHelper(this, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                //inturlart = 1; // Tabelle wird abgerufen
-                //new UpdateHelper(this, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-                //..neuer Request
             }
 
             return true;
@@ -152,7 +159,6 @@ public class MainActivity extends ActionBarActivity {
                     TableLayout.LayoutParams.WRAP_CONTENT));
             tblUpcomingMatches.setColumnStretchable(1, true);
 
-
             String datum = "";
             String uhrzeit = "";
             String datumuhrzeit_alt = "";
@@ -182,12 +188,6 @@ public class MainActivity extends ActionBarActivity {
                 punkteheim = sqlresult.getInt(sqlresult.getColumnIndex("punkteheim"));
                 punktegast = sqlresult.getInt(sqlresult.getColumnIndex("punktegast"));
                 favoritenfarbe = sqlresult.getString(sqlresult.getColumnIndex("favoritenfarbe"));
-
-                //Make new TableRowLayout
-                tlparams = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT);
-
 
                 datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
                 uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
@@ -246,6 +246,73 @@ public class MainActivity extends ActionBarActivity {
         connection.close();
     }
 
+    public void showTables() {
+        SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
+        SQLiteDatabase connection = database.getReadableDatabase();
+        String sqlget = "SELECT t.idfavorit,t.tabellennr,t.punkte,g.bezeichnung as gegnerbez,t.intfavorit";
+        sqlget += " FROM tabellen AS t";
+        sqlget += " LEFT JOIN gegner AS g ON t.idmannschaft = g.idgegner";
+        sqlget += " ORDER BY t.idfavorit,t.tabellennr";
+        Cursor sqlresult = connection.rawQuery(sqlget, null);
+        if (sqlresult.getCount() > 0) {
+
+            // Layout kann weg wenn schonmal da
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layoutContent);
+            if (linearLayout.findViewById(R.id.tblTables) != null) {
+                linearLayout.removeView(linearLayout.findViewById(R.id.tblTables));
+            }
+
+            // Add a fresh TableLayout
+            TableLayout tblTables = new TableLayout(this);
+            tblTables.setId(R.id.tblTables);
+            tblTables.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT));
+            tblTables.setColumnStretchable(2, true);
+
+            int idfavorit = 0;
+            int idfavorit_alt = 0;
+            int intfavorit = 0;
+            int tabellennr = 0;
+            int punkte = 0;
+            String mannschaftname = "";
+            String favoritenbezeichnung = "";
+
+            while (sqlresult.moveToNext()) {
+                idfavorit = sqlresult.getInt(sqlresult.getColumnIndex("idfavorit"));
+                intfavorit = sqlresult.getInt(sqlresult.getColumnIndex("intfavorit"));
+                tabellennr = sqlresult.getInt(sqlresult.getColumnIndex("tabellennr"));
+                punkte = sqlresult.getInt(sqlresult.getColumnIndex("punkte"));
+
+                if (idfavorit_alt != idfavorit)
+                {
+                    String sqlgetname = "SELECT bezeichnung FROM favoriten AS f";
+                    sqlgetname += " WHERE idfavorit=" + idfavorit;
+                    Cursor cur_sqlgetname = connection.rawQuery(sqlgetname, null);
+                    if (cur_sqlgetname.getCount() > 0) {
+                        cur_sqlgetname.moveToFirst();
+                        favoritenbezeichnung = cur_sqlgetname.getString(0);
+                    } else {
+                        favoritenbezeichnung = "error?";
+                    }
+
+                    tblTables.addView(RowScoreHeader("Tabelle für : " + favoritenbezeichnung));
+                }
+
+                if (intfavorit == 0) {
+                    mannschaftname = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
+                } else {
+                   mannschaftname = favoritenbezeichnung;
+                }
+
+                tblTables.addView(RowScore(tabellennr, mannschaftname, punkte, intfavorit > 0));
+
+                idfavorit_alt = idfavorit;
+            }
+            linearLayout.addView(tblTables);
+        }
+    }
+
 
     private TableRow RowDate(String datum, String uhrzeit, String dayname) {
         TableRow tr = new TableRow(this);
@@ -296,7 +363,63 @@ public class MainActivity extends ActionBarActivity {
         tr.setBackgroundColor(trBackground);
         return tr;
     }
+
+    private TableRow RowScoreHeader(String titel) {
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(tlparams);
+
+        TextView txtTitel = new TextView(this);
+        txtTitel.setText(titel);
+        txtTitel.setTextSize(15);
+        txtTitel.setPadding(30, 5, 30, 5);
+        txtTitel.setTextColor(getResources().getColor(R.color.colorTextLight));
+
+
+        tr.addView(txtTitel);
+
+
+        tr.setBackgroundColor(getResources().getColor(R.color.colorMainRow));
+
+        TableRow.LayoutParams params = (TableRow.LayoutParams)txtTitel.getLayoutParams();
+        params.span = 3;
+        txtTitel.setLayoutParams(params); // causes layout update
+
+        return tr;
+    }
+
+    private TableRow RowScore(int tabellennr, String name, int punkte, boolean bolHighlight) {
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(tlparams);
+
+        TextView txtNummer = new TextView(this);
+        txtNummer.setText(tabellennr + ".");
+        txtNummer.setGravity(Gravity.RIGHT);
+        txtNummer.setTextSize(15);
+        txtNummer.setPadding(30, 5, 30, 5);
+        tr.addView(txtNummer);
+
+        TextView txtName = new TextView(this);
+        txtName.setText(name);
+        txtName.setTextSize(15);
+        txtName.setPadding(30, 5, 30, 5);
+        tr.addView(txtName);
+
+        TextView txtPunkte = new TextView(this);
+        txtPunkte.setText(Integer.toString(punkte));
+        txtPunkte.setTextSize(15);
+        txtPunkte.setGravity(Gravity.RIGHT);
+        txtPunkte.setPadding(30, 5, 30, 5);
+        tr.addView(txtPunkte);
+
+        if (bolHighlight) {
+            tr.setBackgroundColor(getResources().getColor(R.color.colorRowHighlight));
+        }
+
+        return tr;
+    }
 }
+
+
 
 
 /*

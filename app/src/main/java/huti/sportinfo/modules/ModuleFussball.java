@@ -143,4 +143,84 @@ public class ModuleFussball {
         database.close();
         connection.close();
     }
+
+    public void getTable(String htmlsource) {
+        //----------------------------------------------------
+        // update fussball.de table for e specific team
+        //----------------------------------------------------
+        SQLiteOpenHelper database = new SqliteHelper(this.activity.getApplicationContext());
+        SQLiteDatabase connection = database.getWritableDatabase();
+
+        String mannschaftname = "";
+        int punkte = 0;
+        int tabellennr = 0;
+        int intfavorit = 0;
+
+        String[] split = htmlsource.split("\n");
+        for (int i = 0; i < split.length; i++) {
+            if (split[i].indexOf("td class=\"column-rank\"") >= 0) {
+                // Platzierung
+                tabellennr = Integer.parseInt(Html.fromHtml(split[i]).toString().trim().replace(".", ""));
+            } else if (split[i].indexOf("div class=\"club-name\"") >= 0) {
+                // Name der Mannschaft
+                mannschaftname = Html.fromHtml(split[i]).toString().trim();
+            } else if (split[i].indexOf("td class=\"column-points\"") >= 0) {
+                // Punkte und Ende der Zeile
+                punkte = Integer.parseInt(Html.fromHtml(split[i]).toString().trim().replace(".", ""));
+
+                // Valuepairs for all inserts
+                ContentValues values = new ContentValues();
+
+                // haben wir unsere eigene Mannschaft?
+                long idmannschaft = 0;
+                if (mannschaftname.indexOf(kennung) >= 0) {
+                    intfavorit = 1;
+                } else {
+                    // check ob gegner schon angelegt ist
+                    String sqlget = "SELECT idgegner FROM gegner AS g";
+                    sqlget += " WHERE idfavorit=" + idfavorit + " AND bezeichnung = '" + mannschaftname + "'";
+                    Cursor sqlresult = connection.rawQuery(sqlget, null);
+                    if (sqlresult.getCount() > 0) {
+                        sqlresult.moveToFirst();
+                        idmannschaft = sqlresult.getInt(0);
+                    } else {
+                        values.put("idfavorit", idfavorit);
+                        values.put("bezeichnung", mannschaftname);
+                        idmannschaft = connection.insert("gegner", null, values);
+                    }
+                }
+
+                //check ob spiel angelegt ist
+                long idtabelle;
+                String sqlgetgame = "SELECT idtabelle FROM tabellen AS t";
+                sqlgetgame += " WHERE intfavorit=" + intfavorit + " AND idfavorit=" + idfavorit + " AND idmannschaft=" + idmannschaft;
+                Cursor sqlresultgame = connection.rawQuery(sqlgetgame, null);
+                if (sqlresultgame.getCount() > 0) {
+                    sqlresultgame.moveToFirst();
+                    idtabelle = sqlresultgame.getInt(0);
+                    // update table number and score
+                    values = new ContentValues();
+                    values.put("punkte", punkte);
+                    values.put("tabellennr", tabellennr);
+                    connection.update("tabellen", values, "idtabelle=" + idtabelle, null);
+                } else {
+                    values = new ContentValues();
+                    values.put("idfavorit", idfavorit);
+                    values.put("intfavorit", intfavorit);
+                    values.put("idmannschaft", idmannschaft);
+                    values.put("punkte", punkte);
+                    values.put("tabellennr", tabellennr);
+                    idtabelle = connection.insert("tabellen", null, values);
+                    //Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
+                }
+
+                mannschaftname = "";
+                punkte = 0;
+                tabellennr = 0;
+                intfavorit = 0;
+            }
+        }
+        database.close();
+        connection.close();
+    }
 }

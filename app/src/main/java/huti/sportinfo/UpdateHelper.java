@@ -84,10 +84,16 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         if (result.equals("::error")) {
             Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
         } else {
-            if (this.intsportart == 0 && this.inturlart == 0)
+            if (this.intsportart == 0)
             {
                 ModuleFussball objFussball = new ModuleFussball(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
-                objFussball.getGames(result);
+                if (this.inturlart == 0) {
+                    objFussball.getTable(result);
+                }
+                else if (this.inturlart == 1)
+                {
+                    objFussball.getGames(result);
+                }
             }
 
             if (this.intlast == 1) {
@@ -108,6 +114,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 // Refresh auf Fenster fahren
                 this.activity.isUpdating = false;
                 this.activity.showUpcomingGames();
+                this.activity.showTables();
                 this.activity.updateActionBar();
             }
         }
