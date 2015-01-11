@@ -201,11 +201,11 @@ public class ModuleFussball {
                     }
                 }
 
-                //check ob spiel angelegt ist
+                //check ob tabelle angelegt ist
                 long idtabelle;
-                String sqlgetgame = "SELECT idtabelle FROM tabellen AS t";
-                sqlgetgame += " WHERE intfavorit=" + intfavorit + " AND idfavorit=" + idfavorit + " AND idmannschaft=" + idmannschaft;
-                Cursor sqlresultgame = connection.rawQuery(sqlgetgame, null);
+                String sqlgettablerow = "SELECT idtabelle FROM tabellen AS t";
+                sqlgettablerow += " WHERE intfavorit=" + intfavorit + " AND idfavorit=" + idfavorit + " AND idmannschaft=" + idmannschaft;
+                Cursor sqlresultgame = connection.rawQuery(sqlgettablerow, null);
                 if (sqlresultgame.getCount() > 0) {
                     sqlresultgame.moveToFirst();
                     idtabelle = sqlresultgame.getInt(0);
@@ -222,7 +222,6 @@ public class ModuleFussball {
                     values.put("punkte", punkte);
                     values.put("tabellennr", tabellennr);
                     idtabelle = connection.insert("tabellen", null, values);
-                    //Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
                 }
 
                 mannschaftname = "";
