@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Html;
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -171,6 +173,107 @@ public class ModuleTischtennis {
     }
 
     public void getTable(String htmlsource) {
+        SQLiteOpenHelper database = new SqliteHelper(this.activity.getApplicationContext());
+        SQLiteDatabase connection = database.getWritableDatabase();
 
+        String mannschaftname = "";
+        int punkte = 0;
+        int tabellennr = 0;
+        int intfavorit = 0;
+        boolean bolTableOpen = false;
+        boolean bolRowOpen = false;
+        int tdcounter = 0;
+
+        String[] split = htmlsource.split("\n");
+        for (int i = 0; i < split.length; i++) {
+            if (split[i].indexOf("table border=\"0\" align=\"center\" cellpadding=\"1\" cellspacing=\"2\" class=\"tth0\"") >= 0) {
+                // Platzierung
+                bolTableOpen = true;
+            }
+            if (bolTableOpen && split[i].indexOf("tr class=\"tth3") >= 0)
+            {
+                bolRowOpen = true;
+            }
+            if (bolTableOpen && split[i].indexOf("</table>") >= 0)
+            {
+                bolTableOpen = false;
+            }
+            if (bolTableOpen && bolRowOpen && split[i].indexOf("</tr>") >= 0 && !mannschaftname.trim().equals(""))
+            {
+                // Speichern
+                // Valuepairs for all inserts
+                ContentValues values = new ContentValues();
+
+                // haben wir unsere eigene Mannschaft?
+                long idmannschaft = 0;
+                if (mannschaftname.indexOf(kennung) >= 0) {
+                    intfavorit = 1;
+                } else {
+                    // check ob gegner schon angelegt ist
+                    String sqlget = "SELECT idgegner FROM gegner AS g";
+                    sqlget += " WHERE idfavorit=" + idfavorit + " AND bezeichnung = '" + mannschaftname + "'";
+                    Cursor sqlresult = connection.rawQuery(sqlget, null);
+                    if (sqlresult.getCount() > 0) {
+                        sqlresult.moveToFirst();
+                        idmannschaft = sqlresult.getInt(0);
+                    } else {
+                        values.put("idfavorit", idfavorit);
+                        values.put("bezeichnung", mannschaftname);
+                        idmannschaft = connection.insert("gegner", null, values);
+                    }
+                }
+
+                //check ob tabelle angelegt ist
+                long idtabelle;
+                String sqlgettablerow = "SELECT idtabelle FROM tabellen AS t";
+                sqlgettablerow += " WHERE intfavorit=" + intfavorit + " AND idfavorit=" + idfavorit + " AND idmannschaft=" + idmannschaft;
+                Cursor sqlresultgame = connection.rawQuery(sqlgettablerow, null);
+                if (sqlresultgame.getCount() > 0) {
+                    sqlresultgame.moveToFirst();
+                    idtabelle = sqlresultgame.getInt(0);
+                    // update table number and score
+                    values = new ContentValues();
+                    values.put("punkte", punkte);
+                    values.put("tabellennr", tabellennr);
+                    connection.update("tabellen", values, "idtabelle=" + idtabelle, null);
+                } else {
+                    values = new ContentValues();
+                    values.put("idfavorit", idfavorit);
+                    values.put("intfavorit", intfavorit);
+                    values.put("idmannschaft", idmannschaft);
+                    values.put("punkte", punkte);
+                    values.put("tabellennr", tabellennr);
+                    idtabelle = connection.insert("tabellen", null, values);
+                    //Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
+                }
+
+                mannschaftname = "";
+                punkte = 0;
+                tabellennr = 0;
+                intfavorit = 0;
+                bolRowOpen = false;
+                tdcounter = 0;
+            }
+
+            if (bolTableOpen && bolRowOpen && tdcounter == 1)
+            {
+                tabellennr = Integer.parseInt(Html.fromHtml(split[i]).toString().trim());
+            }
+            if (bolTableOpen && bolRowOpen && tdcounter == 2)
+            {
+                mannschaftname = Html.fromHtml(split[i]).toString().trim().substring(4);
+            }
+            if (bolTableOpen && bolRowOpen && tdcounter == 11)
+            {
+                punkte = Integer.parseInt(Html.fromHtml(split[i]).toString().trim().split(":")[0]);
+            }
+
+            if (bolTableOpen && bolRowOpen)
+            {
+                tdcounter ++;
+            }
+        }
+        database.close();
+        connection.close();
     }
 }

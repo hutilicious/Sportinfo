@@ -136,7 +136,11 @@ public class MainActivity extends ActionBarActivity {
         sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
-        //sqlget += " WHERE date(s.datum) >= '" + currentDate + "'";
+
+        // Lese nur letztes Ergebnis und nächstes kommendes Spiel
+        sqlget += " WHERE s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim >= 0 ORDER BY datum DESC LIMIT 0,1)";
+        sqlget += " OR s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim < 0 ORDER BY datum ASC LIMIT 0,1)";
+
         sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {
