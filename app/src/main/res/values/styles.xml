@@ -1,9 +1,9 @@
 <resources>
     <!-- Colors -->
-    <color name="colorMain">#31353f</color>
-    <color name="colorMainDark">#455a64</color>
-    <color name="colorMainAccent">#e4e9ed</color>
-    <color name="colorMainRow">#414a61</color>
+    <color name="colorMain">#0277bd</color>
+    <color name="colorMainDark">#01579b</color>
+    <color name="colorMainAccent">#e8eaf6</color>
+    <color name="colorMainRow">#3f51b5</color>
     <color name="colorText">#000000</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorRowHighlight">#ffffd7</color>
