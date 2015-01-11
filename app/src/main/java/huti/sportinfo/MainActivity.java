@@ -1,7 +1,6 @@
 package huti.sportinfo;
 
 
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -281,6 +280,8 @@ public class MainActivity extends ActionBarActivity {
             int punkte = 0;
             String mannschaftname = "";
             String favoritenbezeichnung = "";
+            int rowcounter = 0;
+            int trBackground = Color.WHITE;
 
             while (sqlresult.moveToNext()) {
                 idfavorit = sqlresult.getInt(sqlresult.getColumnIndex("idfavorit"));
@@ -288,8 +289,7 @@ public class MainActivity extends ActionBarActivity {
                 tabellennr = sqlresult.getInt(sqlresult.getColumnIndex("tabellennr"));
                 punkte = sqlresult.getInt(sqlresult.getColumnIndex("punkte"));
 
-                if (idfavorit_alt != idfavorit)
-                {
+                if (idfavorit_alt != idfavorit) {
                     String sqlgetname = "SELECT bezeichnung FROM favoriten AS f";
                     sqlgetname += " WHERE idfavorit=" + idfavorit;
                     Cursor cur_sqlgetname = connection.rawQuery(sqlgetname, null);
@@ -301,17 +301,24 @@ public class MainActivity extends ActionBarActivity {
                     }
 
                     tblTables.addView(RowScoreHeader("Tabelle für : " + favoritenbezeichnung));
+                    rowcounter = 0;
                 }
 
                 if (intfavorit == 0) {
                     mannschaftname = sqlresult.getString(sqlresult.getColumnIndex("gegnerbez"));
                 } else {
-                   mannschaftname = favoritenbezeichnung;
+                    mannschaftname = favoritenbezeichnung;
+                }
+                if (rowcounter % 2 == 0) {
+                    trBackground = Color.WHITE;
+                } else {
+                    trBackground = getResources().getColor(R.color.colorMainAccent);
                 }
 
-                tblTables.addView(RowScore(tabellennr, mannschaftname, punkte, intfavorit > 0));
+                tblTables.addView(RowScore(tabellennr, mannschaftname, punkte, intfavorit > 0, trBackground));
 
                 idfavorit_alt = idfavorit;
+                rowcounter++;
             }
             linearLayout.addView(tblTables);
         }
@@ -384,14 +391,14 @@ public class MainActivity extends ActionBarActivity {
 
         tr.setBackgroundColor(getResources().getColor(R.color.colorMainRow));
 
-        TableRow.LayoutParams params = (TableRow.LayoutParams)txtTitel.getLayoutParams();
+        TableRow.LayoutParams params = (TableRow.LayoutParams) txtTitel.getLayoutParams();
         params.span = 3;
         txtTitel.setLayoutParams(params); // causes layout update
 
         return tr;
     }
 
-    private TableRow RowScore(int tabellennr, String name, int punkte, boolean bolHighlight) {
+    private TableRow RowScore(int tabellennr, String name, int punkte, boolean bolHighlight, int trBackground) {
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(tlparams);
 
@@ -424,9 +431,8 @@ public class MainActivity extends ActionBarActivity {
         }
         tr.addView(txtPunkte);
 
-        if (bolHighlight) {
-            tr.setBackgroundColor(getResources().getColor(R.color.colorRowHighlight));
-        }
+
+        tr.setBackgroundColor(trBackground);
 
         return tr;
     }
