@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -397,21 +398,30 @@ public class MainActivity extends ActionBarActivity {
         TextView txtNummer = new TextView(this);
         txtNummer.setText(tabellennr + ".");
         txtNummer.setGravity(Gravity.RIGHT);
-        txtNummer.setTextSize(15);
+        txtNummer.setTextSize(17);
         txtNummer.setPadding(30, 5, 30, 5);
+        if (bolHighlight) {
+            txtNummer.setTypeface(null, Typeface.BOLD);
+        }
         tr.addView(txtNummer);
 
         TextView txtName = new TextView(this);
         txtName.setText(name);
-        txtName.setTextSize(15);
+        txtName.setTextSize(17);
         txtName.setPadding(30, 5, 30, 5);
+        if (bolHighlight) {
+            txtName.setTypeface(null, Typeface.BOLD);
+        }
         tr.addView(txtName);
 
         TextView txtPunkte = new TextView(this);
         txtPunkte.setText(Integer.toString(punkte));
-        txtPunkte.setTextSize(15);
+        txtPunkte.setTextSize(17);
         txtPunkte.setGravity(Gravity.RIGHT);
         txtPunkte.setPadding(30, 5, 30, 5);
+        if (bolHighlight) {
+            txtPunkte.setTypeface(null, Typeface.BOLD);
+        }
         tr.addView(txtPunkte);
 
         if (bolHighlight) {
