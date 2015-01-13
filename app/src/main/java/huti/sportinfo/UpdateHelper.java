@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -30,7 +31,7 @@ import huti.sportinfo.modules.ModuleTischtennis;
  * Created by crothhass on 08.01.2015.
  */
 class UpdateHelper extends AsyncTask<String, String, String> {
-    private MainActivity activity = null;
+    private ActionBarActivity activity = null;
     private String url = "";
     private String kennung = "";
     private int inturlart = 0;
@@ -38,7 +39,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
     private int intsportart = 0;
     private int intlast = 0;
 
-    public UpdateHelper(MainActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
+    public UpdateHelper(ActionBarActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
         this.activity = activity;
         this.url = url;
         this.kennung = kennung;
@@ -133,12 +134,6 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 connection.insert("updates", null, valUpdate);
                 connection.close();
                 database.close();
-
-                // Refresh auf Fenster fahren
-                this.activity.isUpdating = false;
-                this.activity.showUpcomingGames();
-                this.activity.showTables();
-                this.activity.updateActionBar();
             }
         }
     }

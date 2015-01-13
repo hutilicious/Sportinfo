@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
 
@@ -18,7 +19,7 @@ import huti.sportinfo.SqliteHelper;
  * Created by Huti on 09.01.2015.
  */
 public class ModuleTischtennis {
-    private MainActivity activity = null;
+    private ActionBarActivity activity = null;
     private String url = "";
     private String kennung = "";
     private int inturlart = 0;
@@ -26,7 +27,7 @@ public class ModuleTischtennis {
     private int intsportart = 0;
     private int intlast = 0;
 
-    public ModuleTischtennis(MainActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
+    public ModuleTischtennis(ActionBarActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
         this.activity = activity;
         this.url = url;
         this.kennung = kennung;
