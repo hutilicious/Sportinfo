@@ -22,9 +22,6 @@
             android:name="huti.sportinfo.GameDetails"
             android:label="@string/app_name"
             android:parentActivityName="huti.sportinfo.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="huti.sportinfo.MainActivity" />
         </activity>
     </application>
 
