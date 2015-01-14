@@ -20,38 +20,76 @@
             android:layout_height="fill_parent"
             android:id="@+id/navDrawerLayout">
 
-            <ImageView
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:id="@+id/imgDrawerHeader"
                 android:adjustViewBounds="true"
-                android:src="@drawable/img_navdrawerheader" />
+                android:src="@drawable/img_navdrawerheader"
+                android:background="@drawable/img_navdrawerheader"
+                android:text="Sportinfo"
+                android:gravity="bottom"
+                android:textSize="25dp"
+                android:textColor="#ffffff"
+                android:paddingLeft="16dp"
+                android:paddingBottom="6dp"
+                android:fontFamily="sans-serif" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/colorMainDark" />
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/txtNavigation1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/colorMainDark"
-                android:background="?android:attr/activatedBackgroundIndicator"
-                android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                android:text="Sportinfo" />
-
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavigation2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/colorMainDark"
-                android:background="?android:attr/activatedBackgroundIndicator"
+                android:padding="16dp"
+                android:textColor="@color/colorTextLight"
+                android:background="@color/colorMain"
                 android:minHeight="?android:attr/listPreferredItemHeightSmall"
                 android:text="Lokale Sportergebnisse\nfür die Südpfalz!" />
+
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/txtNavHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:padding="16dp"
+                android:textColor="@color/colorText"
+                android:background="@android:color/white"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:text="Startseite" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/txtNavSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:padding="16dp"
+                android:textColor="@color/colorText"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:text="Einstellungen" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
         </LinearLayout>
     </ScrollView>

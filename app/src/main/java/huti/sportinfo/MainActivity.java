@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,13 +34,14 @@ public class MainActivity extends ActionBarActivity {
 
     private boolean isUpdating = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         SportinfoContent.activity = this;
+
+        Resources res = getResources();
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -54,12 +57,13 @@ public class MainActivity extends ActionBarActivity {
         // Verwende einen eigenen Style für die Tabs
         mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
 
-        Resources res = getResources();
+
         mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.tab_color));
         mSlidingTabLayout.setDistributeEvenly(true);
         mViewPager.setAdapter(new MainPages());
 
         mSlidingTabLayout.setViewPager(mViewPager);
+
 
         if (mSlidingTabLayout != null) {
             mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
