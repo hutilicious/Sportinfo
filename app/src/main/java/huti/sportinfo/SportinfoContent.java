@@ -154,7 +154,15 @@ public class SportinfoContent {
 
             linearLayout.addView(tblUpcomingMatches);
         } else {
-            //do nothing
+            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
+            if (linearLayout.findViewById(R.id.txtWelcome) == null) {
+                TextView txtWelcome = new TextView(activity);
+                txtWelcome.setId(R.id.txtWelcome);
+                txtWelcome.setText(activity.getString(R.string.txtWelcome));
+                txtWelcome.setTextSize(17);
+                txtWelcome.setPadding(30, 30, 30, 30);
+                linearLayout.addView(txtWelcome);
+            }
         }
         database.close();
         connection.close();
@@ -236,13 +244,15 @@ public class SportinfoContent {
                 rowcounter++;
             }
             linearLayout.addView(tblTables);
-        }
-        else
-        {
+        } else {
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
-            if (linearLayout.findViewById(R.id.txtWelcome) != null) {
-                TextView txtWelcome = (TextView) linearLayout.findViewById(R.id.txtWelcome);
+            if (linearLayout.findViewById(R.id.txtWelcome) == null) {
+                TextView txtWelcome = new TextView(activity);
+                txtWelcome.setId(R.id.txtWelcome);
                 txtWelcome.setText(activity.getString(R.string.txtInfoNoTableData));
+                txtWelcome.setTextSize(17);
+                txtWelcome.setPadding(30, 30, 30, 30);
+                linearLayout.addView(txtWelcome);
             }
         }
     }
