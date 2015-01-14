@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(v.getContext(), "Itemclick + Drawer close", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views
-                mViewPager.getAdapter().notifyDataSetChanged();
+                //mViewPager.getAdapter().notifyDataSetChanged();
             }
         });
     }
@@ -139,11 +139,11 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (!urltabelle.trim().equals("")) {
                     inturlart = 0; // Tabelle wird abgerufen
-                    new UpdateHelper(this, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    new UpdateHelper(this, mViewPager, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                 }
                 if (!urlspiele.trim().equals("")) {
                     inturlart = 1; // Spiele werden abgerufen
-                    new UpdateHelper(this, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                 }
 
             }
@@ -261,16 +261,26 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void notifyDataSetChanged() {
-            /* Update the views..
             int key = 0;
             for (int i = 0; i < views.size(); i++) {
                 key = views.keyAt(i);
                 View view = views.get(key);
                 // Change the content of this view
-                TextView txt = (TextView) view.findViewById(R.id.txtWelcome);
-                txt.setText("This Page " + key + " has been changed after click, because it was already initiated");
+                switch (key) {
+                    case 0:
+                        // Inhalt fuer Uebersicht laden
+                        SportinfoContent.showUpcomingGames(getApplicationContext(), view);
+                        break;
+                    case 1:
+                        // Inhalt fuer Tabellen laden
+                        SportinfoContent.showTables(getApplicationContext(), view);
+                        break;
+                    default:
+                        TextView txt = (TextView) view.findViewById(R.id.txtWelcome);
+                        txt.setText("Tabinhalt:" + key);
+                        break;
+                }
             }
-            */
             super.notifyDataSetChanged();
         }
 
