@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import huti.sportinfo.modules.ModuleTischtennis;
  */
 class UpdateHelper extends AsyncTask<String, String, String> {
     private ActionBarActivity activity = null;
+    private ViewPager mViewPager = null;
     private String url = "";
     private String kennung = "";
     private int inturlart = 0;
@@ -39,8 +41,9 @@ class UpdateHelper extends AsyncTask<String, String, String> {
     private int intsportart = 0;
     private int intlast = 0;
 
-    public UpdateHelper(ActionBarActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
+    public UpdateHelper(ActionBarActivity activity, ViewPager mViewPager, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
         this.activity = activity;
+        this.mViewPager = mViewPager;
         this.url = url;
         this.kennung = kennung;
         this.inturlart = urlart;
@@ -66,9 +69,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                     //ByteArrayOutputStream out = new ByteArrayOutputStream();
                     if (this.intsportart == 1) {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.ISO_8859_1);
-                    }
-                    else
-                    {
+                    } else {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
                     }
                     //response.getEntity().writeTo(out);
@@ -95,27 +96,20 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         if (result.equals("::error")) {
             Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
         } else {
-            if (this.intsportart == 0)
-            {
+            if (this.intsportart == 0) {
                 // Fussball.de
                 ModuleFussball objFussball = new ModuleFussball(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
                 if (this.inturlart == 0) {
                     objFussball.getTable(result);
-                }
-                else if (this.inturlart == 1)
-                {
+                } else if (this.inturlart == 1) {
                     objFussball.getGames(result);
                 }
-            }
-            else if (this.intsportart == 1)
-            {
+            } else if (this.intsportart == 1) {
                 // TT-info
                 ModuleTischtennis objTischtennis = new ModuleTischtennis(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
                 if (this.inturlart == 0) {
                     objTischtennis.getTable(result);
-                }
-                else if (this.inturlart == 1)
-                {
+                } else if (this.inturlart == 1) {
                     objTischtennis.getGames(result);
                 }
             }
@@ -134,6 +128,8 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 connection.insert("updates", null, valUpdate);
                 connection.close();
                 database.close();
+
+                mViewPager.getAdapter().notifyDataSetChanged();
             }
         }
     }
