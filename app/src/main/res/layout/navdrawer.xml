@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/navdrawer_width"
     android:layout_height="match_parent"
     android:layout_gravity="start"
@@ -7,55 +6,53 @@
     android:background="@color/navdrawer_background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:clickable="true">
+    android:clickable="true"
+    android:weightSum="1">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/txtNavigation1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/colorMainDark"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:text="Navigation1"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/txtNavigation2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/colorMainDark"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:text="Navigation2"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/txtNavigation3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/colorMainDark"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:text="Navigation3"/>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/txtNavigation4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/colorMainDark"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:text="Navigation4"/>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/navDrawerScrollView">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/navDrawerLayout">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgDrawerHeader"
+                android:adjustViewBounds="true"
+                android:src="@drawable/img_navdrawerheader" />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/txtNavigation1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/colorMainDark"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:text="Sportinfo" />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/txtNavigation2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/colorMainDark"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:text="Lokale Sportergebnisse\nfür die Südpfalz!" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

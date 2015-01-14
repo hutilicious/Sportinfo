@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Adrian on 11.01.2015.
+ * Statische Klasse zur Ausgabe von Inhalt auf einer View des ViewPagers
  */
 public class SportinfoContent {
 
@@ -63,6 +63,9 @@ public class SportinfoContent {
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
             if (linearLayout.findViewById(R.id.txtWelcome) != null) {
                 linearLayout.removeView(linearLayout.findViewById(R.id.txtWelcome));
+            }
+            if (linearLayout.findViewById(R.id.tblUpcomingMatches) != null) {
+                linearLayout.removeView(linearLayout.findViewById(R.id.tblUpcomingMatches));
             }
             // Add a fresh TableLayout
             TableLayout tblUpcomingMatches = new TableLayout(activity);
@@ -187,6 +190,9 @@ public class SportinfoContent {
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
             if (linearLayout.findViewById(R.id.txtWelcome) != null) {
                 linearLayout.removeView(linearLayout.findViewById(R.id.txtWelcome));
+            }
+            if (linearLayout.findViewById(R.id.tblTables) != null) {
+                linearLayout.removeView(linearLayout.findViewById(R.id.tblTables));
             }
             // Add a fresh TableLayout
             TableLayout tblTables = new TableLayout(activity);
