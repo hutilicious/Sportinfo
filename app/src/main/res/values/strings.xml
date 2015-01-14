@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <item type="id" name="tblUpcomingMatches" />
-    <item type="id" name="tblTables" />
-
-
     <string name="app_name">Sportinfo</string>
     <string name="txtHomeSubtitle">Übersicht</string>
     <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch.\n\nTippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
@@ -14,8 +9,16 @@
     <string name="txtActionUpdateOk">Aktualisierung abgeschlossen!</string>
     <string name="txtActionUpdateError">Update konnte nicht durchgeführt werden.</string>
     <string name="txtNoUpcomingMatches">Keine anstehenden Spiele vorhanden.</string>
+    <string name="txtInfoNoTableData">Hier wird die aktuelle Tabellensituation Ihrer Favoriten angezeigt.</string>
 
+    <!-- Tabs -->
+    <string name="txtTabUpcomingGames">Übersicht</string>
+    <string name="txtTabTables">Tabellen</string>
 
+    <!-- Fonts -->
+    <string name="font_fontFamily_medium">sans-serif</string>
+
+    <!-- DB -->
     <string name="dbname">sportinfodb</string>
     <string name="dbversion">1</string>
     <string-array name="dbcreate">
