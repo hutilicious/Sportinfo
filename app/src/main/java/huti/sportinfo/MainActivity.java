@@ -236,8 +236,6 @@ public class MainActivity extends ActionBarActivity {
                     SportinfoContent.showTables(getApplicationContext(), view);
                     break;
                 default:
-                    TextView txt = (TextView) view.findViewById(R.id.txtWelcome);
-                    txt.setText("Tabinhalt:" + position);
                     break;
             }
             // Add the newly created View to the ViewPager
@@ -276,8 +274,6 @@ public class MainActivity extends ActionBarActivity {
                         SportinfoContent.showTables(getApplicationContext(), view);
                         break;
                     default:
-                        TextView txt = (TextView) view.findViewById(R.id.txtWelcome);
-                        txt.setText("Tabinhalt:" + key);
                         break;
                 }
             }
