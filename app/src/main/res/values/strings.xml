@@ -15,6 +15,12 @@
     <string name="txtTabUpcomingGames">Übersicht</string>
     <string name="txtTabTables">Tabellen</string>
 
+    <!-- NavItems -->
+    <string-array name="arrNavItems">
+        <item>Startseite</item>
+        <item>Einstellungen</item>
+        </string-array>
+
     <!-- Fonts -->
     <string name="font_fontFamily_medium">sans-serif</string>
 

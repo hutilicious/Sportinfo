@@ -17,9 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import SlidingTabs.SlidingTabLayout;
@@ -31,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
     DrawerLayout mDrawerLayout;
     SlidingTabLayout mSlidingTabLayout;
     ViewPager mViewPager;
+
 
     private boolean isUpdating = false;
 
@@ -51,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
 
@@ -86,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Click events for Navigation Drawer
-        TextView btn = (TextView) findViewById(R.id.txtNavigation1);
+        /*TextView btn = (TextView) findViewById(R.id.txtNavigation1);
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -99,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
                 // Update loaded Views
                 //mViewPager.getAdapter().notifyDataSetChanged();
             }
-        });
+        });*/
     }
 
 
