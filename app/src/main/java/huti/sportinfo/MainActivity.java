@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import SlidingTabs.SlidingTabLayout;
@@ -85,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Click events for Navigation Drawer
-        /*TextView btn = (TextView) findViewById(R.id.txtNavigation1);
+        TextView btn = (TextView) findViewById(R.id.txtNavigation1);
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -98,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
                 // Update loaded Views
                 //mViewPager.getAdapter().notifyDataSetChanged();
             }
-        });*/
+        });
     }
 
 
