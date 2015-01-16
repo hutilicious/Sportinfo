@@ -57,11 +57,12 @@
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
 
-            <Widgets.RippleLinearLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/txtNavHome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMainAccent">
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical">
 
                 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -71,20 +72,22 @@
                     android:padding="16dp"
                     android:textColor="@color/colorText"
                     android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    android:background="@android:color/transparent"
                     android:text="Startseite" />
 
-            </Widgets.RippleLinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
 
-            <Widgets.RippleLinearLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/txtNavSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent">
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical">
 
                 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -94,16 +97,15 @@
                     android:padding="16dp"
                     android:textColor="@color/colorText"
                     android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    android:background="@android:color/transparent"
                     android:text="Einstellungen" />
 
-            </Widgets.RippleLinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
-
-
         </LinearLayout>
     </ScrollView>
 
