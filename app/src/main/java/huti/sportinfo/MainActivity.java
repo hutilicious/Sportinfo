@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Click events for Navigation Drawer
-        TextView btn = (TextView) findViewById(R.id.txtNavigation1);
+        LinearLayout btn = (LinearLayout) findViewById(R.id.txtNavHome);
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -94,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
                 if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
                     mDrawerLayout.closeDrawers();
                 }
-                Toast.makeText(v.getContext(), "Itemclick + Drawer close", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Startseite öffnen", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views
                 //mViewPager.getAdapter().notifyDataSetChanged();

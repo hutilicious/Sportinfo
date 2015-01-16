@@ -10,8 +10,8 @@
     android:weightSum="1">
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/navDrawerScrollView">
 
         <LinearLayout
@@ -41,7 +41,6 @@
                 android:background="@color/colorMainDark" />
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavigation1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -56,41 +55,56 @@
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#F0F0F0" />
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            <Widgets.RippleLinearLayout
                 android:id="@+id/txtNavHome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:padding="16dp"
-                android:textColor="@color/colorText"
-                android:background="@android:color/white"
-                android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                android:text="Startseite" />
+                android:background="@color/colorMainAccent">
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:padding="16dp"
+                    android:textColor="@color/colorText"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    android:text="Startseite" />
+
+            </Widgets.RippleLinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#F0F0F0" />
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            <Widgets.RippleLinearLayout
                 android:id="@+id/txtNavSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:padding="16dp"
-                android:textColor="@color/colorText"
-                android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                android:text="Einstellungen" />
+                android:background="@android:color/transparent">
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:padding="16dp"
+                    android:textColor="@color/colorText"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    android:text="Einstellungen" />
+
+            </Widgets.RippleLinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#F0F0F0" />
+
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
