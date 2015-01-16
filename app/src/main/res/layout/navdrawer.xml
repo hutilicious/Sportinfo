@@ -45,6 +45,7 @@
             <!-- Slogan -->
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/txtNavSlogan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -53,7 +54,7 @@
                 android:textColor="@color/colorTextLight"
                 android:background="@color/colorMain"
                 android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                android:text="Lokale Sportergebnisse\nfür die Südpfalz!" />
+                android:text="" />
 
             <!-- Divider -->
 
@@ -76,7 +77,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView"
+                        android:src="@drawable/ic_nav_home_smal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp" />
 
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -88,43 +97,6 @@
                         android:minHeight="?android:attr/listPreferredItemHeightSmall"
                         android:background="@android:color/transparent"
                         android:text="Startseite" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Divider -->
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#F0F0F0" />
-
-            <!-- Button Settings -->
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavSettingsBackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:orientation="vertical">
-
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/txtNavSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:orientation="vertical">
-
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                        android:padding="16dp"
-                        android:textColor="@color/colorText"
-                        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                        android:background="@android:color/transparent"
-                        android:text="Einstellungen" />
 
                 </LinearLayout>
             </LinearLayout>

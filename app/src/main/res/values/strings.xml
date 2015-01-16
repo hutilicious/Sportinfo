@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sportinfo</string>
-    <string name="txtHomeSubtitle">Übersicht</string>
+    <string name="txtHomeSubtitle">Startseite</string>
     <string name="txtWelcome">Willkommen bei Sportinfo!\n\nEs wurde noch keine Aktualisierung durchgeführt, bitte führen Sie zuerst ein Update der Datenbank durch.\n\nTippen Sie hierfür auf das Aktualisierungssymbol in der rechten oberen Ecke.</string>
     <string name="txtLastUpdateFrom">Letztes Update am: </string>
     <string name="txtActionUpdate">Aktualisieren</string>
@@ -10,6 +10,8 @@
     <string name="txtActionUpdateError">Update konnte nicht durchgeführt werden.</string>
     <string name="txtNoUpcomingMatches">Keine anstehenden Spiele vorhanden.</string>
     <string name="txtInfoNoTableData">Hier wird die aktuelle Tabellensituation Ihrer Favoriten angezeigt.</string>
+    <string name="txtSlogan">Lokale Sportergebnisse\nfür die Südpfalz!</string>
+
 
     <!-- Tabs -->
     <string name="txtTabUpcomingGames">Übersicht</string>

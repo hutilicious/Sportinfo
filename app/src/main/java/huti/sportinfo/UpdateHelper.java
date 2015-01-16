@@ -130,6 +130,8 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                 database.close();
 
                 mViewPager.getAdapter().notifyDataSetChanged();
+
+                SportinfoContent.updateStand();
             }
         }
     }

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -24,9 +25,9 @@ import java.util.Locale;
  */
 public class SportinfoContent {
 
-    private static Context context;
-    private static View view;
     public static ActionBarActivity activity;
+    public static Context context;
+    private static View view;
     private static TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
             TableRow.LayoutParams.MATCH_PARENT,
             TableRow.LayoutParams.WRAP_CONTENT);
@@ -375,6 +376,26 @@ public class SportinfoContent {
         tr.setBackgroundColor(trBackground);
 
         return tr;
+    }
+
+
+    public static void updateStand() {
+        DrawerLayout layout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+        SQLiteOpenHelper database = new SqliteHelper(context);
+        SQLiteDatabase connection = database.getReadableDatabase();
+
+        TextView txtSlogan = (TextView) layout.findViewById(R.id.txtNavSlogan);
+
+
+        String sqlget = "SELECT strftime('%d.%m.%Y %H:%M', u.datum) FROM updates AS u";
+        sqlget += " ORDER BY datetime(u.datum) DESC LIMIT 0,1";
+        Cursor cur_sqlget = connection.rawQuery(sqlget, null);
+        if (cur_sqlget.getCount() > 0) {
+            cur_sqlget.moveToFirst();
+            txtSlogan.setText("Stand: " + cur_sqlget.getString(0));
+        } else {
+            txtSlogan.setText(R.string.txtSlogan);
+        }
     }
 
 }

@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import SlidingTabs.SlidingTabLayout;
@@ -40,13 +39,18 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         SportinfoContent.activity = this;
+        SportinfoContent.context = getApplicationContext();
 
         Resources res = getResources();
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
+        getSupportActionBar().setSubtitle(R.string.txtHomeSubtitle);
+
+        // initialize Drawer and Tabs
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        SportinfoContent.updateStand();
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
@@ -96,21 +100,6 @@ public class MainActivity extends ActionBarActivity {
                     mDrawerLayout.closeDrawers();
                 }
                 Toast.makeText(v.getContext(), "Startseite öffnen", Toast.LENGTH_SHORT).show();
-
-                // Update loaded Views
-                //mViewPager.getAdapter().notifyDataSetChanged();
-            }
-        });
-
-        LinearLayout btnSettings = (LinearLayout) findViewById(R.id.txtNavSettings);
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
-                    mDrawerLayout.closeDrawers();
-                }
-                Toast.makeText(v.getContext(), "Einstellungen öffnen", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views
                 //mViewPager.getAdapter().notifyDataSetChanged();
