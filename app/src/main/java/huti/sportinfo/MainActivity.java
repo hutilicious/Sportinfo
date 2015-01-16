@@ -87,8 +87,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Click events for Navigation Drawer
-        LinearLayout btn = (LinearLayout) findViewById(R.id.txtNavHome);
-        btn.setOnClickListener(new View.OnClickListener() {
+        LinearLayout btnHome = (LinearLayout) findViewById(R.id.txtNavHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -96,6 +96,21 @@ public class MainActivity extends ActionBarActivity {
                     mDrawerLayout.closeDrawers();
                 }
                 Toast.makeText(v.getContext(), "Startseite öffnen", Toast.LENGTH_SHORT).show();
+
+                // Update loaded Views
+                //mViewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        LinearLayout btnSettings = (LinearLayout) findViewById(R.id.txtNavSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawers();
+                }
+                Toast.makeText(v.getContext(), "Einstellungen öffnen", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views
                 //mViewPager.getAdapter().notifyDataSetChanged();

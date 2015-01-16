@@ -58,23 +58,31 @@
                 android:background="#F0F0F0" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavHome"
+                android:id="@+id/txtNavHomeBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@color/colorRowHighlight"
                 android:orientation="vertical">
 
-                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/txtNavHome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:padding="16dp"
-                    android:textColor="@color/colorText"
-                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                    android:background="@android:color/transparent"
-                    android:text="Startseite" />
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
 
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                        android:padding="16dp"
+                        android:textColor="@color/colorText"
+                        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                        android:background="@android:color/transparent"
+                        android:text="Startseite" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -83,29 +91,38 @@
                 android:background="#F0F0F0" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavSettings"
+                android:id="@+id/txtNavSettingsBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@android:color/transparent"
                 android:orientation="vertical">
 
-                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/txtNavSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:padding="16dp"
-                    android:textColor="@color/colorText"
-                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                    android:background="@android:color/transparent"
-                    android:text="Einstellungen" />
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
 
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                        android:padding="16dp"
+                        android:textColor="@color/colorText"
+                        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                        android:background="@android:color/transparent"
+                        android:text="Einstellungen" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
+
         </LinearLayout>
     </ScrollView>
 
