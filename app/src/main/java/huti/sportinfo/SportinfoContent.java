@@ -91,7 +91,7 @@ public class SportinfoContent {
             //tblUpcomingMatches.removeAllViewsInLayout();
 
             int rowcounter = 0;
-            int trBackground = Color.WHITE;
+            int trBackground = Color.TRANSPARENT;
             while (sqlresult.moveToNext()) {
 
                 //The home team comes first
@@ -132,9 +132,9 @@ public class SportinfoContent {
 
                 //if there are 2 or more games at same day give every second game another color
                 if (rowcounter % 2 == 0) {
-                    trBackground = Color.WHITE;
+                    trBackground = Color.TRANSPARENT;
                 } else {
-                    trBackground = activity.getResources().getColor(R.color.colorMainAccent);
+                    trBackground = activity.getResources().getColor(R.color.colorRowAlternate);
                 }
 
                 //--------------------------------------------
@@ -211,7 +211,7 @@ public class SportinfoContent {
             String mannschaftname = "";
             String favoritenbezeichnung = "";
             int rowcounter = 0;
-            int trBackground = Color.WHITE;
+            int trBackground = Color.TRANSPARENT;
 
             while (sqlresult.moveToNext()) {
                 idfavorit = sqlresult.getInt(sqlresult.getColumnIndex("idfavorit"));
@@ -240,9 +240,9 @@ public class SportinfoContent {
                     mannschaftname = favoritenbezeichnung;
                 }
                 if (rowcounter % 2 == 0) {
-                    trBackground = Color.WHITE;
+                    trBackground = Color.TRANSPARENT;
                 } else {
-                    trBackground = activity.getResources().getColor(R.color.colorMainAccent);
+                    trBackground = activity.getResources().getColor(R.color.colorRowAlternate);
                 }
 
                 tblTables.addView(RowScore(tabellennr, mannschaftname, punkte, intfavorit > 0, trBackground));

@@ -1,5 +1,6 @@
 package huti.sportinfo;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -126,13 +127,9 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
-                    mDrawerLayout.closeDrawers();
-                }
-                Toast.makeText(v.getContext(), "Einstellungen öffnen", Toast.LENGTH_SHORT).show();
-
-                // Update loaded Views
-                //mViewPager.getAdapter().notifyDataSetChanged();
+                // Start SettingsActivity
+                Intent intent = new Intent(getApplicationContext(), SettingsActicity.class);
+                startActivity(intent);
             }
         });
     }
