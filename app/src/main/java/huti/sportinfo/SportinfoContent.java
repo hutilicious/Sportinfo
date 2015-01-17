@@ -230,7 +230,7 @@ public class SportinfoContent {
                         favoritenbezeichnung = "error?";
                     }
 
-                    tblTables.addView(RowScoreHeader("Tabelle für : " + favoritenbezeichnung));
+                    tblTables.addView(RowScoreHeader(favoritenbezeichnung));
                     rowcounter = 0;
                 }
 
