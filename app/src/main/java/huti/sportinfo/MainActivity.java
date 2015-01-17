@@ -105,6 +105,36 @@ public class MainActivity extends ActionBarActivity {
                 //mViewPager.getAdapter().notifyDataSetChanged();
             }
         });
+
+        LinearLayout btnFav = (LinearLayout) findViewById(R.id.txtNavFav);
+        btnFav.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawers();
+                }
+                Toast.makeText(v.getContext(), "Favoriten öffnen", Toast.LENGTH_SHORT).show();
+
+                // Update loaded Views
+                //mViewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        LinearLayout btnSettings = (LinearLayout) findViewById(R.id.txtNavSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawers();
+                }
+                Toast.makeText(v.getContext(), "Einstellungen öffnen", Toast.LENGTH_SHORT).show();
+
+                // Update loaded Views
+                //mViewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
     }
 
 
