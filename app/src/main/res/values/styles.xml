@@ -2,11 +2,11 @@
     <!-- Colors -->
     <color name="colorMain">#0277bd</color>
     <color name="colorMainDark">#01579b</color>
-    <color name="colorMainAccent">#7b1fa2</color>
-    <color name="colorMainRow">#9c27b0</color>
+    <color name="colorMainAccent">#9E9E9E</color>
+    <color name="colorMainRow">#3F51B5</color>
     <color name="colorText">#000000</color>
     <color name="colorTextLight">#FFFFFF</color>
-    <color name="colorRowAlternate">#f3e5f5</color>
+    <color name="colorRowAlternate">#f1f1f1</color>
 
     <color name="navdrawer_background">#FFFFFF</color>
     <color name="tab_background">@color/colorMain</color>
