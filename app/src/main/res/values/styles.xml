@@ -3,6 +3,7 @@
     <color name="colorMain">#0277bd</color>
     <color name="colorMainDark">#01579B</color>
     <color name="colorMainAccent">#FF5722</color>
+    <color name="colorMainBg">#FAFAFA</color>
     <color name="colorMainRow">#3F51B5</color>
     <color name="colorText">#000000</color>
     <color name="colorTextLight">#FFFFFF</color>
@@ -24,6 +25,7 @@
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <item name="colorAccent">@color/colorMainAccent</item>
+        <item name="android:windowBackground">@color/colorMainBg</item>
 
     </style>
 
