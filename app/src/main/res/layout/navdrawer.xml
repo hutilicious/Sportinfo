@@ -67,7 +67,7 @@
                 android:layout_height="1dp"
                 android:background="#888" />
 
-            <!-- Button Home -->
+            <!-- Button Home
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/txtNavHomeBackground"
@@ -105,7 +105,7 @@
                         android:text="Startseite" />
 
                 </LinearLayout>
-            </LinearLayout>
+            </LinearLayout> -->
 
             <!-- Button Fav -->
 
@@ -114,7 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/txtNavFav"
@@ -125,7 +126,7 @@
 
                     <ImageView
                         android:layout_width="30dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:id="@+id/txtNavFavImage"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
@@ -164,7 +165,7 @@
 
                     <ImageView
                         android:layout_width="30dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="22dp"
                         android:id="@+id/txtNavSettingsImage"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
