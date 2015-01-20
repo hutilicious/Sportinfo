@@ -74,8 +74,11 @@
         <item>          INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe) VALUES (1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');</item>
     </string-array>
 
-    <string name="title_activity_settings_acticity">SettingsActicity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- FAVORITEN -->
+    <string name="title_activity_favorites_activitiy">Favoriten</string>
+
+    <!-- SETTINGS -->
+    <string name="title_activity_settings_activity">Einstellungen</string>
+
 
 </resources>

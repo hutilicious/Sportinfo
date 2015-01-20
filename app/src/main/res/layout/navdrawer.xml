@@ -136,13 +136,18 @@
                     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
                         android:padding="16dp"
                         android:textColor="@color/colorText"
                         android:minHeight="?android:attr/listPreferredItemHeightSmall"
                         android:background="@android:color/transparent"
-                        android:text="Favoriten" />
+                        android:text="Favoriten"
+                        android:textStyle="bold"
+                        android:singleLine="false"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="sans-serif"
+                        android:focusable="false"
+                        android:elegantTextHeight="false"
+                        android:editable="false" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -176,12 +181,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
-                        android:textAppearance="?android:attr/textAppearanceListItemSmall"
                         android:padding="16dp"
                         android:textColor="@color/colorText"
                         android:minHeight="?android:attr/listPreferredItemHeightSmall"
                         android:background="@android:color/transparent"
-                        android:text="Einstellungen" />
+                        android:text="Einstellungen"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>

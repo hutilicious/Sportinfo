@@ -20,8 +20,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActicity"
-            android:label="@string/title_activity_settings_acticity"
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings_activity"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="huti.sportinfo.MainActivity" />
+        </activity>
+        <activity
+            android:name=".FavoritesActivitiy"
+            android:label="@string/title_activity_favorites_activitiy"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -5,8 +5,9 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -47,8 +48,6 @@ public class MainActivity extends ActionBarActivity {
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setSubtitle(R.string.txtHomeSubtitle);
 
         // initialize Drawer and Tabs
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -93,27 +92,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Click events for Navigation Drawer
-        LinearLayout btnHome = (LinearLayout) findViewById(R.id.txtNavHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Startseite öffnen", Toast.LENGTH_SHORT).show();
-
-                // Update loaded Views
-                //mViewPager.getAdapter().notifyDataSetChanged();
-            }
-        });
 
         LinearLayout btnFav = (LinearLayout) findViewById(R.id.txtNavFav);
         btnFav.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Favoriten öffnen", Toast.LENGTH_SHORT).show();
-
-                // Update loaded Views
-                //mViewPager.getAdapter().notifyDataSetChanged();
+                // Start FavoritesActivity
+                Intent intent = new Intent(getApplicationContext(), FavoritesActivitiy.class);
+                startActivity(intent);
             }
         });
 
@@ -123,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // Start SettingsActivity
-                Intent intent = new Intent(getApplicationContext(), SettingsActicity.class);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(intent);
             }
         });

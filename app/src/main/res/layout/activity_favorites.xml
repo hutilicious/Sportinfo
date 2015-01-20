@@ -26,22 +26,13 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Automatische Updates"
-                android:id="@+id/mnuAutoUpdate"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp" />
 
-            <Switch
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Favoriten hervorheben"
-                android:id="@+id/mnuHighlightFavs"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
-                android:checked="true" />
+                android:text="Favoriten bearbeiten"
+                android:id="@+id/textView"
+                android:layout_margin="16dp" />
         </LinearLayout>
 
     </LinearLayout>
