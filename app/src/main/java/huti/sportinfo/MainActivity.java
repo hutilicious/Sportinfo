@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -97,9 +98,6 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
-                    mDrawerLayout.closeDrawers();
-                }
                 Toast.makeText(v.getContext(), "Startseite öffnen", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views
@@ -112,9 +110,6 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
-                    mDrawerLayout.closeDrawers();
-                }
                 Toast.makeText(v.getContext(), "Favoriten öffnen", Toast.LENGTH_SHORT).show();
 
                 // Update loaded Views

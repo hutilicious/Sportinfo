@@ -7,7 +7,7 @@
     <color name="colorMainRow">#3F51B5</color>
     <color name="colorText">#000000</color>
     <color name="colorTextLight">#FFFFFF</color>
-    <color name="colorRowAlternate">#08000000</color>
+    <color name="colorRowAlternate">#0F000000</color>
 
     <color name="navdrawer_background">#FFFFFF</color>
     <color name="tab_background">@color/colorMain</color>

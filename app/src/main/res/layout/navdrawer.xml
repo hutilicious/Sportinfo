@@ -7,7 +7,8 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:clickable="true"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:elevation="10dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,39 +23,49 @@
 
             <!-- Image Header-->
 
-            <TextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:id="@+id/imgDrawerHeader"
-                android:adjustViewBounds="true"
-                android:src="@drawable/img_navdrawerheader"
+                android:layout_height="210dp"
                 android:background="@drawable/img_navdrawerheader"
-                android:text="Sportinfo"
-                android:gravity="bottom"
-                android:textSize="25dp"
-                android:textColor="#ffffff"
-                android:paddingLeft="16dp"
-                android:paddingBottom="6dp"
-                android:fontFamily="sans-serif" />
+                android:gravity="left|bottom"
+                android:id="@+id/ltDrawerHeader">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgDrawerHeader"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/img_navdrawerheader"
+                    android:text="Sportinfo"
+                    android:gravity="bottom"
+                    android:textSize="25dp"
+                    android:textColor="#ffffff"
+                    android:paddingLeft="16dp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="5dp" />
+
+                <!-- Slogan -->
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/txtNavSlogan"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#E9E9E9"
+                    android:text="@string/txtSlogan"
+                    android:paddingLeft="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="15dp"
+                    android:ellipsize="end" />
+
+
+
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@color/colorMainDark" />
-
-            <!-- Slogan -->
-
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/txtNavSlogan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:padding="16dp"
-                android:textColor="@color/colorTextLight"
-                android:background="@color/colorMain"
-                android:minHeight="?android:attr/listPreferredItemHeightSmall"
-                android:text="" />
+                android:background="#888" />
 
             <!-- Button Home -->
 
@@ -63,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorRowAlternate"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/txtNavHome"
@@ -94,13 +106,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-
-            <!-- Divider -->
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#1F000000" />
 
             <!-- Button Fav -->
 
@@ -141,13 +146,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Divider -->
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#1F000000" />
-
             <!-- Button Settings -->
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -186,13 +184,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-
-            <!-- Divider -->
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#1F000000" />
 
         </LinearLayout>
     </ScrollView>
