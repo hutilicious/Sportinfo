@@ -11,6 +11,7 @@
     <string name="txtActionUpdateError">Update konnte nicht durchgeführt werden.</string>
     <string name="txtNoUpcomingMatches">Keine anstehenden Spiele vorhanden.</string>
     <string name="txtInfoNoTableData">Hier wird die aktuelle Tabellensituation Ihrer Favoriten angezeigt.</string>
+    <string name="txtNoData">Für diesen Bereich sind noch keine Daten verfügbar.</string>
     <string name="txtSlogan">Lokale Sportergebnisse für die Südpfalz!</string>
 
     <!--

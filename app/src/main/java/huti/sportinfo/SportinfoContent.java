@@ -63,9 +63,7 @@ public class SportinfoContent {
             String currentDate = df.format(new Date());
             sqlget += " WHERE date(s.datum) >= '" + currentDate + "'";
             sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
-        }
-        else if (mode.equals("scores"))
-        {
+        } else if (mode.equals("scores")) {
             // Alle Ergebnisse
             sqlget += " WHERE s.punkteheim >= 0";
             sqlget += " ORDER BY datetime(s.datum) DESC,s.idfavorit";
@@ -178,12 +176,18 @@ public class SportinfoContent {
             if (linearLayout.findViewById(R.id.txtWelcome) == null) {
                 TextView txtWelcome = new TextView(activity);
                 txtWelcome.setId(R.id.txtWelcome);
-                txtWelcome.setText(activity.getString(R.string.txtWelcome));
+                if (mode.equals("current")) {
+                    txtWelcome.setText(activity.getString(R.string.txtWelcome));
+                } else {
+                    txtWelcome.setText(activity.getString(R.string.txtNoData));
+                }
+
                 txtWelcome.setTextSize(17);
                 txtWelcome.setPadding(30, 30, 30, 30);
                 linearLayout.addView(txtWelcome);
             }
         }
+
         database.close();
         connection.close();
     }
