@@ -196,6 +196,29 @@ public class MainActivity extends ActionBarActivity {
 
         SparseArray<View> views = new SparseArray<View>();
 
+        private void getPageContent(View view, int key) {
+            switch (key) {
+                case 0:
+                    // Inhalt fuer Uebersicht laden
+                    SportinfoContent.showGames(getApplicationContext(), view, "current");
+                    break;
+                case 1:
+                    // Inhalt fuer Tabellen laden
+                    SportinfoContent.showTables(getApplicationContext(), view);
+                    break;
+                case 2:
+                    // Inhalt fuer kommende Spiele laden
+                    SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
+                    break;
+                case 3:
+                    // Inhalt fuer Ergebnisse laden
+                    SportinfoContent.showGames(getApplicationContext(), view, "scores");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         /**
          * @return the number of pages to display
          */
@@ -247,26 +270,7 @@ public class MainActivity extends ActionBarActivity {
             // Inflate a new layout from our resources
             View view = getLayoutInflater().inflate(R.layout.pager_item,
                     container, false);
-            switch (position) {
-                case 0:
-                    // Inhalt fuer Uebersicht laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "current");
-                    break;
-                case 1:
-                    // Inhalt fuer Tabellen laden
-                    SportinfoContent.showTables(getApplicationContext(), view);
-                    break;
-                case 2:
-                    // Inhalt fuer kommende Spiele laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
-                    break;
-                case 3:
-                    // Inhalt fuer scores laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "scores");
-                    break;
-                default:
-                    break;
-            }
+            this.getPageContent(view, position);
             // Add the newly created View to the ViewPager
             container.addView(view);
 
@@ -293,26 +297,7 @@ public class MainActivity extends ActionBarActivity {
                 key = views.keyAt(i);
                 View view = views.get(key);
                 // Change the content of this view
-                switch (key) {
-                    case 0:
-                        // Inhalt fuer Uebersicht laden
-                        SportinfoContent.showGames(getApplicationContext(), view, "current");
-                        break;
-                    case 1:
-                        // Inhalt fuer Tabellen laden
-                        SportinfoContent.showTables(getApplicationContext(), view);
-                        break;
-                    case 2:
-                        // Inhalt fuer kommende Spiele laden
-                        SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
-                        break;
-                    case 3:
-                        // Inhalt fuer scores laden
-                        SportinfoContent.showGames(getApplicationContext(), view, "scores");
-                        break;
-                    default:
-                        break;
-                }
+                this.getPageContent(view, key);
             }
             super.notifyDataSetChanged();
         }
