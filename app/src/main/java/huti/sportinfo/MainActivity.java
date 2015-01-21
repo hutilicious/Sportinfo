@@ -51,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         SportinfoContent.updateStand();
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setOffscreenPageLimit(3); // Zahl der gecachten Views/Tabs, verbessert die Performance beim Tabswitch
+        mViewPager.setOffscreenPageLimit(4); // Zahl der gecachten Views/Tabs, verbessert die Performance beim Tabswitch
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -201,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
          */
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         /**
@@ -229,6 +229,8 @@ public class MainActivity extends ActionBarActivity {
                     return getString(R.string.txtTabTables);
                 case 2:
                     return getString(R.string.txtTabAllGames);
+                case 3:
+                    return getString(R.string.txtTabScores);
 
                 default:
                     // No specific name for that tab
@@ -248,15 +250,19 @@ public class MainActivity extends ActionBarActivity {
             switch (position) {
                 case 0:
                     // Inhalt fuer Uebersicht laden
-                    SportinfoContent.showUpcomingGames(getApplicationContext(), view, false);
+                    SportinfoContent.showGames(getApplicationContext(), view, "current");
                     break;
                 case 1:
                     // Inhalt fuer Tabellen laden
                     SportinfoContent.showTables(getApplicationContext(), view);
                     break;
                 case 2:
-                    // Inhalt fuer alle Spiele laden
-                    SportinfoContent.showUpcomingGames(getApplicationContext(), view, true);
+                    // Inhalt fuer kommende Spiele laden
+                    SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
+                    break;
+                case 3:
+                    // Inhalt fuer scores laden
+                    SportinfoContent.showGames(getApplicationContext(), view, "scores");
                     break;
                 default:
                     break;
@@ -290,15 +296,19 @@ public class MainActivity extends ActionBarActivity {
                 switch (key) {
                     case 0:
                         // Inhalt fuer Uebersicht laden
-                        SportinfoContent.showUpcomingGames(getApplicationContext(), view, false);
+                        SportinfoContent.showGames(getApplicationContext(), view, "current");
                         break;
                     case 1:
                         // Inhalt fuer Tabellen laden
                         SportinfoContent.showTables(getApplicationContext(), view);
                         break;
                     case 2:
-                        // Inhalt fuer Tabellen laden
-                        SportinfoContent.showUpcomingGames(getApplicationContext(), view, true);
+                        // Inhalt fuer kommende Spiele laden
+                        SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
+                        break;
+                    case 3:
+                        // Inhalt fuer scores laden
+                        SportinfoContent.showGames(getApplicationContext(), view, "scores");
                         break;
                     default:
                         break;

@@ -23,6 +23,7 @@
     <string name="txtTabUpcomingGames">Aktuelle Begegnungen</string>
     <string name="txtTabTables">Tabellen</string>
     <string name="txtTabAllGames">Kommende Begegnungen</string>
+    <string name="txtTabScores">Ergebnisse</string>
 
     <!-- Fonts -->
     <string name="font_fontFamily_medium">sans-serif</string>
