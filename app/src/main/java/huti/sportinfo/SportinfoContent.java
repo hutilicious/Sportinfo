@@ -36,7 +36,7 @@ public class SportinfoContent {
     /**
      * shows any upcoming games
      */
-    public static void showUpcomingGames(Context in_context, View in_view) {
+    public static void showUpcomingGames(Context in_context, View in_view, boolean bolAlle) {
 
         context = in_context;
         view = in_view;
@@ -51,9 +51,17 @@ public class SportinfoContent {
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
 
-        // Lese nur letztes Ergebnis und nächstes kommendes Spiel
-        sqlget += " WHERE s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim >= 0 ORDER BY datum DESC LIMIT 0,1)";
-        sqlget += " OR s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim < 0 ORDER BY datum ASC LIMIT 0,1)";
+
+        if (!bolAlle) {
+            // Lese nur letztes Ergebnis und nächstes kommendes Spiel
+            sqlget += " WHERE s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim >= 0 ORDER BY datum DESC LIMIT 0,1)";
+            sqlget += " OR s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim < 0 ORDER BY datum ASC LIMIT 0,1)";
+        } else {
+            // Lese Alle kommenden Spiele
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDate = df.format(new Date());
+            sqlget += " WHERE date(s.datum) >= '" + currentDate + "'";
+        }
 
         sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         Cursor sqlresult = connection.rawQuery(sqlget, null);

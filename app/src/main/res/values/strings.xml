@@ -20,8 +20,9 @@
     -->
 
     <!-- Tabs -->
-    <string name="txtTabUpcomingGames">Übersicht</string>
+    <string name="txtTabUpcomingGames">Aktuelle Begegnungen</string>
     <string name="txtTabTables">Tabellen</string>
+    <string name="txtTabAllGames">Kommende Begegnungen</string>
 
     <!-- Fonts -->
     <string name="font_fontFamily_medium">sans-serif</string>
