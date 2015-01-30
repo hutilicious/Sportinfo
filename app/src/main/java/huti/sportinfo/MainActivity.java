@@ -268,7 +268,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             // Inflate a new layout from our resources
-            View view = getLayoutInflater().inflate(R.layout.pager_item,
+            View view = getLayoutInflater().inflate(R.layout.tab_content,
                     container, false);
             this.getPageContent(view, position);
             // Add the newly created View to the ViewPager
@@ -292,12 +292,12 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void notifyDataSetChanged() {
-            int key = 0;
+            int position = 0;
             for (int i = 0; i < views.size(); i++) {
-                key = views.keyAt(i);
-                View view = views.get(key);
+                position = views.keyAt(i);
+                View view = views.get(position);
                 // Change the content of this view
-                this.getPageContent(view, key);
+                this.getPageContent(view, position);
             }
             super.notifyDataSetChanged();
         }

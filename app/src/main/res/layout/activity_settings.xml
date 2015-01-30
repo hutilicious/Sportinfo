@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="huti.sportinfo.SettingsActivity">
 
-    <!-- Main layout -->
+    <!-- Settings layout -->
     <LinearLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"

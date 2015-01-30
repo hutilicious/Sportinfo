@@ -13,6 +13,8 @@
     <string name="txtInfoNoTableData">Hier wird die aktuelle Tabellensituation Ihrer Favoriten angezeigt.</string>
     <string name="txtNoData">Für diesen Bereich sind noch keine Daten verfügbar.</string>
     <string name="txtSlogan">Lokale Sportergebnisse für die Südpfalz!</string>
+    <string name="txtNavFavorites">Favoriten</string>
+    <string name="txtNavSettings">Einstellungen</string>
 
     <!--
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
