@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -102,10 +103,234 @@ public class ModuleFussball {
                     //Log.d("SPORTINFO", "Lege Gegner '" + strGegner + "' an: " + idgegner);
                 }
 
-                split[i] = split[i].replace("&#xE52E;", "-"); // Bei den Scores sind Sonderzeichen angegeben
-                split[i] = split[i].replace("&#xE540;", "-");
+                // Sonderzeichen von fussball.de ersetzen
+                //Log.d("Sportinfo","original: "+split[i]);
+                if (split[i].indexOf("data-obfuscation=\"4\"") >= 0) {
+                    split[i] = split[i].replace("&#xE500;", "6");
+                    split[i] = split[i].replace("&#xE501;", "-");
+                    split[i] = split[i].replace("&#xE502;", "2");
+                    split[i] = split[i].replace("&#xE503;", "3");
+                    split[i] = split[i].replace("&#xE504;", "5");
+                    split[i] = split[i].replace("&#xE505;", "4");
+                    split[i] = split[i].replace("&#xE506;", "-");
+                    split[i] = split[i].replace("&#xE507;", "9");
+                    split[i] = split[i].replace("&#xE508;", "9");
+                    split[i] = split[i].replace("&#xE509;", "7");
+                    split[i] = split[i].replace("&#xE50A;", "4");
+                    split[i] = split[i].replace("&#xE50B;", "9");
+                    split[i] = split[i].replace("&#xE50C;", "7");
+                    split[i] = split[i].replace("&#xE50D;", "3");
+                    split[i] = split[i].replace("&#xE50E;", "4");
+                    split[i] = split[i].replace("&#xE50F;", "-");
+
+                    split[i] = split[i].replace("&#xE510;", "8");
+                    split[i] = split[i].replace("&#xE511;", "4");
+                    split[i] = split[i].replace("&#xE512;", "2");
+                    split[i] = split[i].replace("&#xE513;", "0");
+                    split[i] = split[i].replace("&#xE514;", "0");
+                    split[i] = split[i].replace("&#xE515;", "1");
+                    split[i] = split[i].replace("&#xE516;", "8");
+                    split[i] = split[i].replace("&#xE517;", "1");
+                    split[i] = split[i].replace("&#xE518;", "1");
+                    split[i] = split[i].replace("&#xE519;", "5");
+                    split[i] = split[i].replace("&#xE51A;", "7");
+                    split[i] = split[i].replace("&#xE51B;", "2");
+                    split[i] = split[i].replace("&#xE51C;", "9");
+                    split[i] = split[i].replace("&#xE51D;", "6");
+                    split[i] = split[i].replace("&#xE51E;", "5");
+                    split[i] = split[i].replace("&#xE51F;", "-");
+
+                    split[i] = split[i].replace("&#xE520;", "1");
+                    split[i] = split[i].replace("&#xE521;", "9");
+                    split[i] = split[i].replace("&#xE522;", "7");
+                    split[i] = split[i].replace("&#xE523;", "8");
+                    split[i] = split[i].replace("&#xE524;", "2");
+                    split[i] = split[i].replace("&#xE525;", "3");
+                    split[i] = split[i].replace("&#xE526;", "4");
+                    split[i] = split[i].replace("&#xE527;", "-");
+                    split[i] = split[i].replace("&#xE528;", "7");
+                    split[i] = split[i].replace("&#xE529;", "8");
+                    split[i] = split[i].replace("&#xE52A;", "5");
+                    split[i] = split[i].replace("&#xE52B;", "0");
+                    split[i] = split[i].replace("&#xE52C;", "5");
+                    split[i] = split[i].replace("&#xE52D;", "7");
+                    split[i] = split[i].replace("&#xE52E;", "6");
+                    split[i] = split[i].replace("&#xE52F;", "9");
+
+                    split[i] = split[i].replace("&#xE530;", "8");
+                    split[i] = split[i].replace("&#xE531;", "0");
+                    split[i] = split[i].replace("&#xE532;", "3");
+                    split[i] = split[i].replace("&#xE533;", "6");
+                    split[i] = split[i].replace("&#xE534;", "2");
+                    split[i] = split[i].replace("&#xE535;", "5");
+                    split[i] = split[i].replace("&#xE536;", "2");
+                    split[i] = split[i].replace("&#xE537;", "3");
+                    split[i] = split[i].replace("&#xE538;", "6");
+                    split[i] = split[i].replace("&#xE539;", "4");
+                    split[i] = split[i].replace("&#xE53A;", "8");
+                    split[i] = split[i].replace("&#xE53B;", "3");
+                    split[i] = split[i].replace("&#xE53C;", "-");
+                    split[i] = split[i].replace("&#xE53D;", "0");
+                    split[i] = split[i].replace("&#xE53E;", "1");
+                    split[i] = split[i].replace("&#xE53F;", "0");
+
+                    split[i] = split[i].replace("&#xE540;", "6");
+                    split[i] = split[i].replace("&#xE541;", "1");
+                }
+                else if (split[i].indexOf("data-obfuscation=\"3\"") >= 0) {
+                    split[i] = split[i].replace("&#xE500;", "9");
+                    split[i] = split[i].replace("&#xE501;", "4");
+                    split[i] = split[i].replace("&#xE502;", "6");
+                    split[i] = split[i].replace("&#xE503;", "3");
+                    split[i] = split[i].replace("&#xE504;", "7");
+                    split[i] = split[i].replace("&#xE505;", "2");
+                    split[i] = split[i].replace("&#xE506;", "6");
+                    split[i] = split[i].replace("&#xE507;", "5");
+                    split[i] = split[i].replace("&#xE508;", "9");
+                    split[i] = split[i].replace("&#xE509;", "5");
+                    split[i] = split[i].replace("&#xE50A;", "0");
+                    split[i] = split[i].replace("&#xE50B;", "3");
+                    split[i] = split[i].replace("&#xE50C;", "6");
+                    split[i] = split[i].replace("&#xE50D;", "-");
+                    split[i] = split[i].replace("&#xE50E;", "-");
+                    split[i] = split[i].replace("&#xE50F;", "-");
+
+                    split[i] = split[i].replace("&#xE510;", "0");
+                    split[i] = split[i].replace("&#xE511;", "2");
+                    split[i] = split[i].replace("&#xE512;", "5");
+                    split[i] = split[i].replace("&#xE513;", "4");
+                    split[i] = split[i].replace("&#xE514;", "9");
+                    split[i] = split[i].replace("&#xE515;", "-");
+                    split[i] = split[i].replace("&#xE516;", "7");
+                    split[i] = split[i].replace("&#xE517;", "4");
+                    split[i] = split[i].replace("&#xE518;", "4");
+                    split[i] = split[i].replace("&#xE519;", "8");
+                    split[i] = split[i].replace("&#xE51A;", "8");
+                    split[i] = split[i].replace("&#xE51B;", "3");
+                    split[i] = split[i].replace("&#xE51C;", "7");
+                    split[i] = split[i].replace("&#xE51D;", "1");
+                    split[i] = split[i].replace("&#xE51E;", "9");
+                    split[i] = split[i].replace("&#xE51F;", "3");
+
+                    split[i] = split[i].replace("&#xE520;", "5");
+                    split[i] = split[i].replace("&#xE521;", "0");
+                    split[i] = split[i].replace("&#xE522;", "6");
+                    split[i] = split[i].replace("&#xE523;", "2");
+                    split[i] = split[i].replace("&#xE524;", "0");
+                    split[i] = split[i].replace("&#xE525;", "3");
+                    split[i] = split[i].replace("&#xE526;", "0");
+                    split[i] = split[i].replace("&#xE527;", "8");
+                    split[i] = split[i].replace("&#xE528;", "1");
+                    split[i] = split[i].replace("&#xE529;", "7");
+                    split[i] = split[i].replace("&#xE52A;", "7");
+                    split[i] = split[i].replace("&#xE52B;", "2");
+                    split[i] = split[i].replace("&#xE52C;", "2");
+                    split[i] = split[i].replace("&#xE52D;", "8");
+                    split[i] = split[i].replace("&#xE52E;", "4");
+                    split[i] = split[i].replace("&#xE52F;", "1");
+
+                    split[i] = split[i].replace("&#xE530;", "3");
+                    split[i] = split[i].replace("&#xE531;", "6");
+                    split[i] = split[i].replace("&#xE532;", "9");
+                    split[i] = split[i].replace("&#xE533;", "6");
+                    split[i] = split[i].replace("&#xE534;", "1");
+                    split[i] = split[i].replace("&#xE535;", "5");
+                    split[i] = split[i].replace("&#xE536;", "8");
+                    split[i] = split[i].replace("&#xE537;", "9");
+                    split[i] = split[i].replace("&#xE538;", "2");
+                    split[i] = split[i].replace("&#xE539;", "1");
+                    split[i] = split[i].replace("&#xE53A;", "8");
+                    split[i] = split[i].replace("&#xE53B;", "-");
+                    split[i] = split[i].replace("&#xE53C;", "0");
+                    split[i] = split[i].replace("&#xE53D;", "5");
+                    split[i] = split[i].replace("&#xE53E;", "-");
+                    split[i] = split[i].replace("&#xE53F;", "7");
+
+                    split[i] = split[i].replace("&#xE540;", "1");
+                    split[i] = split[i].replace("&#xE541;", "4");
+                }
+                else if (split[i].indexOf("data-obfuscation=\"10\"") >= 0) {
+                    split[i] = split[i].replace("&#xE500;", "3");
+                    split[i] = split[i].replace("&#xE501;", "1");
+                    split[i] = split[i].replace("&#xE502;", "2");
+                    split[i] = split[i].replace("&#xE503;", "8");
+                    split[i] = split[i].replace("&#xE504;", "5");
+                    split[i] = split[i].replace("&#xE505;", "-");
+                    split[i] = split[i].replace("&#xE506;", "3");
+                    split[i] = split[i].replace("&#xE507;", "1");
+                    split[i] = split[i].replace("&#xE508;", "6");
+                    split[i] = split[i].replace("&#xE509;", "8");
+                    split[i] = split[i].replace("&#xE50A;", "9");
+                    split[i] = split[i].replace("&#xE50B;", "4");
+                    split[i] = split[i].replace("&#xE50C;", "7");
+                    split[i] = split[i].replace("&#xE50D;", "8");
+                    split[i] = split[i].replace("&#xE50E;", "9");
+                    split[i] = split[i].replace("&#xE50F;", "5");
+
+                    split[i] = split[i].replace("&#xE510;", "0");
+                    split[i] = split[i].replace("&#xE511;", "1");
+                    split[i] = split[i].replace("&#xE512;", "7");
+                    split[i] = split[i].replace("&#xE513;", "0");
+                    split[i] = split[i].replace("&#xE514;", "7");
+                    split[i] = split[i].replace("&#xE515;", "9");
+                    split[i] = split[i].replace("&#xE516;", "2");
+                    split[i] = split[i].replace("&#xE517;", "2");
+                    split[i] = split[i].replace("&#xE518;", "4");
+                    split[i] = split[i].replace("&#xE519;", "6");
+                    split[i] = split[i].replace("&#xE51A;", "9");
+                    split[i] = split[i].replace("&#xE51B;", "0");
+                    split[i] = split[i].replace("&#xE51C;", "1");
+                    split[i] = split[i].replace("&#xE51D;", "6");
+                    split[i] = split[i].replace("&#xE51E;", "1");
+                    split[i] = split[i].replace("&#xE51F;", "0");
+
+                    split[i] = split[i].replace("&#xE520;", "5");
+                    split[i] = split[i].replace("&#xE521;", "8");
+                    split[i] = split[i].replace("&#xE522;", "3");
+                    split[i] = split[i].replace("&#xE523;", "3");
+                    split[i] = split[i].replace("&#xE524;", "-");
+                    split[i] = split[i].replace("&#xE525;", "4");
+                    split[i] = split[i].replace("&#xE526;", "5");
+                    split[i] = split[i].replace("&#xE527;", "4");
+                    split[i] = split[i].replace("&#xE528;", "6");
+                    split[i] = split[i].replace("&#xE529;", "7");
+                    split[i] = split[i].replace("&#xE52A;", "-");
+                    split[i] = split[i].replace("&#xE52B;", "3");
+                    split[i] = split[i].replace("&#xE52C;", "8");
+                    split[i] = split[i].replace("&#xE52D;", "3");
+                    split[i] = split[i].replace("&#xE52E;", "9");
+                    split[i] = split[i].replace("&#xE52F;", "2");
+
+                    split[i] = split[i].replace("&#xE530;", "5");
+                    split[i] = split[i].replace("&#xE531;", "0");
+                    split[i] = split[i].replace("&#xE532;", "9");
+                    split[i] = split[i].replace("&#xE533;", "-");
+                    split[i] = split[i].replace("&#xE534;", "4");
+                    split[i] = split[i].replace("&#xE535;", "2");
+                    split[i] = split[i].replace("&#xE536;", "2");
+                    split[i] = split[i].replace("&#xE537;", "-");
+                    split[i] = split[i].replace("&#xE538;", "8");
+                    split[i] = split[i].replace("&#xE539;", "-");
+                    split[i] = split[i].replace("&#xE53A;", "7");
+                    split[i] = split[i].replace("&#xE53B;", "4");
+                    split[i] = split[i].replace("&#xE53C;", "1");
+                    split[i] = split[i].replace("&#xE53D;", "7");
+                    split[i] = split[i].replace("&#xE53E;", "6");
+                    split[i] = split[i].replace("&#xE53F;", "6");
+
+                    split[i] = split[i].replace("&#xE540;", "0");
+                    split[i] = split[i].replace("&#xE541;", "5");
+                }
+                else
+                {
+                    // Was machen wenn wieder ne neue Schrift kommt?
+                    split[i] = "-:-";
+                }
+
+                //Log.d("Sportinfo","ersetzt: "+split[i]);
                 String cleanString = Html.fromHtml(split[i]).toString().trim();
-                String[] ergsplit = htmlsource.split(":");
+                //Log.d("Sportinfo","clean: "+cleanString);
+                String[] ergsplit = cleanString.split(":");
                 try {
                     punkteheim = Integer.parseInt(ergsplit[0].trim());
                 } catch (NumberFormatException nfe) {
@@ -116,6 +341,8 @@ public class ModuleFussball {
                 } catch (NumberFormatException nfe) {
                     punktegast = -1;
                 }
+
+                //Log.d("Sportinfo","Punkte: "+punkteheim+":"+punktegast);
 
                 //check ob spiel angelegt ist
                 long idspiel;

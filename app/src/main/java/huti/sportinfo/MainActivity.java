@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import SlidingTabs.SlidingTabLayout;
 
 
@@ -160,7 +163,30 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (!urlspiele.trim().equals("")) {
                     inturlart = 1; // Spiele werden abgerufen
-                    new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    if (intsportart == 0) {
+                        // Fussball braucht mehrere Abfragen mit datumvon und datumbis
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy");
+                        int currentYear = Integer.parseInt(df.format(new Date()));
+                        int lastYear = currentYear - 1;
+
+                        String urlspiele1 = urlspiele.replace("{datumvon}", lastYear + "-01-01");
+                        urlspiele1 = urlspiele1.replace("{datumbis}", lastYear + "-05-01");
+                        new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                        String urlspiele2 = urlspiele.replace("{datumvon}", lastYear + "-05-01");
+                        urlspiele2 = urlspiele2.replace("{datumbis}", lastYear + "-12-31");
+                        new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                        String urlspiele3 = urlspiele.replace("{datumvon}", currentYear + "-01-01");
+                        urlspiele3 = urlspiele3.replace("{datumbis}", currentYear + "-05-01");
+                        new UpdateHelper(this, mViewPager, urlspiele3, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                        String urlspiele4 = urlspiele.replace("{datumvon}", currentYear + "-05-01");
+                        urlspiele4 = urlspiele4.replace("{datumbis}", currentYear + "-12-31");
+                        new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    } else {
+                        new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    }
                 }
 
             }

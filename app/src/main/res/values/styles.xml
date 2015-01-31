@@ -4,8 +4,8 @@
     <color name="colorMainDark">#01579B</color>
     <color name="colorMainAccent">#FF5722</color>
     <color name="colorMainBg">#FAFAFA</color>
-    <color name="colorMainRow">#3F51B5</color>
-    <color name="colorText">#000000</color>
+    <color name="colorMainRow">#0277bd</color>
+    <color name="colorText">#666</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorRowAlternate">#0F000000</color>
 

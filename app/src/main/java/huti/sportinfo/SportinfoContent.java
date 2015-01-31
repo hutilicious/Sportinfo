@@ -1,5 +1,6 @@
 package huti.sportinfo;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -93,7 +94,7 @@ public class SportinfoContent {
 
             String datum = "";
             String uhrzeit = "";
-            String datumuhrzeit_alt = "";
+            String datum_alt = "";
             String heim = "";
             String gast = "";
             String favoritenfarbe = "";
@@ -126,7 +127,7 @@ public class SportinfoContent {
                 //--------------------------------------------
                 // Zeile mit Datum und Uhrzeit
                 //--------------------------------------------
-                if (!datumuhrzeit_alt.equals(datum + " " + uhrzeit)) {
+                if (!datum_alt.equals(datum)) {
                     //Get dayname of currentDate (Datum)
                     Date date = new Date();
                     SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -139,7 +140,7 @@ public class SportinfoContent {
                     }
                     String dayname = outFormat.format(date);
                     //Add date Row if needed
-                    tblUpcomingMatches.addView(RowDate(datum, uhrzeit, dayname));
+                    tblUpcomingMatches.addView(RowDate(datum, "", dayname));
                     //reset Rowcounter
                     rowcounter = 0;
                 }
@@ -152,21 +153,16 @@ public class SportinfoContent {
                 }
 
                 //--------------------------------------------
-                // Zeile mit Heim und Heimpunkte
+                // Zeile mit Spielinfos
                 //--------------------------------------------
 
-                tblUpcomingMatches.addView(RowGame(heim, intheimspiel > 0, punkteheim, trBackground, favoritenfarbe));
+                tblUpcomingMatches.addView(RowGame(uhrzeit, heim, intheimspiel > 0, punkteheim, gast, punktegast, trBackground, favoritenfarbe));
 
-                //--------------------------------------------
-                // Zeile mit Gast und Gastpunkte
-                //--------------------------------------------
-
-                tblUpcomingMatches.addView(RowGame(gast, intheimspiel == 0, punktegast, trBackground, favoritenfarbe));
 
                 //--------------------------------------------
                 // Abschlussarbeiten pro Zeile
                 //--------------------------------------------
-                datumuhrzeit_alt = datum + " " + uhrzeit;
+                datum_alt = datum;
                 rowcounter++;
             }
 
@@ -289,43 +285,64 @@ public class SportinfoContent {
         TableRow tr = new TableRow(activity);
         tr.setLayoutParams(tlparams);
 
+
         TextView txtDatum = new TextView(activity);
         txtDatum.setText(dayname + " " + datum);
-        txtDatum.setTextSize(15);
+        txtDatum.setTextSize(18);
         txtDatum.setPadding(30, 5, 30, 5);
-        txtDatum.setTextColor(activity.getResources().getColor(R.color.colorTextLight));
+        txtDatum.setGravity(Gravity.LEFT);
+        txtDatum.setTextColor(activity.getResources().getColor(R.color.colorText));
+
         tr.addView(txtDatum);
 
-        TextView txtUhrzeit = new TextView(activity);
-        txtUhrzeit.setText(uhrzeit);
-        txtUhrzeit.setGravity(Gravity.RIGHT);
-        txtUhrzeit.setTextSize(15);
-        txtUhrzeit.setPadding(30, 5, 30, 5);
-        txtUhrzeit.setTextColor(activity.getResources().getColor(R.color.colorTextLight));
-        tr.addView(txtUhrzeit);
-        tr.setBackgroundColor(activity.getResources().getColor(R.color.colorMainRow));
+        TableRow.LayoutParams params = (TableRow.LayoutParams) txtDatum.getLayoutParams();
+        params.span = 3; //amount of columns you will span
+        txtDatum.setLayoutParams(params);
+
+        //TextView txtUhrzeit = new TextView(activity);
+        //txtUhrzeit.setText(uhrzeit);
+        //txtUhrzeit.setGravity(Gravity.RIGHT);
+        //txtUhrzeit.setTextSize(15);
+        //txtUhrzeit.setPadding(30, 5, 30, 5);
+        //txtUhrzeit.setTextColor(activity.getResources().getColor(R.color.colorTextLight));
+        //tr.addView(txtUhrzeit);
+        //tr.setBackgroundColor(activity.getResources().getColor(R.color.colorMainRow));
         return tr;
     }
 
-    private static TableRow RowGame(String name, boolean bolFavorit, int punkte, int trBackground, String favoritenfarbe) {
+    private static TableRow RowGame(String uhrzeit, String name, boolean bolFavorit, int punkte, String gastname, int punktegast, int trBackground, String favoritenfarbe) {
         TableRow tr = new TableRow(activity);
         tr.setLayoutParams(tlparams);
 
+        TableRow.LayoutParams txtparams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT);
+
+        TextView txtZeit = new TextView(activity);
+        txtZeit.setText(uhrzeit);
+        txtZeit.setPadding(30, 5, 30, 5);
+        txtZeit.setTextSize(17);
+        txtZeit.setLayoutParams(txtparams);
+        txtZeit.setGravity(Gravity.CENTER);
+        txtZeit.setBackgroundColor(activity.getResources().getColor(R.color.colorMain));
+        txtZeit.setTextColor(Color.parseColor("#FFFFFF"));
+        tr.addView(txtZeit);
+
         TextView txtName = new TextView(activity);
-        txtName.setText(name);
+        txtName.setText(name + "\n" + gastname);
         txtName.setPadding(30, 5, 30, 5);
         if (bolFavorit) {
             //txtName.setTypeface(null, Typeface.BOLD);
-            txtName.setTextColor(Color.parseColor("#" + favoritenfarbe));
+            //txtName.setTextColor(Color.parseColor("#" + favoritenfarbe));
         }
         txtName.setTextSize(17);
         tr.addView(txtName);
 
         TextView txtPunkte = new TextView(activity);
         if (punkte >= 0) {
-            txtPunkte.setText(Integer.toString(punkte));
+            txtPunkte.setText(Integer.toString(punkte) + "\n" + Integer.toString(punktegast));
         } else {
-            txtPunkte.setText("-");
+            txtPunkte.setText("-" + "\n" + "-");
         }
         txtPunkte.setGravity(Gravity.RIGHT);
         txtPunkte.setPadding(30, 5, 30, 5);
@@ -362,6 +379,7 @@ public class SportinfoContent {
     private static TableRow RowScore(int tabellennr, String name, int punkte, boolean bolHighlight, int trBackground) {
         TableRow tr = new TableRow(activity);
         tr.setLayoutParams(tlparams);
+
 
         TextView txtNummer = new TextView(activity);
         txtNummer.setText(tabellennr + ".");
