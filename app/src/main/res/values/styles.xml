@@ -6,6 +6,7 @@
     <color name="colorMainBg">#FAFAFA</color>
     <color name="colorMainRow">#0277bd</color>
     <color name="colorText">#666</color>
+    <color name="colorTextNav">#000</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorRowAlternate">#0F000000</color>
 
