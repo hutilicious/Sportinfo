@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/gameShowCaseMainLayout">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameShowCaseTable"
+        android:stretchColumns="1"
+        android:showDividers="middle">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19:00"
+                android:id="@+id/txtTime"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp"
+                android:textColor="@color/colorTextLight"
+                android:autoText="false"
+                android:background="@color/colorMain"
+                android:textSize="17dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="txtTeamHome"
+                    android:id="@+id/txtTeamHome"
+                    android:textSize="15dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="txtTeamGuest"
+                    android:id="@+id/txtTeamGuest"
+                    android:textSize="15dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="5dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="txtScoreHome"
+                    android:id="@+id/txtScoreHome"
+                    android:textSize="15dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="txtScoreGuest"
+                    android:id="@+id/txtScoreGuest"
+                    android:textSize="15dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="5dp" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
