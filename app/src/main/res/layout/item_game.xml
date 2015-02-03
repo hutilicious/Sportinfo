@@ -17,17 +17,16 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="19:00"
                 android:id="@+id/txtTime"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="20dp"
                 android:textColor="@color/colorTextLight"
                 android:autoText="false"
                 android:background="@color/colorMain"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -36,25 +35,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txtTeamHome"
+                    android:layout_height="30dp"
+                    android:text="TTC Klingenmünster H1"
                     android:id="@+id/txtTeamHome"
                     android:textSize="15dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="5dp" />
+                    android:gravity="center"
+                    android:paddingLeft="7dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txtTeamGuest"
+                    android:layout_height="30dp"
+                    android:text="VFL Bellheim"
                     android:id="@+id/txtTeamGuest"
                     android:textSize="15dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="5dp" />
+                    android:gravity="center"
+                    android:paddingLeft="7dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,25 +59,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txtScoreHome"
+                    android:layout_height="30dp"
+                    android:text="9"
                     android:id="@+id/txtScoreHome"
                     android:textSize="15dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="5dp" />
+                    android:gravity="center"
+                    android:paddingRight="7dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txtScoreGuest"
+                    android:layout_height="30dp"
+                    android:text="1"
                     android:id="@+id/txtScoreGuest"
                     android:textSize="15dp"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="5dp" />
+                    android:gravity="center"
+                    android:paddingRight="7dp" />
             </LinearLayout>
         </TableRow>
     </TableLayout>
