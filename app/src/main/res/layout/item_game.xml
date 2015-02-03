@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/gameShowCaseMainLayout"
-    android:paddingBottom="2dp">
+    android:paddingTop="2dp">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="9"
+                    android:text="-"
                     android:id="@+id/txtScoreHome"
                     android:textSize="15dp"
                     android:gravity="center"
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="1"
+                    android:text="-"
                     android:id="@+id/txtScoreGuest"
                     android:textSize="15dp"
                     android:gravity="center"
