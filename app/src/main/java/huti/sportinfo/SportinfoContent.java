@@ -74,8 +74,6 @@ public class SportinfoContent {
         Cursor sqlresult = connection.rawQuery(sqlget, null);
 
         if (sqlresult.getCount() > 0) {
-
-            // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
             linearLayout.removeAllViews();
 
@@ -88,9 +86,6 @@ public class SportinfoContent {
             int punkteheim = -1;
             int punktegast = -1;
             int intheimspiel = 0;
-
-            //TableLayout tblUpcomingMatches = (TableLayout) findViewById(R.id.tblUpcomingMatches);
-            //tblUpcomingMatches.removeAllViewsInLayout();
 
             int rowcounter = 0;
             int trBackground = Color.TRANSPARENT;
@@ -142,7 +137,7 @@ public class SportinfoContent {
                 // Zeile mit Spielinfos
                 //--------------------------------------------
 
-                linearLayout.addView(RowGame(uhrzeit, heim, intheimspiel > 0, punkteheim, gast, punktegast, trBackground, favoritenfarbe));
+                linearLayout.addView(RowGame(uhrzeit, heim, punkteheim, gast, punktegast));
 
 
                 //--------------------------------------------
@@ -274,7 +269,7 @@ public class SportinfoContent {
         return viewDate;
     }
 
-    private static View RowGame(String uhrzeit, String name, boolean bolFavorit, int punkte, String gastname, int punktegast, int trBackground, String favoritenfarbe) {
+    private static View RowGame(String uhrzeit, String nameheim, int punkteheim, String namegast, int punktegast) {
 
         View gameView = activity.getLayoutInflater().inflate(R.layout.item_game, null);
 
@@ -282,14 +277,14 @@ public class SportinfoContent {
         txtTime.setText(uhrzeit);
 
         TextView txtTeamHome = (TextView) gameView.findViewById(R.id.txtTeamHome);
-        txtTeamHome.setText(name);
+        txtTeamHome.setText(nameheim);
 
         TextView txtTeamGuest = (TextView) gameView.findViewById(R.id.txtTeamGuest);
-        txtTeamGuest.setText(gastname);
+        txtTeamGuest.setText(namegast);
 
-        if (punkte > 0) {
+        if (punkteheim > 0) {
             TextView txtScoreHome = (TextView) gameView.findViewById(R.id.txtScoreHome);
-            txtScoreHome.setText(Integer.toString(punkte));
+            txtScoreHome.setText(Integer.toString(punkteheim));
         }
         if (punktegast > 0) {
             TextView txtScoreGuest = (TextView) gameView.findViewById(R.id.txtScoreGuest);
