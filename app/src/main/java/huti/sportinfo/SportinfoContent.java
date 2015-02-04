@@ -1,6 +1,5 @@
 package huti.sportinfo;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -273,8 +272,12 @@ public class SportinfoContent {
 
         View gameView = activity.getLayoutInflater().inflate(R.layout.item_game, null);
 
-        TextView txtTime = (TextView) gameView.findViewById(R.id.txtTime);
-        txtTime.setText(uhrzeit);
+        String[] arrUhrzeit = uhrzeit.split(":");
+        TextView txtHours = (TextView) gameView.findViewById(R.id.txtHours);
+        txtHours.setText(arrUhrzeit[0]);
+        TextView txtMinutes = (TextView) gameView.findViewById(R.id.txtMinutes);
+        txtMinutes.setText(arrUhrzeit[1]);
+
 
         TextView txtTeamHome = (TextView) gameView.findViewById(R.id.txtTeamHome);
         txtTeamHome.setText(nameheim);

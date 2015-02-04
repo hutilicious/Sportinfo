@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import huti.sportinfo.MainActivity;
 import huti.sportinfo.SqliteHelper;
 
 /**
