@@ -120,7 +120,7 @@ public class SportinfoContent {
                     }
                     String dayname = outFormat.format(date);
                     //Add date Row if needed
-                    linearLayout.addView(RowDate(datum, dayname));
+                    linearLayout.addView(RowSeparator(dayname + " " + datum));
                     //reset Rowcounter
                     rowcounter = 0;
                 }
@@ -135,7 +135,6 @@ public class SportinfoContent {
                 //--------------------------------------------
                 // Zeile mit Spielinfos
                 //--------------------------------------------
-
                 linearLayout.addView(RowGame(uhrzeit, heim, punkteheim, gast, punktegast));
 
 
@@ -183,19 +182,7 @@ public class SportinfoContent {
 
             // Willkommensnachricht kann weg, da wir bereits was in der Datenbank haben
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
-            if (linearLayout.findViewById(R.id.txtWelcome) != null) {
-                linearLayout.removeView(linearLayout.findViewById(R.id.txtWelcome));
-            }
-            if (linearLayout.findViewById(R.id.tblTables) != null) {
-                linearLayout.removeView(linearLayout.findViewById(R.id.tblTables));
-            }
-            // Add a fresh TableLayout
-            TableLayout tblTables = new TableLayout(activity);
-            tblTables.setId(R.id.tblTables);
-            tblTables.setLayoutParams(new TableLayout.LayoutParams(
-                    TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT));
-            tblTables.setColumnStretchable(2, true);
+            linearLayout.removeAllViews();
 
             int idfavorit = 0;
             int idfavorit_alt = 0;
@@ -224,7 +211,7 @@ public class SportinfoContent {
                         favoritenbezeichnung = "error?";
                     }
 
-                    tblTables.addView(RowScoreHeader(favoritenbezeichnung));
+                    linearLayout.addView(RowSeparator(favoritenbezeichnung));
                     rowcounter = 0;
                 }
 
@@ -239,12 +226,11 @@ public class SportinfoContent {
                     trBackground = activity.getResources().getColor(R.color.colorRowAlternate);
                 }
 
-                tblTables.addView(RowScore(tabellennr, mannschaftname, punkte, intfavorit > 0, trBackground));
+                linearLayout.addView(RowScore(tabellennr, mannschaftname, punkte));
 
                 idfavorit_alt = idfavorit;
                 rowcounter++;
             }
-            linearLayout.addView(tblTables);
         } else {
             LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutPager);
             if (linearLayout.findViewById(R.id.txtWelcome) == null) {
@@ -259,11 +245,11 @@ public class SportinfoContent {
     }
 
 
-    private static View RowDate(String datum, String dayname) {
-        View viewDate = activity.getLayoutInflater().inflate(R.layout.item_date, null);
+    private static View RowSeparator(String text) {
+        View viewDate = activity.getLayoutInflater().inflate(R.layout.item_separator, null);
 
-        TextView txtDate = (TextView) viewDate.findViewById(R.id.txtDate);
-        txtDate.setText(dayname + " " + datum);
+        TextView txtSeparator = (TextView) viewDate.findViewById(R.id.txtSeparator);
+        txtSeparator.setText(text);
 
         return viewDate;
     }
@@ -285,11 +271,11 @@ public class SportinfoContent {
         TextView txtTeamGuest = (TextView) gameView.findViewById(R.id.txtTeamGuest);
         txtTeamGuest.setText(namegast);
 
-        if (punkteheim > 0) {
+        if (punkteheim >= 0) {
             TextView txtScoreHome = (TextView) gameView.findViewById(R.id.txtScoreHome);
             txtScoreHome.setText(Integer.toString(punkteheim));
         }
-        if (punktegast > 0) {
+        if (punktegast >= 0) {
             TextView txtScoreGuest = (TextView) gameView.findViewById(R.id.txtScoreGuest);
             txtScoreGuest.setText(Integer.toString(punktegast));
         }
@@ -297,68 +283,18 @@ public class SportinfoContent {
         return gameView;
     }
 
+    private static View RowScore(int tabellennr, String name, int punkte) {
+        View scoreView = activity.getLayoutInflater().inflate(R.layout.item_table_indicator_left, null);
+        TextView txtPlace = (TextView) scoreView.findViewById(R.id.txtPlace);
+        txtPlace.setText(Integer.toString(tabellennr));
 
-    private static TableRow RowScoreHeader(String titel) {
-        TableRow tr = new TableRow(activity);
-        tr.setLayoutParams(tlparams);
+        TextView txtTeam = (TextView) scoreView.findViewById(R.id.txtTeam);
+        txtTeam.setText(name);
 
-        TextView txtTitel = new TextView(activity);
-        txtTitel.setText(titel);
-        txtTitel.setTextSize(15);
-        txtTitel.setPadding(30, 5, 30, 5);
-        txtTitel.setTextColor(activity.getResources().getColor(R.color.colorTextLight));
+        TextView txtScore = (TextView) scoreView.findViewById(R.id.txtScore);
+        txtScore.setText(Integer.toString(punkte));
 
-
-        tr.addView(txtTitel);
-
-
-        tr.setBackgroundColor(activity.getResources().getColor(R.color.colorMainRow));
-
-        TableRow.LayoutParams params = (TableRow.LayoutParams) txtTitel.getLayoutParams();
-        params.span = 3;
-        txtTitel.setLayoutParams(params); // causes layout update
-
-        return tr;
-    }
-
-    private static TableRow RowScore(int tabellennr, String name, int punkte, boolean bolHighlight, int trBackground) {
-        TableRow tr = new TableRow(activity);
-        tr.setLayoutParams(tlparams);
-
-
-        TextView txtNummer = new TextView(activity);
-        txtNummer.setText(tabellennr + ".");
-        txtNummer.setGravity(Gravity.RIGHT);
-        txtNummer.setTextSize(17);
-        txtNummer.setPadding(30, 5, 30, 5);
-        if (bolHighlight) {
-            txtNummer.setTypeface(null, Typeface.BOLD);
-        }
-        tr.addView(txtNummer);
-
-        TextView txtName = new TextView(activity);
-        txtName.setText(name);
-        txtName.setTextSize(17);
-        txtName.setPadding(30, 5, 30, 5);
-        if (bolHighlight) {
-            txtName.setTypeface(null, Typeface.BOLD);
-        }
-        tr.addView(txtName);
-
-        TextView txtPunkte = new TextView(activity);
-        txtPunkte.setText(Integer.toString(punkte));
-        txtPunkte.setTextSize(17);
-        txtPunkte.setGravity(Gravity.RIGHT);
-        txtPunkte.setPadding(30, 5, 30, 5);
-        if (bolHighlight) {
-            txtPunkte.setTypeface(null, Typeface.BOLD);
-        }
-        tr.addView(txtPunkte);
-
-
-        tr.setBackgroundColor(trBackground);
-
-        return tr;
+        return scoreView;
     }
 
 

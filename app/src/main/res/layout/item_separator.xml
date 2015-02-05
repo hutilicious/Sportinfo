@@ -10,6 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sa. 20.01.2015"
-        android:id="@+id/txtDate"
+        android:id="@+id/txtSeparator"
         android:textSize="17dp" />
 </LinearLayout>

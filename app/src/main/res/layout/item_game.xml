@@ -2,13 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/gameShowCaseMainLayout"
     android:paddingTop="2dp">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/gameShowCaseTable"
         android:stretchColumns="2"
         android:showDividers="middle">
 
