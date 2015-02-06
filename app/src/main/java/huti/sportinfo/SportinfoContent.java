@@ -5,13 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -284,7 +281,7 @@ public class SportinfoContent {
     }
 
     private static View RowScore(int tabellennr, String name, int punkte) {
-        View scoreView = activity.getLayoutInflater().inflate(R.layout.item_table_indicator_left, null);
+        View scoreView = activity.getLayoutInflater().inflate(R.layout.item_score, null);
         TextView txtPlace = (TextView) scoreView.findViewById(R.id.txtPlace);
         txtPlace.setText(Integer.toString(tabellennr));
 
