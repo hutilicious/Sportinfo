@@ -9,10 +9,15 @@
     <color name="colorTextNav">#000</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorRowAlternate">#0F000000</color>
+    <color name="colorRowBackground1">#04000000</color>
+    <color name="colorRowBackground2">#0c000000</color>
+    <color name="colorRowBackgroundGold">#1AD4AF37</color>
+    <color name="colorIndicatorGray">#78000000</color>
+    <color name="colorIndicatorGold">#FFD4AF37</color>
 
     <color name="navdrawer_background">#FFFFFF</color>
     <color name="tab_background">@color/colorMain</color>
-    <color name="tab_color">#fff</color>
+    <color name="tab_color">#DDFFFFFF</color>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">

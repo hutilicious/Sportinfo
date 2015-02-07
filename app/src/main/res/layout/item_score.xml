@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="2dp">
+    android:paddingTop="1dp">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -15,9 +15,10 @@
             android:layout_height="wrap_content" >
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="35dp"
-                android:background="@color/colorMain">
+                android:background="#D4AF37"
+                android:id="@+id/ltIndicator">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -33,7 +34,9 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="35dp">
+                android:layout_height="35dp"
+                android:background="#1AD4AF37"
+                android:id="@+id/ltTeam">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -49,7 +52,10 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="35dp">
+                android:layout_height="35dp"
+                android:background="#1AD4AF37"
+                android:id="@+id/ltScore"
+                android:baselineAligned="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -58,7 +64,9 @@
                     android:id="@+id/txtScore"
                     android:textSize="16dp"
                     android:gravity="center"
-                    android:paddingRight="7dp" />
+                    android:paddingRight="7dp"
+                    android:textColor="@color/colorMainAccent"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

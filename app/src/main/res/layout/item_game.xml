@@ -15,61 +15,63 @@
             android:layout_height="wrap_content" >
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="30dp"
                 android:layout_height="60dp"
-                android:background="@color/colorMain">
+                android:background="@color/colorMain"
+                android:id="@+id/ltHour">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:text="19"
                     android:id="@+id/txtHours"
                     android:textColor="@color/colorTextLight"
                     android:autoText="false"
                     android:textSize="21dp"
-                    android:paddingLeft="7dp"
-                    android:gravity="center" />
+                    android:gravity="center|end" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="30dp"
                 android:layout_height="60dp"
-                android:background="@color/colorMain">
+                android:background="@color/colorMain"
+                android:id="@+id/ltMinute">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:text="30"
                     android:id="@+id/txtMinutes"
-                    android:paddingRight="7dp"
                     android:textColor="@color/colorTextLight"
                     android:textSize="15dp"
                     android:paddingTop="17dp"
-                    android:paddingLeft="2dp" />
+                    android:paddingLeft="2dp"
+                    android:gravity="left" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:id="@+id/ltTeams">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="TTC Klingenmünster H1"
                     android:id="@+id/txtTeamHome"
                     android:textSize="16dp"
-                    android:gravity="center"
+                    android:gravity="left|center"
                     android:paddingLeft="7dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="VFL Bellheim"
                     android:id="@+id/txtTeamGuest"
                     android:textSize="16dp"
-                    android:gravity="center"
+                    android:gravity="left|center"
                     android:paddingLeft="7dp" />
 
             </LinearLayout>
@@ -77,25 +79,30 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:id="@+id/ltScores">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="-"
                     android:id="@+id/txtScoreHome"
                     android:textSize="16dp"
                     android:gravity="center"
-                    android:paddingRight="7dp" />
+                    android:paddingRight="7dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorMainAccent" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="-"
                     android:id="@+id/txtScoreGuest"
                     android:textSize="16dp"
                     android:gravity="center"
-                    android:paddingRight="7dp" />
+                    android:paddingRight="7dp"
+                    android:textColor="@color/colorMainAccent"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 

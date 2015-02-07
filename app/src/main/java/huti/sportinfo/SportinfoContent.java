@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -84,7 +83,6 @@ public class SportinfoContent {
             int intheimspiel = 0;
 
             int rowcounter = 0;
-            int trBackground = Color.TRANSPARENT;
             while (sqlresult.moveToNext()) {
 
                 //The home team comes first
@@ -122,17 +120,10 @@ public class SportinfoContent {
                     rowcounter = 0;
                 }
 
-                //if there are 2 or more games at same day give every second game another color
-                if (rowcounter % 2 == 0) {
-                    trBackground = Color.TRANSPARENT;
-                } else {
-                    trBackground = activity.getResources().getColor(R.color.colorRowAlternate);
-                }
-
                 //--------------------------------------------
                 // Zeile mit Spielinfos
                 //--------------------------------------------
-                linearLayout.addView(RowGame(uhrzeit, heim, punkteheim, gast, punktegast));
+                linearLayout.addView(RowGame(uhrzeit, heim, punkteheim, gast, punktegast, rowcounter, intheimspiel));
 
 
                 //--------------------------------------------
@@ -189,7 +180,6 @@ public class SportinfoContent {
             String mannschaftname = "";
             String favoritenbezeichnung = "";
             int rowcounter = 0;
-            int trBackground = Color.TRANSPARENT;
 
             while (sqlresult.moveToNext()) {
                 idfavorit = sqlresult.getInt(sqlresult.getColumnIndex("idfavorit"));
@@ -217,13 +207,8 @@ public class SportinfoContent {
                 } else {
                     mannschaftname = favoritenbezeichnung;
                 }
-                if (rowcounter % 2 == 0) {
-                    trBackground = Color.TRANSPARENT;
-                } else {
-                    trBackground = activity.getResources().getColor(R.color.colorRowAlternate);
-                }
 
-                linearLayout.addView(RowScore(tabellennr, mannschaftname, punkte));
+                linearLayout.addView(RowScore(tabellennr, mannschaftname, punkte, rowcounter, intfavorit));
 
                 idfavorit_alt = idfavorit;
                 rowcounter++;
@@ -251,7 +236,7 @@ public class SportinfoContent {
         return viewDate;
     }
 
-    private static View RowGame(String uhrzeit, String nameheim, int punkteheim, String namegast, int punktegast) {
+    private static View RowGame(String uhrzeit, String nameheim, int punkteheim, String namegast, int punktegast, int counter, int intheimspiel) {
 
         View gameView = activity.getLayoutInflater().inflate(R.layout.item_game, null);
 
@@ -268,19 +253,39 @@ public class SportinfoContent {
         TextView txtTeamGuest = (TextView) gameView.findViewById(R.id.txtTeamGuest);
         txtTeamGuest.setText(namegast);
 
+        TextView txtScoreHome = (TextView) gameView.findViewById(R.id.txtScoreHome);
+        TextView txtScoreGuest = (TextView) gameView.findViewById(R.id.txtScoreGuest);
         if (punkteheim >= 0) {
-            TextView txtScoreHome = (TextView) gameView.findViewById(R.id.txtScoreHome);
             txtScoreHome.setText(Integer.toString(punkteheim));
         }
         if (punktegast >= 0) {
-            TextView txtScoreGuest = (TextView) gameView.findViewById(R.id.txtScoreGuest);
             txtScoreGuest.setText(Integer.toString(punktegast));
+        }
+
+        LinearLayout ltHour = (LinearLayout) gameView.findViewById(R.id.ltHour);
+        LinearLayout ltMinute = (LinearLayout) gameView.findViewById(R.id.ltMinute);
+        if (counter % 2 == 0) {
+            ltHour.setBackgroundColor(activity.getResources().getColor(R.color.colorMain));
+            ltMinute.setBackgroundColor(activity.getResources().getColor(R.color.colorMain));
+        } else {
+            ltHour.setBackgroundColor(activity.getResources().getColor(R.color.colorIndicatorGray));
+            ltMinute.setBackgroundColor(activity.getResources().getColor(R.color.colorIndicatorGray));
+        }
+        if (intheimspiel > 0)
+        {
+            txtTeamHome.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
+            txtScoreHome.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
+        }
+        else
+        {
+            txtTeamGuest.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
+            txtScoreGuest.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
         }
 
         return gameView;
     }
 
-    private static View RowScore(int tabellennr, String name, int punkte) {
+    private static View RowScore(int tabellennr, String name, int punkte, int counter, int intfavorit) {
         View scoreView = activity.getLayoutInflater().inflate(R.layout.item_score, null);
         TextView txtPlace = (TextView) scoreView.findViewById(R.id.txtPlace);
         txtPlace.setText(Integer.toString(tabellennr));
@@ -291,6 +296,27 @@ public class SportinfoContent {
         TextView txtScore = (TextView) scoreView.findViewById(R.id.txtScore);
         txtScore.setText(Integer.toString(punkte));
 
+        //Color
+        LinearLayout ltIndicator = (LinearLayout) scoreView.findViewById(R.id.ltIndicator);
+        LinearLayout ltTeam = (LinearLayout) scoreView.findViewById(R.id.ltTeam);
+        LinearLayout ltScore = (LinearLayout) scoreView.findViewById(R.id.ltScore);
+
+        if (intfavorit > 0) {
+            ltIndicator.setBackgroundColor(activity.getResources().getColor(R.color.colorIndicatorGold));
+            ltTeam.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
+            ltScore.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
+        } else {
+            if (counter % 2 == 0) {
+
+                ltIndicator.setBackgroundColor(activity.getResources().getColor(R.color.colorMain));
+                ltTeam.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackground1));
+                ltScore.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackground1));
+            } else {
+                ltIndicator.setBackgroundColor(activity.getResources().getColor(R.color.colorIndicatorGray));
+                ltTeam.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackground2));
+                ltScore.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackground2));
+            }
+        }
         return scoreView;
     }
 
