@@ -135,62 +135,67 @@ public class MainActivity extends ActionBarActivity {
 
         //user presses update button
         if (id == R.id.action_update && !this.isUpdating) {
-            Toast.makeText(getApplicationContext(), R.string.txtActionUpdateStart, Toast.LENGTH_SHORT).show();
-
             SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
             SQLiteDatabase connection = database.getReadableDatabase();
-            Cursor sqlresult = connection.rawQuery("SELECT urlspiele,urltabelle,kennung,idfavorit,intsportart FROM favoriten", null);
-            int idfavorit = 0;
-            int intsportart = 0;
-            String urlspiele = "";
-            String urltabelle = "";
-            String kennung = "";
-            int intlast = 0;
-            int inturlart = 0;
-            while (sqlresult.moveToNext()) {
-                this.isUpdating = true;
-                urlspiele = sqlresult.getString(0);
-                urltabelle = sqlresult.getString(1);
-                kennung = sqlresult.getString(2);
-                idfavorit = sqlresult.getInt(3);
-                intsportart = sqlresult.getInt(4);
-                if (sqlresult.isLast()) {
-                    intlast = 1;
-                }
-                if (!urltabelle.trim().equals("")) {
-                    inturlart = 0; // Tabelle wird abgerufen
-                    new UpdateHelper(this, mViewPager, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-                }
-                if (!urlspiele.trim().equals("")) {
-                    inturlart = 1; // Spiele werden abgerufen
-                    if (intsportart == 0) {
-                        // Fussball braucht mehrere Abfragen mit datumvon und datumbis
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy");
-                        int currentYear = Integer.parseInt(df.format(new Date()));
-                        int lastYear = currentYear - 1;
-
-                        String urlspiele1 = urlspiele.replace("{datumvon}", lastYear + "-01-01");
-                        urlspiele1 = urlspiele1.replace("{datumbis}", lastYear + "-05-01");
-                        new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                        String urlspiele2 = urlspiele.replace("{datumvon}", lastYear + "-05-01");
-                        urlspiele2 = urlspiele2.replace("{datumbis}", lastYear + "-12-31");
-                        new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                        String urlspiele3 = urlspiele.replace("{datumvon}", currentYear + "-01-01");
-                        urlspiele3 = urlspiele3.replace("{datumbis}", currentYear + "-05-01");
-                        new UpdateHelper(this, mViewPager, urlspiele3, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                        String urlspiele4 = urlspiele.replace("{datumvon}", currentYear + "-05-01");
-                        urlspiele4 = urlspiele4.replace("{datumbis}", currentYear + "-12-31");
-                        new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-                    } else {
-                        new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+            Cursor sqlresult = connection.rawQuery("SELECT urlspiele,urltabelle,kennung,idfavorit,intsportart FROM favoriten WHERE intaktiv > 0", null);
+            if (sqlresult.getCount() > 0) {
+                Toast.makeText(getApplicationContext(), R.string.txtActionUpdateStart, Toast.LENGTH_SHORT).show();
+                int idfavorit = 0;
+                int intsportart = 0;
+                String urlspiele = "";
+                String urltabelle = "";
+                String kennung = "";
+                int intlast = 0;
+                int inturlart = 0;
+                while (sqlresult.moveToNext()) {
+                    this.isUpdating = true;
+                    urlspiele = sqlresult.getString(0);
+                    urltabelle = sqlresult.getString(1);
+                    kennung = sqlresult.getString(2);
+                    idfavorit = sqlresult.getInt(3);
+                    intsportart = sqlresult.getInt(4);
+                    if (sqlresult.isLast()) {
+                        intlast = 1;
                     }
-                }
+                    if (!urltabelle.trim().equals("")) {
+                        inturlart = 0; // Tabelle wird abgerufen
+                        new UpdateHelper(this, mViewPager, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                    }
+                    if (!urlspiele.trim().equals("")) {
+                        inturlart = 1; // Spiele werden abgerufen
+                        if (intsportart == 0) {
+                            // Fussball braucht mehrere Abfragen mit datumvon und datumbis
+                            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+                            int currentYear = Integer.parseInt(df.format(new Date()));
+                            int lastYear = currentYear - 1;
 
+                            String urlspiele1 = urlspiele.replace("{datumvon}", lastYear + "-01-01");
+                            urlspiele1 = urlspiele1.replace("{datumbis}", lastYear + "-05-01");
+                            new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                            String urlspiele2 = urlspiele.replace("{datumvon}", lastYear + "-05-01");
+                            urlspiele2 = urlspiele2.replace("{datumbis}", lastYear + "-12-31");
+                            new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                            String urlspiele3 = urlspiele.replace("{datumvon}", currentYear + "-01-01");
+                            urlspiele3 = urlspiele3.replace("{datumbis}", currentYear + "-05-01");
+                            new UpdateHelper(this, mViewPager, urlspiele3, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+
+                            String urlspiele4 = urlspiele.replace("{datumvon}", currentYear + "-05-01");
+                            urlspiele4 = urlspiele4.replace("{datumbis}", currentYear + "-12-31");
+                            new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                        } else {
+                            new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                        }
+                    }
+
+                }
+                this.isUpdating = false;
             }
-            this.isUpdating = false;
+            else
+            {
+                Toast.makeText(getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 

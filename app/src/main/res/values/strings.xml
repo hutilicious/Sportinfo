@@ -62,6 +62,7 @@
           )</item>
         <item>CREATE TABLE favoriten(
             idfavorit INTEGER PRIMARY KEY AUTOINCREMENT,
+            intaktiv INTEGER NOT NULL,
             intsportart INTEGER NOT NULL,
             bezeichnung TEXT NOT NULL,
             kurzbezeichnung TEXT NOT NULL,
@@ -92,14 +93,14 @@
             punkteheim INTEGER NOT NULL,
             punktegast INTEGER NOT NULL
           )</item>
-        <item>INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
-            VALUES (0,\'SV Klingenmünster H1\',\'SVK Herren\',\'Klingenmünster\',\'http://www.fussball.de/ajax.team.matchplan/-/datum-bis/{datumbis}/datum-von/{datumvon}/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L7OQTSVK000001VV0AG813VSP6T6E0-G/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'004ABA\');</item>
-        <!--<item>INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
-            VALUES (0,\'SC Busenberg D1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'\',\'760094\');</item>
-        <item>INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
-            VALUES (0,\'SC Busenberg H1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.next.games/-/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'760094\');</item>
-        --><item>INSERT INTO favoriten(intsportart,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
-            VALUES (1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');</item>
+        <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
+            VALUES (0,0,\'SV Klingenmünster H1\',\'SVK Herren\',\'Klingenmünster\',\'http://www.fussball.de/ajax.team.matchplan/-/datum-bis/{datumbis}/datum-von/{datumvon}/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L7OQTSVK000001VV0AG813VSP6T6E0-G/team-id/011MI9OQ00000000VTVG0001VTR8C1K7\',\'004ABA\');</item>
+        <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
+            VALUES (0,0,\'SC Busenberg D1\',\'SCB Damen\',\'Busenberg\',\'http://www.fussball.de/ajax.team.matchplan/-/datum-bis/{datumbis}/datum-von/{datumvon}/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4VV73DC000000VV0AG813VT2S3N3O-G/team-id/011MIBUNMO000000VTVG0001VTR8C1K7\',\'760094\');</item>
+        <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
+            VALUES (0,0,\'SC Busenberg H1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.matchplan/-/datum-bis/{datumbis}/datum-von/{datumvon}/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'760094\');</item>
+        <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
+            VALUES (1,1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');</item>
     </string-array>
 
 </resources>

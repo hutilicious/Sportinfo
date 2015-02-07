@@ -1,10 +1,18 @@
 package huti.sportinfo;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 
 
 public class FavoritesActivitiy extends ActionBarActivity {
@@ -18,6 +26,34 @@ public class FavoritesActivitiy extends ActionBarActivity {
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        LinearLayout ltFavoriten = (LinearLayout) findViewById(R.id.ltFavoriten);
+
+        CheckedChangeListener myListener = new CheckedChangeListener();
+
+        SQLiteOpenHelper database = new SqliteHelper(getApplicationContext());
+        SQLiteDatabase connection = database.getReadableDatabase();
+        Cursor sqlresult = connection.rawQuery("SELECT idfavorit,intaktiv,bezeichnung FROM favoriten ORDER BY bezeichnung", null);
+
+        if (sqlresult.getCount() > 0) {
+            while (sqlresult.moveToNext()) {
+
+                String bezeichnung = sqlresult.getString(sqlresult.getColumnIndex("bezeichnung"));
+                int idfavorit = sqlresult.getInt(sqlresult.getColumnIndex("idfavorit"));
+                int intaktiv = sqlresult.getInt(sqlresult.getColumnIndex("intaktiv"));
+
+                View switchView = getLayoutInflater().inflate(R.layout.item_switch, null);
+                Switch mySwitch = (Switch) switchView.findViewById(R.id.swtSwitch);
+                mySwitch.setChecked(intaktiv > 0);
+                mySwitch.setText(bezeichnung);
+                mySwitch.setTag(new ViewTag(idfavorit, bezeichnung));
+                mySwitch.setOnCheckedChangeListener(myListener);
+                ltFavoriten.addView(switchView);
+            }
+        } else {
+            // Keine Favoriten gefunden
+
+        }
     }
 
 

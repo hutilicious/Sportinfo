@@ -24,9 +24,6 @@ public class SportinfoContent {
     public static ActionBarActivity activity;
     public static Context context;
     private static View view;
-    private static TableRow.LayoutParams tlparams = new TableRow.LayoutParams(
-            TableRow.LayoutParams.MATCH_PARENT,
-            TableRow.LayoutParams.WRAP_CONTENT);
 
 
     /**
@@ -50,18 +47,18 @@ public class SportinfoContent {
 
         if (mode.equals("current")) {
             // Lese nur letztes Ergebnis und nächstes kommendes Spiel
-            sqlget += " WHERE s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim >= 0 ORDER BY datum DESC LIMIT 0,1)";
-            sqlget += " OR s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim < 0 ORDER BY datum ASC LIMIT 0,1)";
+            sqlget += " WHERE f.intaktiv > 0 AND (s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim >= 0 ORDER BY datum DESC LIMIT 0,1)";
+            sqlget += " OR s.idspiel IN(SELECT idspiel FROM spiele WHERE idfavorit=s.idfavorit AND punkteheim < 0 ORDER BY datum ASC LIMIT 0,1))";
             sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         } else if (mode.equals("upcoming")) {
             // Lese Alle kommenden Spiele
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String currentDate = df.format(new Date());
-            sqlget += " WHERE date(s.datum) >= '" + currentDate + "'";
+            sqlget += " WHERE f.intaktiv > 0 AND date(s.datum) >= '" + currentDate + "'";
             sqlget += " ORDER BY datetime(s.datum),s.idfavorit";
         } else if (mode.equals("scores")) {
             // Alle Ergebnisse
-            sqlget += " WHERE s.punkteheim >= 0";
+            sqlget += " WHERE f.intaktiv > 0 AND s.punkteheim >= 0";
             sqlget += " ORDER BY datetime(s.datum) DESC,s.idfavorit";
         }
 
@@ -163,7 +160,9 @@ public class SportinfoContent {
         SQLiteDatabase connection = database.getReadableDatabase();
         String sqlget = "SELECT t.idfavorit,t.tabellennr,t.punkte,g.bezeichnung as gegnerbez,t.intfavorit";
         sqlget += " FROM tabellen AS t";
+        sqlget += " INNER JOIN favoriten AS f ON t.idfavorit = f.idfavorit";
         sqlget += " LEFT JOIN gegner AS g ON t.idmannschaft = g.idgegner";
+        sqlget += " WHERE f.intaktiv > 0";
         sqlget += " ORDER BY t.idfavorit,t.tabellennr";
         Cursor sqlresult = connection.rawQuery(sqlget, null);
         if (sqlresult.getCount() > 0) {

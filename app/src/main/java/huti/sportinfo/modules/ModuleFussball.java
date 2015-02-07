@@ -55,7 +55,14 @@ public class ModuleFussball {
             if (split[i].indexOf("td class=\"column-date\"") >= 0) {
                 // Datum abrufen
                 datum = Html.fromHtml(split[i]).toString().trim();
-                datum = datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20);
+                try {
+                    datum = datum.substring(10, 12) + "-" + datum.substring(7, 9) + "-" + datum.substring(4, 6) + " " + datum.substring(15, 20);
+                }
+                catch(StringIndexOutOfBoundsException e)
+                {
+                    //Log.d("SPORTINFO","SPIELFREI Problem!");
+                    continue;
+                }
                 SimpleDateFormat inFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
                 SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = null;
@@ -87,6 +94,7 @@ public class ModuleFussball {
                 ContentValues values = new ContentValues();
 
                 // check ob gegner schon angelegt ist
+                //Log.d("SPORTINFO","Gegner:"+strGegner);
                 long idgegner;
                 String sqlget = "SELECT idgegner FROM gegner AS g";
                 sqlget += " WHERE idfavorit=" + idfavorit + " AND bezeichnung = '" + strGegner + "'";
