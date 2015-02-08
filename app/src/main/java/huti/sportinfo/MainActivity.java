@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,6 +30,10 @@ import SlidingTabs.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity {
 
+    static final int FAVORITES_REQUEST = 1;  // The request code for favorites activity
+    static final int SETTINGS_REQUEST = 2;  // The request code for settings activity
+
+
     ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
     SlidingTabLayout mSlidingTabLayout;
@@ -43,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         SportinfoContent.activity = this;
-        SportinfoContent.context = getApplicationContext();
 
         Resources res = getResources();
 
@@ -102,7 +106,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // Start FavoritesActivity
                 Intent intent = new Intent(getApplicationContext(), FavoritesActivitiy.class);
-                startActivity(intent);
+                startActivityForResult(intent, FAVORITES_REQUEST);
+
             }
         });
 
@@ -113,11 +118,19 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // Start SettingsActivity
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, SETTINGS_REQUEST);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == FAVORITES_REQUEST) {
+            // favorites closed and may be changed, refresh data
+            mViewPager.getAdapter().notifyDataSetChanged();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,9 +204,7 @@ public class MainActivity extends ActionBarActivity {
 
                 }
                 this.isUpdating = false;
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_SHORT).show();
             }
             return true;
@@ -228,26 +239,8 @@ public class MainActivity extends ActionBarActivity {
         SparseArray<View> views = new SparseArray<View>();
 
         private void getPageContent(View view, int key) {
-            switch (key) {
-                case 0:
-                    // Inhalt fuer Uebersicht laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "current");
-                    break;
-                case 1:
-                    // Inhalt fuer Tabellen laden
-                    SportinfoContent.showTables(getApplicationContext(), view);
-                    break;
-                case 2:
-                    // Inhalt fuer kommende Spiele laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "upcoming");
-                    break;
-                case 3:
-                    // Inhalt fuer Ergebnisse laden
-                    SportinfoContent.showGames(getApplicationContext(), view, "scores");
-                    break;
-                default:
-                    break;
-            }
+            LinearLayout target_in = (LinearLayout) view.findViewById(R.id.layoutPager);
+            new ContentHelper(target_in,key).execute();
         }
 
         /**
