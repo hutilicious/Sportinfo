@@ -43,4 +43,7 @@
     <!-- Misc -->
     <integer name="font_textStyle_medium">1</integer> <!-- bold -->
 
+    <declare-styleable name="ScrimInsetsView">
+        <attr name="insetForeground" format="reference|color" />
+    </declare-styleable>
 </resources>

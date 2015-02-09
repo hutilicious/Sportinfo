@@ -56,6 +56,9 @@ public class MainActivity extends ActionBarActivity {
 
         // initialize Drawer and Tabs
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.colorMainDark));
+
         SportinfoContent.updateStand();
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setOffscreenPageLimit(4); // Zahl der gecachten Views/Tabs, verbessert die Performance beim Tabswitch
