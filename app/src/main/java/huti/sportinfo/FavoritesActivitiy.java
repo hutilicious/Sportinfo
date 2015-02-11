@@ -1,8 +1,10 @@
 package huti.sportinfo;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +19,7 @@ import android.widget.Switch;
 
 public class FavoritesActivitiy extends ActionBarActivity {
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,13 @@ public class FavoritesActivitiy extends ActionBarActivity {
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= 21) {
+
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorMainDark));
+        }
 
         LinearLayout ltFavoriten = (LinearLayout) findViewById(R.id.ltFavoriten);
 

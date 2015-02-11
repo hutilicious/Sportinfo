@@ -1,5 +1,6 @@
 package huti.sportinfo;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 
 public class SettingsActivity extends ActionBarActivity {
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +24,10 @@ public class SettingsActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= 21) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorMainDark));
+        }
     }
 
 
