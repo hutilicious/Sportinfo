@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="2dp">
+    android:paddingTop="0dp"
+    android:tag="sticky"
+    android:background="@color/colorMainBg">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -15,7 +17,7 @@
             android:layout_height="wrap_content" >
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="35dp"
                 android:background="@color/colorMainAccent"
                 android:id="@+id/ltIndicator">
@@ -44,4 +46,8 @@
         </TableRow>
 
     </TableLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#DDD" />
 </LinearLayout>
