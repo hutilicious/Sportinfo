@@ -37,7 +37,7 @@ public class SportinfoContent {
         String sqlget = "SELECT strftime('%d.%m.%Y', s.datum) AS datum,s.idfavorit,s.idgegner";
         sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.bezeichnung AS favoritenbezeichnung,";
         sqlget += "s.idspiel,strftime('%H:%M', s.datum) AS uhrzeit,";
-        sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe";
+        sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe,strftime('%Y-%m', s.datum) AS monthyear";
         sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
@@ -65,6 +65,8 @@ public class SportinfoContent {
 
         if (sqlresult.getCount() > 0) {
             String datum = "";
+            String monthyear = "";
+            String monthyear_alt = "";
             String uhrzeit = "";
             String datum_alt = "";
             String heim = "";
@@ -91,15 +93,16 @@ public class SportinfoContent {
                 favoritenfarbe = sqlresult.getString(sqlresult.getColumnIndex("favoritenfarbe"));
 
                 datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
+                monthyear = sqlresult.getString(sqlresult.getColumnIndex("monthyear"));
                 uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
                 //--------------------------------------------
                 // Zeile mit Datum und Uhrzeit
                 //--------------------------------------------
-                if (!datum_alt.equals(datum)) {
+                if (!monthyear_alt.equals(monthyear)) {
                     //Get dayname of currentDate (Datum)
                     Date date = new Date();
                     SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    SimpleDateFormat outFormat = new SimpleDateFormat("EE", Locale.GERMANY);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("MMMM yyyy", Locale.GERMANY);
                     try {
                         date = inFormat.parse(sqlresult.getString(sqlresult.getColumnIndex("datum_original")));
                     } catch (ParseException e) {
@@ -107,7 +110,7 @@ public class SportinfoContent {
                     }
                     String dayname = outFormat.format(date);
                     //Add date Row if needed
-                    views.put(views.size(), RowSeparator(dayname + " " + datum));
+                    views.put(views.size(), RowSeparator(dayname));
                     //reset Rowcounter
                     rowcounter = 0;
                 }
@@ -121,7 +124,7 @@ public class SportinfoContent {
                 //--------------------------------------------
                 // Abschlussarbeiten pro Zeile
                 //--------------------------------------------
-                datum_alt = datum;
+                monthyear_alt = monthyear;
                 rowcounter++;
             }
         } else {
@@ -250,7 +253,7 @@ public class SportinfoContent {
             txtScoreGuest.setText(Integer.toString(punktegast));
         }
 
-        LinearLayout ltHour = (LinearLayout) gameView.findViewById(R.id.ltHour);
+        /*LinearLayout ltHour = (LinearLayout) gameView.findViewById(R.id.ltHour);
         LinearLayout ltMinute = (LinearLayout) gameView.findViewById(R.id.ltMinute);
         if (counter % 2 == 0) {
             ltHour.setBackgroundColor(activity.getResources().getColor(R.color.colorMain));
@@ -265,7 +268,7 @@ public class SportinfoContent {
         } else {
             txtTeamGuest.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
             txtScoreGuest.setBackgroundColor(activity.getResources().getColor(R.color.colorRowBackgroundGold));
-        }
+        }*/
 
         return gameView;
     }

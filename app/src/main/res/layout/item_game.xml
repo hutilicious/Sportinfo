@@ -1,113 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="0dp">
+    android:layout_height="match_parent">
 
-    <TableLayout
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="2"
-        android:showDividers="middle">
+        card_view:cardCornerRadius="2dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="3sp"
+        card_view:cardUseCompatPadding="true">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="30dp"
-                android:layout_height="60dp"
-                android:background="@color/colorMain"
-                android:id="@+id/ltHour">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="19"
-                    android:id="@+id/txtHours"
-                    android:textColor="@color/colorTextLight"
-                    android:autoText="false"
-                    android:textSize="21dp"
-                    android:gravity="center|end" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="30dp"
-                android:layout_height="60dp"
-                android:background="@color/colorMain"
-                android:id="@+id/ltMinute">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:text="30"
-                    android:id="@+id/txtMinutes"
-                    android:textColor="@color/colorTextLight"
-                    android:textSize="15dp"
-                    android:paddingTop="17dp"
-                    android:paddingLeft="2dp"
-                    android:gravity="left" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/ltTeams">
+                android:layout_height="wrap_content"
+                android:stretchColumns="2"
+                android:showDividers="middle">
 
-                <TextView
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="TTC Klingenmünster H1"
-                    android:id="@+id/txtTeamHome"
-                    android:textSize="16dp"
-                    android:gravity="left|center"
-                    android:paddingLeft="7dp" />
+                    android:layout_height="wrap_content" >
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="30dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/ltHour">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="VFL Bellheim"
-                    android:id="@+id/txtTeamGuest"
-                    android:textSize="16dp"
-                    android:gravity="left|center"
-                    android:paddingLeft="7dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:text="19"
+                            android:id="@+id/txtHours"
+                            android:textColor="@color/colorTextNav"
+                            android:autoText="false"
+                            android:textSize="21dp"
+                            android:gravity="center|end" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="30dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/ltMinute">
 
-            </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:text="30"
+                            android:id="@+id/txtMinutes"
+                            android:textColor="@color/colorTextNav"
+                            android:textSize="15dp"
+                            android:paddingTop="17dp"
+                            android:paddingLeft="2dp"
+                            android:gravity="left" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/ltScores">
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="-"
-                    android:id="@+id/txtScoreHome"
-                    android:textSize="16dp"
-                    android:gravity="center"
-                    android:paddingRight="7dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorMainAccent" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/ltTeams">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="-"
-                    android:id="@+id/txtScoreGuest"
-                    android:textSize="16dp"
-                    android:gravity="center"
-                    android:paddingRight="7dp"
-                    android:textColor="@color/colorMainAccent"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="TTC Klingenmünster H1"
+                            android:id="@+id/txtTeamHome"
+                            android:textSize="16dp"
+                            android:gravity="left|center"
+                            android:paddingLeft="7dp" />
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="VFL Bellheim"
+                            android:id="@+id/txtTeamGuest"
+                            android:textSize="16dp"
+                            android:gravity="left|center"
+                            android:paddingLeft="7dp" />
 
+                    </LinearLayout>
 
-        </TableRow>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/ltScores">
 
-    </TableLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="-"
+                            android:id="@+id/txtScoreHome"
+                            android:textSize="16dp"
+                            android:gravity="center"
+                            android:paddingRight="7dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorMainAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="-"
+                            android:id="@+id/txtScoreGuest"
+                            android:textSize="16dp"
+                            android:gravity="center"
+                            android:paddingRight="7dp"
+                            android:textColor="@color/colorMainAccent"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>
