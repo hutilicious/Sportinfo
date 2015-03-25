@@ -112,6 +112,7 @@ public class ModuleFussball {
 
                 // Sonderzeichen von fussball.de ersetzen
                 //Log.d("Sportinfo","original: "+split[i]);
+                //TODO Update Hex Values of Fussball.de
                 if (split[i].indexOf("data-obfuscation=\"1\"") >= 0) {
                     split[i] = split[i].replace("&#xE500;", "2");
                     split[i] = split[i].replace("&#xE501;", "0");

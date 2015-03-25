@@ -101,7 +101,7 @@ public class SportinfoContent {
                 //--------------------------------------------
                 // Zeile mit Datum und Uhrzeit
                 //--------------------------------------------
-                if (!monthyear_alt.equals(monthyear)) {
+                if (!mode.equals("current") && !monthyear_alt.equals(monthyear)) {
                     //Get dayname of currentDate (Datum)
                     Date date = new Date();
                     SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
