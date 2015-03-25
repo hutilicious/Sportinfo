@@ -136,15 +136,28 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/ltDateTime"
-                android:padding="5dp">
+                android:paddingTop="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:id="@+id/ltGameFooter">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/imgSportart"
+                    android:src="@drawable/ic_soccer" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sonntag, 30 März"
-                    android:id="@+id/txtDateTime" />
+                    android:id="@+id/txtDateTime"
+                    android:gravity="right"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="15dp"
+                    android:textColor="#444" />
             </LinearLayout>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

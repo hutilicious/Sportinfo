@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,7 +38,8 @@ public class SportinfoContent {
         String sqlget = "SELECT strftime('%d.%m.%Y', s.datum) AS datum,s.idfavorit,s.idgegner";
         sqlget += ",s.intheimspiel,s.punkteheim,s.punktegast,g.bezeichnung AS gegnerbez,f.bezeichnung AS favoritenbezeichnung,";
         sqlget += "s.idspiel,strftime('%H:%M', s.datum) AS uhrzeit,";
-        sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe,strftime('%Y-%m', s.datum) AS monthyear";
+        sqlget += "date(s.datum) AS datum_original,f.farbe AS favoritenfarbe,strftime('%Y-%m', s.datum) AS monthyear,";
+        sqlget += "f.intsportart AS intsportart";
         sqlget += " FROM spiele AS s";
         sqlget += " INNER JOIN gegner AS g ON s.idgegner = g.idgegner";
         sqlget += " INNER JOIN favoriten AS f ON f.idfavorit = s.idfavorit";
@@ -68,13 +70,13 @@ public class SportinfoContent {
             String monthyear = "";
             String monthyear_alt = "";
             String uhrzeit = "";
-            String datum_alt = "";
             String heim = "";
             String gast = "";
             String favoritenfarbe = "";
             int punkteheim = -1;
             int punktegast = -1;
             int intheimspiel = 0;
+            int intsportart = 0;
 
             int rowcounter = 0;
             while (sqlresult.moveToNext()) {
@@ -95,6 +97,7 @@ public class SportinfoContent {
                 datum = sqlresult.getString(sqlresult.getColumnIndex("datum"));
                 monthyear = sqlresult.getString(sqlresult.getColumnIndex("monthyear"));
                 uhrzeit = sqlresult.getString(sqlresult.getColumnIndex("uhrzeit"));
+                intsportart = sqlresult.getInt(sqlresult.getColumnIndex("intsportart"));
                 //--------------------------------------------
                 // Zeile mit Datum und Uhrzeit
                 //--------------------------------------------
@@ -108,17 +111,28 @@ public class SportinfoContent {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    String dayname = outFormat.format(date);
+                    String monthYearName = outFormat.format(date);
                     //Add date Row if needed
-                    views.put(views.size(), RowSeparator(dayname));
+                    views.put(views.size(), RowSeparator(monthYearName));
                     //reset Rowcounter
                     rowcounter = 0;
                 }
 
+                // Tag und DAtum für jedes Spiel
+                Date date = new Date();
+                SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat outFormat = new SimpleDateFormat("EEEE, dd. MMMM", Locale.GERMANY);
+                try {
+                    date = inFormat.parse(sqlresult.getString(sqlresult.getColumnIndex("datum_original")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String dayMonthName = outFormat.format(date);
+
                 //--------------------------------------------
                 // Zeile mit Spielinfos
                 //--------------------------------------------
-                views.put(views.size(), RowGame(uhrzeit, heim, punkteheim, gast, punktegast, rowcounter, intheimspiel));
+                views.put(views.size(), RowGame(intsportart, uhrzeit, dayMonthName, heim, punkteheim, gast, punktegast, rowcounter, intheimspiel));
 
 
                 //--------------------------------------------
@@ -227,7 +241,7 @@ public class SportinfoContent {
         return viewDate;
     }
 
-    private static View RowGame(String uhrzeit, String nameheim, int punkteheim, String namegast, int punktegast, int counter, int intheimspiel) {
+    private static View RowGame(int intsportart, String uhrzeit, String dayMonthName, String nameheim, int punkteheim, String namegast, int punktegast, int counter, int intheimspiel) {
 
         View gameView = activity.getLayoutInflater().inflate(R.layout.item_game, null);
 
@@ -251,6 +265,14 @@ public class SportinfoContent {
         }
         if (punktegast >= 0) {
             txtScoreGuest.setText(Integer.toString(punktegast));
+        }
+        TextView txtDateTime = (TextView) gameView.findViewById(R.id.txtDateTime);
+        txtDateTime.setText(dayMonthName);
+
+        if (intsportart > 0)
+        {
+            ImageView imgSportart = (ImageView) gameView.findViewById(R.id.imgSportart);
+            imgSportart.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_tabletennis));
         }
 
         /*LinearLayout ltHour = (LinearLayout) gameView.findViewById(R.id.ltHour);
