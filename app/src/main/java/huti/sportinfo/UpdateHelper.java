@@ -61,24 +61,18 @@ class UpdateHelper extends AsyncTask<String, String, String> {
 
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget = new HttpGet(this.url);
-            //httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko");
             HttpResponse response;
             String responseString = null;
             try {
                 response = httpclient.execute(httpget);
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                    //ByteArrayOutputStream out = new ByteArrayOutputStream();
                     if (this.intsportart == Config.SPORTART_TISCHTENNIS) {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.ISO_8859_1);
                     } else {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
                     }
-                    //response.getEntity().writeTo(out);
-                    //out.close();
-                    //responseString = out.toString();
                 } else {
-                    //Closes the connection.
                     response.getEntity().getContent().close();
                     throw new IOException(statusLine.getReasonPhrase());
                 }
