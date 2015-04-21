@@ -269,7 +269,7 @@ public class SportinfoContent {
         TextView txtDateTime = (TextView) gameView.findViewById(R.id.txtDateTime);
         txtDateTime.setText(dayMonthName);
 
-        if (intsportart > 0)
+        if (intsportart != Config.SPORTART_FUSSBALL)
         {
             ImageView imgSportart = (ImageView) gameView.findViewById(R.id.imgSportart);
             imgSportart.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_tabletennis));

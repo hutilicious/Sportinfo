@@ -60,14 +60,16 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         if (networkInfo != null && networkInfo.isConnected()) {
 
             HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet(this.url);
+            //httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko");
             HttpResponse response;
             String responseString = null;
             try {
-                response = httpclient.execute(new HttpGet(this.url));
+                response = httpclient.execute(httpget);
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                     //ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    if (this.intsportart == 1) {
+                    if (this.intsportart == Config.SPORTART_TISCHTENNIS) {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.ISO_8859_1);
                     } else {
                         responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
@@ -96,20 +98,20 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         if (result.equals("::error")) {
             Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
         } else {
-            if (this.intsportart == 0) {
+            if (this.intsportart == Config.SPORTART_FUSSBALL) {
                 // Fussball.de
                 ModuleFussball objFussball = new ModuleFussball(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
-                if (this.inturlart == 0) {
+                if (this.inturlart == Config.URLART_TABELLE) {
                     objFussball.getTable(result);
-                } else if (this.inturlart == 1) {
+                } else if (this.inturlart == Config.URLART_SPIELE) {
                     objFussball.getGames(result);
                 }
-            } else if (this.intsportart == 1) {
+            } else if (this.intsportart == Config.SPORTART_TISCHTENNIS) {
                 // TT-info
                 ModuleTischtennis objTischtennis = new ModuleTischtennis(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
-                if (this.inturlart == 0) {
+                if (this.inturlart == Config.URLART_TABELLE) {
                     objTischtennis.getTable(result);
-                } else if (this.inturlart == 1) {
+                } else if (this.inturlart == Config.URLART_SPIELE) {
                     objTischtennis.getGames(result);
                 }
             }

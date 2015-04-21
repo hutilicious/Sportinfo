@@ -174,12 +174,12 @@ public class MainActivity extends ActionBarActivity {
                         intlast = 1;
                     }
                     if (!urltabelle.trim().equals("")) {
-                        inturlart = 0; // Tabelle wird abgerufen
+                        inturlart = Config.URLART_TABELLE; // Tabelle wird abgerufen
                         new UpdateHelper(this, mViewPager, urltabelle, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                     }
                     if (!urlspiele.trim().equals("")) {
-                        inturlart = 1; // Spiele werden abgerufen
-                        if (intsportart == 0) {
+                        inturlart = Config.URLART_SPIELE; // Spiele werden abgerufen
+                        if (intsportart == Config.SPORTART_FUSSBALL) {
                             // Fussball braucht mehrere Abfragen mit datumvon und datumbis
                             SimpleDateFormat df = new SimpleDateFormat("yyyy");
                             int currentYear = Integer.parseInt(df.format(new Date()));
