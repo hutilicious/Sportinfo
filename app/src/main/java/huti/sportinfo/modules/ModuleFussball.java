@@ -122,7 +122,6 @@ public class ModuleFussball {
 
                 // Sonderzeichen von fussball.de ersetzen
                 //split[i] = getScore(split[i]);
-                split[i] = "-:-";
 
                 String cleanString = Html.fromHtml(split[i]).toString().trim();
                 String[] ergsplit = cleanString.split(":");
@@ -256,8 +255,12 @@ public class ModuleFussball {
     }
 
     private String getScore(String htmlsource) {
+        // TODO obfuscation erkennen
+        // TODO string übergeben
+        int obfu = 5;
+        String scorestring = "";
         HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet("http://www.huti.de/obfu=1&key=");
+        HttpGet httpget = new HttpGet("http://217.160.108.201/_huti/sportinfo/?obfu=" + obfu + "&scorestring=" + scorestring);
         HttpResponse response;
         String responseString = null;
         try {
