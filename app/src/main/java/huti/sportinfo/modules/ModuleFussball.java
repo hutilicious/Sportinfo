@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -23,8 +24,10 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import huti.sportinfo.SqliteHelper;
+import huti.sportinfo.Config;
 
 /**
  * Created by Huti on 09.01.2015.
@@ -38,6 +41,7 @@ public class ModuleFussball {
     private int idfavorit = 0;
     private int intsportart = 0;
     private int intlast = 0;
+
 
     public ModuleFussball(ActionBarActivity activity, String url, String kennung, int urlart, int idfavorit, int intsportart, int intlast) {
         this.activity = activity;
@@ -65,6 +69,14 @@ public class ModuleFussball {
         String[] split = htmlsource.split("\n");
         for (int i = 0; i < split.length; i++) {
             if (split[i].indexOf("td class=\"column-date\"") >= 0) {
+                // Reset
+                //Log.d("SPORTINFO","Setzte Daten zurück\n");
+                datum = "";
+                punkteheim = -1;
+                punktegast = -1;
+                heim = "";
+                gast = "";
+
                 // Datum abrufen
                 datum = Html.fromHtml(split[i]).toString().trim();
                 try {
@@ -85,14 +97,19 @@ public class ModuleFussball {
 
             } else if (split[i].indexOf("div class=\"club-name\"") >= 0) {
                 // Verein speichern
+                //Log.d("SPORTINFO","Verein:"+split[i]);
                 String cleanString = Html.fromHtml(split[i]).toString().trim();
+                //Log.d("SPORTINFO","Verein clean:"+cleanString);
                 if (heim.equals("")) {
                     heim = cleanString;
+                    //Log.d("SPORTINFO","Heim:"+heim);
                 } else {
                     gast = cleanString;
+                    //Log.d("SPORTINFO","Gast:"+gast);
                 }
             } else if (split[i].indexOf("class=\"score-left\"") >= 0 && !heim.trim().equals("")) {
                 // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
+
                 int intheimspiel = 0;
                 String strGegner = heim;
                 if (heim.indexOf(kennung) >= 0) {
@@ -104,7 +121,8 @@ public class ModuleFussball {
                 ContentValues values = new ContentValues();
 
                 // check ob gegner schon angelegt ist
-                //Log.d("SPORTINFO","Gegner:"+strGegner);
+
+
                 long idgegner;
                 String sqlget = "SELECT idgegner FROM gegner AS g";
                 sqlget += " WHERE idfavorit=" + idfavorit + " AND bezeichnung = '" + strGegner + "'";
@@ -121,7 +139,10 @@ public class ModuleFussball {
                 }
 
                 // Sonderzeichen von fussball.de ersetzen
-                //split[i] = getScore(split[i]);
+                //Log.d("SPORTINFO", "Score ohne Huti:" + split[i]);
+                //Log.d("SPORTINFO", "Score von Huti:" + getScore(split[i]));
+
+                split[i] = getScore(split[i]);
 
                 String cleanString = Html.fromHtml(split[i]).toString().trim();
                 String[] ergsplit = cleanString.split(":");
@@ -144,7 +165,7 @@ public class ModuleFussball {
                 if (sqlresultgame.getCount() > 0) {
                     sqlresultgame.moveToFirst();
                     idspiel = sqlresultgame.getInt(0);
-                    Log.d("SPORTINFO", "Update Spiel " + datum);
+                    //Log.d("SPORTINFO", "Update Spiel " + datum);
                     // update game score
                     values = new ContentValues();
                     values.put("punkteheim", punkteheim);
@@ -159,16 +180,8 @@ public class ModuleFussball {
                     values.put("punkteheim", punkteheim);
                     values.put("punktegast", punktegast);
                     idspiel = connection.insert("spiele", null, values);
-                    Log.d("SPORTINFO", "INSERT Spiel " + datum);
+                    //Log.d("SPORTINFO", "INSERT Spiel " + datum);
                 }
-
-
-                // Reset
-                datum = "";
-                punkteheim = -1;
-                punktegast = -1;
-                heim = "";
-                gast = "";
             }
         }
         database.close();
@@ -255,27 +268,79 @@ public class ModuleFussball {
     }
 
     private String getScore(String htmlsource) {
-        // TODO obfuscation erkennen
-        // TODO string übergeben
-        int obfu = 5;
-        String scorestring = "";
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet("http://217.160.108.201/_huti/sportinfo/?obfu=" + obfu + "&scorestring=" + scorestring);
-        HttpResponse response;
-        String responseString = null;
-        try {
-            response = httpclient.execute(httpget);
-            StatusLine statusLine = response.getStatusLine();
-            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
-            } else {
-                response.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());
-            }
-        } catch (UnsupportedEncodingException e) {
-        } catch (ClientProtocolException e) {
-        } catch (IOException e) {
+        // <a href="http://www.fussball.de/spiel/-/spiel/01L7OUAH9G000000VV0AG813VSP6T6E0"><span data-obfuscation="8" class="score-left">&#xE502;</span><span class="colon">:</span><span data-obfuscation="8" class="score-right">&#xE527;</span></a>
+        String find1 = "data-obfuscation=\"";
+        String find2 = " class=\"score-left\">";
+        String find3 = " class=\"score-right\">";
+        String obfu = htmlsource.substring(htmlsource.indexOf(find1) + find1.length(), htmlsource.indexOf(find1) + find1.length() + 2);
+        if (obfu.indexOf("\"") >= 0) {
+            obfu = obfu.substring(0, 1);
         }
-        return responseString;
+        String score1 = htmlsource.substring(htmlsource.indexOf(find2) + find2.length() + 3, htmlsource.indexOf(find2) + find2.length() + 7);
+        String score2 = htmlsource.substring(htmlsource.indexOf(find3) + find3.length() + 3, htmlsource.indexOf(find3) + find3.length() + 7);
+        /*Log.d("Sportinfo","Obfu:"+obfu);
+        Log.d("Sportinfo","Score1:"+score1);
+        Log.d("Sportinfo","Score2:"+score2);*/
+        String url = "http://217.160.108.201/_huti/sportinfo/?obfu=" + obfu + "&key=" + score1;
+        if (!Config.obfuscationData.containsKey(url)) {
+            try {
+                score1 = new ObfuscationHelper().execute(url).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Config.obfuscationData.put(url, score1);
+        } else {
+            //Log.d("SPORTINFO","Lade aus cache:"+url);
+            score1 = Config.obfuscationData.get(url);
+        }
+
+        url = "http://217.160.108.201/_huti/sportinfo/?obfu=" + obfu + "&key=" + score2;
+        if (!Config.obfuscationData.containsKey(url)) {
+            try {
+                score2 = new ObfuscationHelper().execute(url).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Config.obfuscationData.put(url, score2);
+        }
+        else
+        {
+            //Log.d("SPORTINFO","Lade aus cache:"+url);
+            score2 = Config.obfuscationData.get(url);
+        }
+        return score1 + ":" + score2;
+    }
+
+    public class ObfuscationHelper extends AsyncTask<String, String, String> {
+
+        public String getData(String url) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet(url);
+            HttpResponse response;
+            String responseString = null;
+            try {
+                response = httpclient.execute(httpget);
+                StatusLine statusLine = response.getStatusLine();
+                if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                    responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+                } else {
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (UnsupportedEncodingException e) {
+            } catch (ClientProtocolException e) {
+            } catch (IOException e) {
+            }
+            return responseString;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            return this.getData(urls[0]);
+        }
     }
 }

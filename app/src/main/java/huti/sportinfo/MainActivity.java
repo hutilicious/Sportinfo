@@ -187,11 +187,11 @@ public class MainActivity extends ActionBarActivity {
 
                             String urlspiele1 = urlspiele.replace("{datumvon}", lastYear + "-01-01");
                             urlspiele1 = urlspiele1.replace("{datumbis}", lastYear + "-05-01");
-                            new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                           // new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
 
                             String urlspiele2 = urlspiele.replace("{datumvon}", lastYear + "-05-01");
                             urlspiele2 = urlspiele2.replace("{datumbis}", lastYear + "-12-31");
-                            new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                            //new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
 
                             String urlspiele3 = urlspiele.replace("{datumvon}", currentYear + "-01-01");
                             urlspiele3 = urlspiele3.replace("{datumbis}", currentYear + "-05-01");
@@ -199,7 +199,7 @@ public class MainActivity extends ActionBarActivity {
 
                             String urlspiele4 = urlspiele.replace("{datumvon}", currentYear + "-05-01");
                             urlspiele4 = urlspiele4.replace("{datumbis}", currentYear + "-12-31");
-                            new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                            //new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                         } else {
                             new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                         }

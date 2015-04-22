@@ -128,7 +128,14 @@ public class StickyScrollView extends ScrollView {
         int top = v.getTop();
         while (v.getParent() != getChildAt(0)) {
             v = (View) v.getParent();
-            top += v.getTop();
+            try {
+                top += v.getTop();
+            }
+            catch (NullPointerException e)
+            {
+                top = 0;
+            }
+
         }
         return top;
     }
