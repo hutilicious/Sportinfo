@@ -116,44 +116,90 @@ public class StickyScrollView extends ScrollView {
     }
 
     private int getLeftForViewRelativeOnlyChild(View v) {
-        int left = v.getLeft();
-        while (v.getParent() != getChildAt(0)) {
-            v = (View) v.getParent();
-            left += v.getLeft();
+        int left = 0;
+        try {
+            left = v.getLeft();
+        }
+        catch (NullPointerException e)
+        {
+            left = 0;
+        }
+        try {
+            while (v.getParent() != getChildAt(0)) {
+                v = (View) v.getParent();
+                try {
+                    left += v.getLeft();
+                }
+                catch (NullPointerException e)
+                {
+                    left = 0;
+                }
+            }
+        }
+        catch (NullPointerException e)
+        {
+            left = 0;
         }
         return left;
     }
 
     private int getTopForViewRelativeOnlyChild(View v) {
-        int top = v.getTop();
-        while (v.getParent() != getChildAt(0)) {
-            v = (View) v.getParent();
-            try {
-                top += v.getTop();
-            }
-            catch (NullPointerException e)
-            {
-                top = 0;
-            }
-
+        int top = 0;
+        try {
+            top = v.getTop();
         }
+        catch (NullPointerException e)
+        {
+            top = 0;
+        }
+        try {
+            while (v.getParent() != getChildAt(0)) {
+                v = (View) v.getParent();
+                try {
+                    top += v.getTop();
+                }
+                catch (NullPointerException e)
+                {
+                    top = 0;
+                }
+            }
+        }
+        catch (NullPointerException e)
+        {
+            top = 0;
+        }
+
         return top;
     }
 
     private int getRightForViewRelativeOnlyChild(View v) {
-        int right = v.getRight();
-        while (v.getParent() != getChildAt(0)) {
-            v = (View) v.getParent();
-            right += v.getRight();
+        int right = 0;
+        try {
+            right = v.getRight();
+            while (v.getParent() != getChildAt(0)) {
+                v = (View) v.getParent();
+                right += v.getRight();
+            }
+        }
+        catch (NullPointerException e)
+        {
+            right = 0;
         }
         return right;
     }
 
     private int getBottomForViewRelativeOnlyChild(View v) {
-        int bottom = v.getBottom();
-        while (v.getParent() != getChildAt(0)) {
-            v = (View) v.getParent();
-            bottom += v.getBottom();
+        int bottom = 0;
+        try {
+            bottom = v.getBottom();
+            while (v.getParent() != getChildAt(0)) {
+                v = (View) v.getParent();
+                bottom += v.getBottom();
+            }
+        }
+        catch (NullPointerException e)
+        {
+            bottom = 0;
         }
         return bottom;
     }
