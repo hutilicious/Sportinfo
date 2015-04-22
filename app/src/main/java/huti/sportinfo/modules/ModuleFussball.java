@@ -57,6 +57,7 @@ public class ModuleFussball {
         //----------------------------------------------------
         // update fussball.de games for e specific team
         //----------------------------------------------------
+        // TODO Fix SVK H2 Games
         SQLiteOpenHelper database = new SqliteHelper(this.activity.getApplicationContext());
         SQLiteDatabase connection = database.getWritableDatabase();
 
