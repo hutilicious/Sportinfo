@@ -111,6 +111,8 @@ public class ModuleFussball {
             } else if (split[i].indexOf("class=\"score-left\"") >= 0 && !heim.trim().equals("")) {
                 // Ergebnis abrufen und Datensatz speichern, wenn noch nicht da
 
+                //Log.d("SPORTINFOSPIEL", datum + ": " + heim + " - " + gast);
+
                 int intheimspiel = 0;
                 String strGegner = heim;
                 if (heim.indexOf(kennung) >= 0) {
@@ -307,9 +309,7 @@ public class ModuleFussball {
                 e.printStackTrace();
             }
             Config.obfuscationData.put(url, score2);
-        }
-        else
-        {
+        } else {
             //Log.d("SPORTINFO","Lade aus cache:"+url);
             score2 = Config.obfuscationData.get(url);
         }

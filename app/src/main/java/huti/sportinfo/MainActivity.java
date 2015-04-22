@@ -183,23 +183,14 @@ public class MainActivity extends ActionBarActivity {
                             // Fussball braucht mehrere Abfragen mit datumvon und datumbis
                             SimpleDateFormat df = new SimpleDateFormat("yyyy");
                             int currentYear = Integer.parseInt(df.format(new Date()));
-                            int lastYear = currentYear - 1;
-
-                            String urlspiele1 = urlspiele.replace("{datumvon}", lastYear + "-01-01");
-                            urlspiele1 = urlspiele1.replace("{datumbis}", lastYear + "-05-01");
-                           // new UpdateHelper(this, mViewPager, urlspiele1, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                            String urlspiele2 = urlspiele.replace("{datumvon}", lastYear + "-05-01");
-                            urlspiele2 = urlspiele2.replace("{datumbis}", lastYear + "-12-31");
-                            //new UpdateHelper(this, mViewPager, urlspiele2, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                            String urlspiele3 = urlspiele.replace("{datumvon}", currentYear + "-01-01");
-                            urlspiele3 = urlspiele3.replace("{datumbis}", currentYear + "-05-01");
-                            new UpdateHelper(this, mViewPager, urlspiele3, kennung, inturlart, idfavorit, intsportart, intlast).execute();
-
-                            String urlspiele4 = urlspiele.replace("{datumvon}", currentYear + "-05-01");
-                            urlspiele4 = urlspiele4.replace("{datumbis}", currentYear + "-12-31");
-                            //new UpdateHelper(this, mViewPager, urlspiele4, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                            for (int monthnumber = 2; monthnumber < 11; monthnumber++) {
+                                String monthstring = String.format("%02d", monthnumber);
+                                String urlspieleZiel = urlspiele.replace("{datumvon}", currentYear + "-" + monthstring + "-01");
+                                monthstring = String.format("%02d", (monthnumber + 1));
+                                urlspieleZiel = urlspieleZiel.replace("{datumbis}", currentYear + "-" + monthstring + "-01");
+                                //Log.d("SPORTINFOURL",urlspieleZiel);
+                                new UpdateHelper(this, mViewPager, urlspieleZiel, kennung, inturlart, idfavorit, intsportart, intlast).execute();
+                            }
                         } else {
                             new UpdateHelper(this, mViewPager, urlspiele, kennung, inturlart, idfavorit, intsportart, intlast).execute();
                         }
@@ -243,7 +234,7 @@ public class MainActivity extends ActionBarActivity {
 
         private void getPageContent(View view, int key) {
             LinearLayout target_in = (LinearLayout) view.findViewById(R.id.layoutPager);
-            new ContentHelper(target_in,key).execute();
+            new ContentHelper(target_in, key).execute();
         }
 
         /**

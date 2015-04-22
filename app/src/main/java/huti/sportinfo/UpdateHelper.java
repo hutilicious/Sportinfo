@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -59,6 +60,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
 
+            //Log.d("SPORTINFOURL", this.url);
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget = new HttpGet(this.url);
             HttpResponse response;
@@ -90,7 +92,7 @@ class UpdateHelper extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         if (result.equals("::error")) {
-            Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_LONG).show();
+            Toast.makeText(this.activity.getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_SHORT).show();
         } else {
             if (this.intsportart == Config.SPORTART_FUSSBALL) {
                 // Fussball.de
