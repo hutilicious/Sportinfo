@@ -154,9 +154,9 @@ public class SportinfoContent {
             txtWelcome.setPadding(30, 30, 30, 30);
             views.put(views.size(), txtWelcome);
         }
-
-        database.close();
         connection.close();
+        database.close();
+
 
         return views;
     }
@@ -226,8 +226,9 @@ public class SportinfoContent {
             txtWelcome.setPadding(30, 30, 30, 30);
             views.put(views.size(), txtWelcome);
         }
-        database.close();
         connection.close();
+        database.close();
+
         return views;
     }
 
@@ -269,10 +270,15 @@ public class SportinfoContent {
         TextView txtDateTime = (TextView) gameView.findViewById(R.id.txtDateTime);
         txtDateTime.setText(dayMonthName);
 
-        if (intsportart != Config.SPORTART_FUSSBALL)
+        if (intsportart == Config.SPORTART_TISCHTENNIS)
         {
             ImageView imgSportart = (ImageView) gameView.findViewById(R.id.imgSportart);
             imgSportart.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_tabletennis));
+        }
+        else if (intsportart == Config.SPORTART_TENNIS)
+        {
+            ImageView imgSportart = (ImageView) gameView.findViewById(R.id.imgSportart);
+            imgSportart.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_tennis));
         }
 
         /*LinearLayout ltHour = (LinearLayout) gameView.findViewById(R.id.ltHour);
@@ -348,6 +354,8 @@ public class SportinfoContent {
         } else {
             txtSlogan.setText(R.string.txtSlogan);
         }
+        connection.close();
+        database.close();
     }
 
 }

@@ -168,9 +168,9 @@ public class ModuleTischtennis {
             if (bolGameOpen) {
                 tdcounter++;
             }
-
-
         }
+        connection.close();
+        database.close();
     }
 
     public void getTable(String htmlsource) {
@@ -274,7 +274,8 @@ public class ModuleTischtennis {
                 tdcounter ++;
             }
         }
-        database.close();
         connection.close();
+        database.close();
+
     }
 }

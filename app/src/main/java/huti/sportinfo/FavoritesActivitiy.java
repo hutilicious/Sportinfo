@@ -64,6 +64,8 @@ public class FavoritesActivitiy extends ActionBarActivity {
             // Keine Favoriten gefunden
 
         }
+        connection.close();
+        database.close();
     }
 
 

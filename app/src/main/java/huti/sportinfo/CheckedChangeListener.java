@@ -22,6 +22,9 @@ public class CheckedChangeListener implements CompoundButton.OnCheckedChangeList
             ContentValues values = new ContentValues();
             values.put("intaktiv", isChecked ? 1 : 0);
             connection.update("favoriten", values, "idfavorit=" + idpk, null);
+
+            connection.close();
+            database.close();
         }
     }
 }

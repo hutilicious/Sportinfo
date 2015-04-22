@@ -187,8 +187,9 @@ public class ModuleFussball {
                 }
             }
         }
-        database.close();
         connection.close();
+        database.close();
+
     }
 
     public void getTable(String htmlsource) {
@@ -266,8 +267,9 @@ public class ModuleFussball {
                 intfavorit = 0;
             }
         }
-        database.close();
         connection.close();
+        database.close();
+
     }
 
     private String getScore(String htmlsource) {

@@ -102,7 +102,9 @@
         <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
             VALUES (0,0,\'SC Busenberg H1\',\'SCB Herren\',\'Busenberg\',\'http://www.fussball.de/ajax.team.matchplan/-/datum-bis/{datumbis}/datum-von/{datumvon}/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'http://www.fussball.de/ajax.team.table/-/staffel/01L4K6AA2C000000VV0AG813VT2S3N3O-G/team-id/011MIEVD2O000000VTVG0001VTR8C1K7\',\'760094\');</item>
         <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
-            VALUES (1,1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');</item>
+            VALUES (1,1,\'TTC Klingenmünster H1\',\'TTC KLM Herren\',\'Klingenm\',\'http://tt-info.de/cache/1204/x_sppl_ges_c_16088.html\',\'http://tt-info.de/tt-online.cgi?akt=1006&amp;b_u_0=1100&amp;b_u=&amp;m_nummer=16088&amp;spk_nummer=1204&amp;srq=&amp;c_t=\',\'39529A\');</item>#
+        <item>INSERT INTO favoriten(intsportart,intaktiv,bezeichnung,kurzbezeichnung,kennung,urlspiele,urltabelle,farbe)
+            VALUES (2,0,\'TC Herxheim H1\',\'TC Herxheim H1\',\'Herxheim\',\'http://rl-tvrp.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/teamPortrait?team=1751062&amp;championship=PF+2015\',\'http://rl-tvrp.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/teamPortrait?team=1751062&amp;championship=PF+2015\',\'39529A\');</item>
     </string-array>
 
 </resources>

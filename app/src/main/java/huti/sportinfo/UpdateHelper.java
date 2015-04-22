@@ -28,6 +28,7 @@ import java.util.Date;
 
 import huti.sportinfo.modules.ModuleFussball;
 import huti.sportinfo.modules.ModuleTischtennis;
+import huti.sportinfo.modules.ModuleTennis;
 
 /**
  * Created by crothhass on 08.01.2015.
@@ -109,6 +110,14 @@ class UpdateHelper extends AsyncTask<String, String, String> {
                     objTischtennis.getTable(result);
                 } else if (this.inturlart == Config.URLART_SPIELE) {
                     objTischtennis.getGames(result);
+                }
+            }else if (this.intsportart == Config.SPORTART_TENNIS) {
+                // TT-info
+                ModuleTennis objTennis = new ModuleTennis(this.activity, this.url, kennung, this.inturlart, this.idfavorit, this.intsportart, this.intlast);
+                if (this.inturlart == Config.URLART_TABELLE) {
+                    objTennis.getTable(result);
+                } else if (this.inturlart == Config.URLART_SPIELE) {
+                    objTennis.getGames(result);
                 }
             }
 

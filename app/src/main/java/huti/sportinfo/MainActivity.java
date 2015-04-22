@@ -201,6 +201,8 @@ public class MainActivity extends ActionBarActivity {
             } else {
                 Toast.makeText(getApplicationContext(), R.string.txtActionUpdateError, Toast.LENGTH_SHORT).show();
             }
+            connection.close();
+            database.close();
             return true;
         }
 

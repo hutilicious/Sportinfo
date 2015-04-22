@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Config {
     public static final int SPORTART_FUSSBALL = 0;
     public static final int SPORTART_TISCHTENNIS = 1;
+    public static final int SPORTART_TENNIS = 2;
 
     public static final int URLART_TABELLE = 0;
     public static final int URLART_SPIELE = 1;
