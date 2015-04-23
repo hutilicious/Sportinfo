@@ -51,8 +51,6 @@ public class ModuleTennis {
 
         String[] split = htmlsource.split("\n");
         for (int i = 0; i < split.length; i++) {
-
-
             if (split[i].indexOf("<th>Spielbericht</th>") >= 0) {
                 // Start der Tabelle
                 bolGameOpen = true;
@@ -73,8 +71,7 @@ public class ModuleTennis {
 
             } else if (bolGameOpen && (split[i].indexOf("<td>") >= 0 || split[i].indexOf("<tr>") == -1)) {
                 tdcounter++;
-                if (tdcounter == 3)
-                {
+                if (tdcounter == 3) {
                     // Datum und Uhrzeit
                     datum = Html.fromHtml(split[i]).toString().trim();
 
@@ -87,21 +84,22 @@ public class ModuleTennis {
                         e.printStackTrace();
                     }
                     datum = outFormat.format(date);
-                }
-                else if (tdcounter == 5)
-                {
+                } else if (tdcounter == 5) {
                     // heim
                     heim = Html.fromHtml(split[i]).toString().trim();
-                }
-                else if (tdcounter == 8)
-                {
+                } else if (tdcounter == 8) {
                     // gast
                     gast = Html.fromHtml(split[i]).toString().trim();
-                }
-                else if (tdcounter == 11)
-                {
+                } else if (tdcounter == 11) {
                     //Log.d("TENNISSPIEL",heim+" gegen "+gast + " am "+datum);
                     // scores
+                    String punktestring = Html.fromHtml(split[i]).toString().trim();
+                    if (punktestring.trim() != "" && punktestring.indexOf(":") >= 0)
+                    {
+                        String[] punktearr = punktestring.split(":");
+                        punkteheim = Integer.parseInt(punktearr[0]);
+                        punktegast = Integer.parseInt(punktearr[1]);
+                    }
 
                     // speichern
                     int intheimspiel = 0;
@@ -172,7 +170,89 @@ public class ModuleTennis {
 
         String[] split = htmlsource.split("\n");
         for (int i = 0; i < split.length; i++) {
+            if (split[i].indexOf("<th class=\"center\">Games</th>") >= 0) {
+                // Start der Tabelle
+                bolTableOpen = true;
+                //Log.d("TENNISTABELLE START", split[i]);
+            } else if (bolTableOpen && split[i].indexOf("</table>") >= 0) {
+                // Ende der Tabelle
+                bolTableOpen = false;
+                //Log.d("TENNISTABELLE ENDE", split[i]);
+                break;
+            } else if (bolTableOpen && split[i].indexOf("</tr>") >= 0) {
+                // Reset neue Zeile
+                tdcounter = 0;
+                tabellennr = 0;
+                punkte = 0;
+                intfavorit = 0;
+                //Log.d("TENNISTABELLE ZEILE", split[i]);
+            } else if (bolTableOpen && (split[i].indexOf("<td>") >= 0 || split[i].indexOf("<tr>") == -1)) {
+                tdcounter++;
 
+                if (tdcounter == 7) {
+                    // nummer
+                    //Log.d("TENNISTABELLE Rang", split[i]);
+                    tabellennr = Integer.parseInt(Html.fromHtml(split[i]).toString().trim());
+                }
+                else if (tdcounter == 12) {
+                    // mannschaft
+                    //Log.d("TENNISTABELLE Mannscha", split[i]);
+                    mannschaftname = Html.fromHtml(split[i]).toString().trim();
+                }
+                else if (tdcounter == 22) {
+                    // punkte
+                    //Log.d("TENNISTABELLE Punkte", split[i]);
+                    String punktestring = Html.fromHtml(split[i]).toString().trim();
+                    String[] punktesplit = punktestring.split(":");
+                    punkte = Integer.parseInt(punktesplit[0]);
+
+
+                    ContentValues values = new ContentValues();
+
+                    // haben wir unsere eigene Mannschaft?
+                    long idmannschaft = 0;
+                    if (mannschaftname.indexOf(kennung) >= 0) {
+                        intfavorit = 1;
+                    } else {
+                        // check ob gegner schon angelegt ist
+                        String sqlget = "SELECT idgegner FROM gegner AS g";
+                        sqlget += " WHERE idfavorit=" + idfavorit + " AND bezeichnung = '" + mannschaftname + "'";
+                        Cursor sqlresult = connection.rawQuery(sqlget, null);
+                        if (sqlresult.getCount() > 0) {
+                            sqlresult.moveToFirst();
+                            idmannschaft = sqlresult.getInt(0);
+                        } else {
+                            values.put("idfavorit", idfavorit);
+                            values.put("bezeichnung", mannschaftname);
+                            idmannschaft = connection.insert("gegner", null, values);
+                        }
+                    }
+
+                    //check ob tabelle angelegt ist
+                    long idtabelle;
+                    String sqlgettablerow = "SELECT idtabelle FROM tabellen AS t";
+                    sqlgettablerow += " WHERE intfavorit=" + intfavorit + " AND idfavorit=" + idfavorit + " AND idmannschaft=" + idmannschaft;
+                    Cursor sqlresultgame = connection.rawQuery(sqlgettablerow, null);
+                    if (sqlresultgame.getCount() > 0) {
+                        sqlresultgame.moveToFirst();
+                        idtabelle = sqlresultgame.getInt(0);
+                        // update table number and score
+                        values = new ContentValues();
+                        values.put("punkte", punkte);
+                        values.put("tabellennr", tabellennr);
+                        connection.update("tabellen", values, "idtabelle=" + idtabelle, null);
+                    } else {
+                        values = new ContentValues();
+                        values.put("idfavorit", idfavorit);
+                        values.put("intfavorit", intfavorit);
+                        values.put("idmannschaft", idmannschaft);
+                        values.put("punkte", punkte);
+                        values.put("tabellennr", tabellennr);
+                        idtabelle = connection.insert("tabellen", null, values);
+                        //Log.d("SPORTINFO", "INSERT Spiel "+idspiel);
+                    }
+                }
+            }
         }
         connection.close();
         database.close();
