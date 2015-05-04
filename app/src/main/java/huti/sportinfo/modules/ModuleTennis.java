@@ -71,6 +71,7 @@ public class ModuleTennis {
 
             } else if (bolGameOpen && (split[i].indexOf("<td>") >= 0 || split[i].indexOf("<tr>") == -1)) {
                 tdcounter++;
+                Log.d("TENNISSPIEL","Counter:"+tdcounter+" html:"+split[i]);
                 if (tdcounter == 3) {
                     // Datum und Uhrzeit
                     datum = Html.fromHtml(split[i]).toString().trim();
@@ -90,7 +91,7 @@ public class ModuleTennis {
                 } else if (tdcounter == 8) {
                     // gast
                     gast = Html.fromHtml(split[i]).toString().trim();
-                } else if (tdcounter == 11) {
+                } else if (tdcounter == 12) {
                     //Log.d("TENNISSPIEL",heim+" gegen "+gast + " am "+datum);
                     // scores
                     String punktestring = Html.fromHtml(split[i]).toString().trim();
